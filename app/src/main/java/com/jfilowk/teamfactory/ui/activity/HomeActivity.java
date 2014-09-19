@@ -1,12 +1,13 @@
-package com.jfilowk.teamfactory;
+package com.jfilowk.teamfactory.ui.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import com.jfilowk.teamfactory.R;
+import com.jfilowk.teamfactory.ui.views.HomeActivityView;
 
-
-public class MainMenu extends Activity {
+public class HomeActivity extends Activity implements HomeActivityView{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
