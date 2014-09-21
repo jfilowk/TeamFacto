@@ -1,46 +1,40 @@
 package com.jfilowk.teamfactory.datasource;
 
 import com.jfilowk.teamfactory.datasource.api.RandomUserApi;
-import com.jfilowk.teamfactory.datasource.api.RandomUserApiImp;
+import com.jfilowk.teamfactory.datasource.api.RandomUserApiImpl;
 import com.jfilowk.teamfactory.datasource.api.callback.RandomUserApiCallback;
 import com.jfilowk.teamfactory.datasource.cache.RandomUserCache;
 import com.jfilowk.teamfactory.datasource.cache.RandomUserCacheImp;
-import com.jfilowk.teamfactory.datasource.cache.callback.RandomUserCacheCallback;
 import com.jfilowk.teamfactory.datasource.callbacks.RandomUserCallback;
+import com.terro.entities.UserRandomResponse;
 
 /**
  * Created by Jose Luis on 19/09/14.
  */
 public class RandomUserDataSourceImp implements RandomUserDataSource {
 
-  private RandomUserCache cache;
-  private RandomUserApi api;
+    private RandomUserCache cache;
+    private RandomUserApi api;
 
-  public RandomUserDataSourceImp() {
-    this.cache = new RandomUserCacheImp();
-    this.api = new RandomUserApiImp();
-  }
+    public RandomUserDataSourceImp() {
+        this.cache = new RandomUserCacheImp();
+        this.api = new RandomUserApiImpl();
+    }
 
-  @Override public void getRandonUser(final RandomUserCallback callback) {
+    @Override
+    public void getRandomUser(final RandomUserCallback callback) {
 
-    this.cache.getRandomUserCache(new RandomUserCacheCallback() {
-      @Override public void onSuccess() {
-          callback.onSuccess(null);
+        this.api.getRandomUserApi(new RandomUserApiCallback() {
+            @Override
+            public void onSuccess(UserRandomResponse response) {
+                callback.onSuccess(response);
+            }
 
-        api.getRandomUserApi(new RandomUserApiCallback() {
-          @Override public void onSuccess(Object object) {
-            callback.onSuccess(object);
-          }
+            @Override
+            public void onError() {
 
-          @Override public void onError() {
-
-          }
+            }
         });
-      }
 
-      @Override public void onError() {
-      }
-    });
-
-  }
+    }
 }

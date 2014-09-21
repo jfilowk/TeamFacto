@@ -10,24 +10,34 @@ import com.jfilowk.teamfactory.ui.views.HomeActivityView;
  */
 public class HomeActivityPresenterImp implements HomeActivityPresenter {
 
-  private RandomUserDataSource dataSource;
-  private HomeActivityView view;
+    private RandomUserDataSource dataSource;
+    private HomeActivityView view;
 
-  public HomeActivityPresenterImp(HomeActivityView view) {
-    this.dataSource = new RandomUserDataSourceImp();
-    this.view = view;
-  }
+    public HomeActivityPresenterImp(HomeActivityView view) {
+        this.dataSource = new RandomUserDataSourceImp();
+        this.view = view;
+    }
 
-  @Override public void onResume() {
-    this.view.initProgressFragment();
-    this.dataSource.getRandonUser(new RandomUserCallback() {
-      @Override public void onSuccess(Object object) {
-        view.initMainFragment(object);
-      }
+    @Override
+    public void onResume() {
+        this.view.initProgressFragment();
+        this.dataSource.getRandomUser(new RandomUserCallback() {
+            @Override
+            public void onSuccess(Object object) {
+                view.initMainFragment(object);
+            }
 
-      @Override public void onError() {
-        // view.errorMessage ();
-      }
-    });
-  }
+            @Override
+            public void onError() {
+                // view.errorMessage ();
+            }
+        });
+    }
+
+    @Override
+    public void selectTeam() {
+        this.view.initSelectTeamFragment();
+
+
+    }
 }

@@ -5,4 +5,5 @@ package com.jfilowk.teamfactory.ui.presenter;
  */
 public interface HomeActivityPresenter {
   public void onResume ();
+    public void selectTeam();
 }
