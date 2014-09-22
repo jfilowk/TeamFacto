@@ -48,14 +48,14 @@ public class GridSelectionTeamAdapter extends BaseAdapter {
         if (view != null) {
             holder = (ViewHolder) view.getTag();
         } else {
-            LayoutInflater layoutInflater = LayoutInflater.from(context);
-            view = layoutInflater.inflate(R.layout.grid_single_text, null);
+            LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            view = inflater.inflate(R.layout.grid_single_text, null);
             holder = new ViewHolder(view);
             view.setTag(holder);
         }
 
         holder.nameTeam.setText(teamName[position]);
-        return null;
+        return view;
     }
 
     static class ViewHolder {

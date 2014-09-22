@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.jfilowk.teamfactory.R;
+import com.jfilowk.teamfactory.ui.fragments.DialogSelectTeam;
 import com.jfilowk.teamfactory.ui.presenter.HomeActivityPresenter;
 import com.jfilowk.teamfactory.ui.presenter.HomeActivityPresenterImp;
 import com.jfilowk.teamfactory.ui.views.HomeActivityView;
@@ -43,6 +44,7 @@ public class HomeActivity extends ActionBarActivity implements HomeActivityView 
         int id = item.getItemId();
         if (id == R.id.create_team) {
             // Mostrar la creación del equipo.
+            presenter.selectTeam();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -64,6 +66,15 @@ public class HomeActivity extends ActionBarActivity implements HomeActivityView 
 
     @Override
     public void initSelectTeamFragment() {
-        // getSupportFragmentManager().beginTransaction().replace();
+        showSelectTeamFragment();
     }
+
+    private void showSelectTeamFragment(){
+
+        DialogSelectTeam dialogSelectTeam = new DialogSelectTeam();
+        dialogSelectTeam.show(getSupportFragmentManager(), "fragment_select_team");
+
+    }
+
+
 }

@@ -1,8 +1,11 @@
 package com.jfilowk.teamfactory.ui.presenter;
 
+import android.text.TextUtils;
+
 import com.jfilowk.teamfactory.datasource.RandomUserDataSource;
 import com.jfilowk.teamfactory.datasource.RandomUserDataSourceImp;
 import com.jfilowk.teamfactory.datasource.callbacks.RandomUserCallback;
+import com.jfilowk.teamfactory.datasource.entities.RandomUserCollection;
 import com.jfilowk.teamfactory.ui.views.HomeActivityView;
 
 /**
@@ -23,8 +26,9 @@ public class HomeActivityPresenterImp implements HomeActivityPresenter {
         this.view.initProgressFragment();
         this.dataSource.getRandomUser(new RandomUserCallback() {
             @Override
-            public void onSuccess(Object object) {
-                view.initMainFragment(object);
+            public void onSuccess(RandomUserCollection collection) {
+                view.initMainFragment(collection);
+                System.out.println("Hola. Vengo a imprimir el primer elemento " + TextUtils.getCapsMode(collection.get(1).getName(), 0, TextUtils.CAP_MODE_WORDS));
             }
 
             @Override
