@@ -5,18 +5,26 @@ package com.jfilowk.teamfactory.datasource.entities;
  */
 public class RandomUser {
 
+    String seed;
     String name;
     String picture;
     String gender;
-    String seed;
 
     public RandomUser() {
     }
 
     public RandomUser(String name, String picture, String gender, String seed) {
+        this.seed = seed;
         this.name = name;
         this.picture = picture;
         this.gender = gender;
+    }
+
+    public String getSeed() {
+        return seed;
+    }
+
+    public void setSeed(String seed) {
         this.seed = seed;
     }
 
@@ -44,11 +52,4 @@ public class RandomUser {
         this.gender = gender;
     }
 
-    public String getSeed() {
-        return seed;
-    }
-
-    public void setSeed(String seed) {
-        this.seed = seed;
-    }
 }
