@@ -1,5 +1,6 @@
 package com.jfilowk.teamfactory.datasource.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -7,7 +8,21 @@ import java.util.List;
  */
 public class EventCollection {
 
-    private List<Event> collection;
+    private List<Event> list;
 
-    
+    public EventCollection() {
+        list = new ArrayList<Event>();
+    }
+
+    public Event get(int position) {
+        return this.list.get(position);
+    }
+
+    public void add(Event event) {
+        list.add(event);
+    }
+
+    public List<Event> getCollection() {
+        return this.list;
+    }
 }

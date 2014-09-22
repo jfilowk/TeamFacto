@@ -9,15 +9,17 @@ public class Event {
     String type;
     int numberPlayers;
     int numberTeams;
+    String created_at;
 
     public Event() {
     }
 
-    public Event(int id, String type, int numberPlayers, int numberTeams) {
+    public Event(int id, String type, int numberPlayers, int numberTeams, String created_at) {
         this.id = id;
         this.type = type;
         this.numberPlayers = numberPlayers;
         this.numberTeams = numberTeams;
+        this.created_at = created_at;
     }
 
     public int getId() {
@@ -50,5 +52,13 @@ public class Event {
 
     public void setNumberTeams(int numberTeams) {
         this.numberTeams = numberTeams;
+    }
+
+    public String getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(String created_at) {
+        this.created_at = created_at;
     }
 }
