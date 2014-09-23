@@ -28,6 +28,19 @@ public class RandomUserDataSourceImp implements RandomUserDataSource {
     @Override
     public void getRandomUser(final RandomUserCallback callback) {
 
+        /*this.cache.getRandomUserCache(new RandomUserCacheCallback() {
+            @Override
+            public void onSuccess(List<RandomUser> response) {
+                RandomUserCollection collection = mapper.transformCacheToRandomUserCollection(response);
+                callback.onSuccess(collection);
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });*/
+
         this.api.getRandomUserApi(new RandomUserApiCallback() {
             @Override
             public void onSuccess(UserRandomResponse response) {

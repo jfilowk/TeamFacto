@@ -70,10 +70,9 @@ public class DialogSelectTeam extends DialogFragment {
 
     public String getNameTypeString() {
         String json = null;
-
         try {
 
-            InputStream is = mActivity.getAssets().open("gridTypes.txt");
+            InputStream is = mActivity.getAssets().open("gridTypes.json");
             int size = is.available();
             byte[] buffer = new byte[size];
             is.read(buffer);
