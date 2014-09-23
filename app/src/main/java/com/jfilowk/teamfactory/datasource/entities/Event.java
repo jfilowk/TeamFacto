@@ -10,17 +10,20 @@ public class Event {
     int numberPlayers;
     int numberTeams;
     String created_at;
+    RandomUserCollection randomUserCollection;
 
     public Event() {
     }
 
-    public Event(int id, String type, int numberPlayers, int numberTeams, String created_at) {
+    public Event(RandomUserCollection randomUserCollection, int id, String type, int numberPlayers, int numberTeams, String created_at) {
+        this.randomUserCollection = randomUserCollection;
         this.id = id;
         this.type = type;
         this.numberPlayers = numberPlayers;
         this.numberTeams = numberTeams;
         this.created_at = created_at;
     }
+
 
     public int getId() {
         return id;
@@ -60,5 +63,13 @@ public class Event {
 
     public void setCreated_at(String created_at) {
         this.created_at = created_at;
+    }
+
+    public RandomUserCollection getRandomUserCollection() {
+        return randomUserCollection;
+    }
+
+    public void setRandomUserCollection(RandomUserCollection randomUserCollection) {
+        this.randomUserCollection = randomUserCollection;
     }
 }

@@ -5,6 +5,8 @@ import com.jfilowk.teamfactory.datasource.entities.RandomUserCollection;
 import com.terro.entities.Result;
 import com.terro.entities.UserRandomResponse;
 
+import org.apache.commons.lang3.text.WordUtils;
+
 import java.util.List;
 
 /**
@@ -17,7 +19,7 @@ public class RandomUserMapper {
         RandomUser randomUser = new RandomUser();
 
         randomUser.setSeed(result.getSeed());
-        randomUser.setName(result.getUser().getName().getFirst() + " " + result.getUser().getName().getLast());
+        randomUser.setName(WordUtils.capitalizeFully(result.getUser().getName().getFirst() + " " + result.getUser().getName().getLast()));
         randomUser.setGender(result.getUser().getGender());
         randomUser.setPicture(result.getUser().getPicture());
 

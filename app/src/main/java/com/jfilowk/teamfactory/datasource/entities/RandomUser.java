@@ -5,6 +5,7 @@ package com.jfilowk.teamfactory.datasource.entities;
  */
 public class RandomUser {
 
+    int id;
     String seed;
     String name;
     String picture;
@@ -13,11 +14,20 @@ public class RandomUser {
     public RandomUser() {
     }
 
-    public RandomUser(String name, String picture, String gender, String seed) {
+    public RandomUser(int id, String name, String picture, String gender, String seed) {
+        this.id = id;
         this.seed = seed;
         this.name = name;
         this.picture = picture;
         this.gender = gender;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getSeed() {

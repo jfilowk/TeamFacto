@@ -3,6 +3,7 @@ package com.jfilowk.teamfactory.datasource.cache;
 import com.jfilowk.teamfactory.datasource.cache.callback.RandomUserCacheCallback;
 import com.jfilowk.teamfactory.datasource.cache.helper.DatabaseHelper;
 import com.jfilowk.teamfactory.datasource.entities.RandomUser;
+import com.jfilowk.teamfactory.ui.TeamFactoApp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,16 +15,19 @@ public class RandomUserCacheImp implements RandomUserCache {
 
     DatabaseHelper db;
     List<RandomUser> list;
-  @Override public void getRandomUserCache(RandomUserCacheCallback callback) {
 
-      list = db.getAllUsers();
+    @Override
+    public void getRandomUserCache(RandomUserCacheCallback callback) {
 
-      callback.onSuccess(list);
+        list = db.getAllUsers();
 
-  }
+        callback.onSuccess(list);
 
-    public void init(){
-        db = new DatabaseHelper(null);
+    }
+
+    public void init() {
+
+        db = new DatabaseHelper(TeamFactoApp.get());
         list = new ArrayList<RandomUser>();
     }
 }

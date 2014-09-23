@@ -28,9 +28,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TABLE_RANDOM_EVENT = "random_event";
     private static final String KEY_CREATED_AT = "created_at";
 
-    private static final String CREATE_TABLE_RANDOM = "CREATE TABLE " + TABLE_RANDOM + "( seed TEXT PRIMARY KEY, name TEXT, picture TEXT, gender TEXT)";
-    private static final String CREATE_TABLE_EVENT = "CREATE TABLE " + TABLE_EVENT + "(id TEXT PRIMARY KEY, type TEXT, num_users INTEGER, num_teams INTEGER, "+ KEY_CREATED_AT +" DATETIME)";
-    private static final String CREATE_TABLE_RANDOM_EVENT = "CREATE TABLE " + TABLE_RANDOM_EVENT + "(id INTEGER PRIMARY KEY, seed TEXT, id_event TEXT)";
+    private static final String CREATE_TABLE_RANDOM = "CREATE TABLE " + TABLE_RANDOM + "(id INTEGER PRIMARY KEY AUTOINCREMENT, seed TEXT, name TEXT, picture TEXT, gender TEXT)";
+    private static final String CREATE_TABLE_EVENT = "CREATE TABLE " + TABLE_EVENT + "(id TEXT PRIMARY KEY AUTOINCREMENT, type TEXT, num_users INTEGER, num_teams INTEGER, "+ KEY_CREATED_AT +" DATETIME)";
+    private static final String CREATE_TABLE_RANDOM_EVENT = "CREATE TABLE " + TABLE_RANDOM_EVENT + "(id INTEGER PRIMARY KEY AUTOINCREMENT, seed TEXT, id_event TEXT)";
 
 
 
@@ -80,7 +80,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public List<RandomUser> getAllUsers() {
         List<RandomUser> users = new ArrayList<RandomUser>();
         String selectQuery = "SELECT  * FROM " + TABLE_RANDOM;
-
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectQuery, null);
 

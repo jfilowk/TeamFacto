@@ -6,13 +6,9 @@ import com.jfilowk.teamfactory.datasource.api.callback.RandomUserApiCallback;
 import com.jfilowk.teamfactory.datasource.binder.RandomUserMapper;
 import com.jfilowk.teamfactory.datasource.cache.RandomUserCache;
 import com.jfilowk.teamfactory.datasource.cache.RandomUserCacheImp;
-import com.jfilowk.teamfactory.datasource.cache.callback.RandomUserCacheCallback;
 import com.jfilowk.teamfactory.datasource.callbacks.RandomUserCallback;
-import com.jfilowk.teamfactory.datasource.entities.RandomUser;
 import com.jfilowk.teamfactory.datasource.entities.RandomUserCollection;
 import com.terro.entities.UserRandomResponse;
-
-import java.util.List;
 
 /**
  * Created by Jose Luis on 19/09/14.
@@ -32,7 +28,7 @@ public class RandomUserDataSourceImp implements RandomUserDataSource {
     @Override
     public void getRandomUser(final RandomUserCallback callback) {
 
-        this.cache.getRandomUserCache(new RandomUserCacheCallback() {
+        /*this.cache.getRandomUserCache(new RandomUserCacheCallback() {
             @Override
             public void onSuccess(List<RandomUser> response) {
                 RandomUserCollection collection = mapper.transformCacheToRandomUserCollection(response);
@@ -43,7 +39,7 @@ public class RandomUserDataSourceImp implements RandomUserDataSource {
             public void onError() {
 
             }
-        });
+        });*/
 
         this.api.getRandomUserApi(new RandomUserApiCallback() {
             @Override
