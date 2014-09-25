@@ -1,11 +1,9 @@
 package com.jfilowk.teamfactory.ui.presenter;
 
-import android.text.TextUtils;
-
+import com.jfilowk.teamfactory.datasource.EventDataSource;
+import com.jfilowk.teamfactory.datasource.EventDataSourceImpl;
 import com.jfilowk.teamfactory.datasource.RandomUserDataSource;
 import com.jfilowk.teamfactory.datasource.RandomUserDataSourceImp;
-import com.jfilowk.teamfactory.datasource.callbacks.RandomUserCallback;
-import com.jfilowk.teamfactory.datasource.entities.RandomUserCollection;
 import com.jfilowk.teamfactory.ui.views.HomeActivityView;
 
 /**
@@ -13,35 +11,47 @@ import com.jfilowk.teamfactory.ui.views.HomeActivityView;
  */
 public class HomeActivityPresenterImp implements HomeActivityPresenter {
 
-    private RandomUserDataSource dataSource;
+    private RandomUserDataSource randomdataSource;
+    private EventDataSource eventDataSource;
     private HomeActivityView view;
 
     public HomeActivityPresenterImp(HomeActivityView view) {
-        this.dataSource = new RandomUserDataSourceImp();
+        this.randomdataSource = new RandomUserDataSourceImp();
+        this.eventDataSource = new EventDataSourceImpl();
         this.view = view;
     }
 
     @Override
     public void onResume() {
         this.view.initProgressFragment();
-        this.dataSource.getRandomUser(new RandomUserCallback() {
+
+        /*this.eventDataSource.getAllEvents(new EventCallback() {
+            @Override
+            public void onSuccess(EventCollection collection) {
+                // Envíar a la vista toda la info.
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });*/
+
+       /* this.randomdataSource.getRandomUser(new RandomUserCallback() {
             @Override
             public void onSuccess(RandomUserCollection collection) {
                 view.initMainFragment(collection);
-                System.out.println("Hola. Vengo a imprimir el primer elemento " + TextUtils.getCapsMode(collection.get(1).getName(), 0, TextUtils.CAP_MODE_WORDS));
             }
 
             @Override
             public void onError() {
                 // view.errorMessage ();
             }
-        });
+        });*/
     }
 
     @Override
     public void selectTeam() {
         this.view.initSelectTeamFragment();
-
-
     }
 }

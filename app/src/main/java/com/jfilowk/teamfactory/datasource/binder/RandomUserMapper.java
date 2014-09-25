@@ -18,10 +18,11 @@ public class RandomUserMapper {
 
         RandomUser randomUser = new RandomUser();
 
-        randomUser.setSeed(result.getSeed());
-        randomUser.setName(WordUtils.capitalizeFully(result.getUser().getName().getFirst() + " " + result.getUser().getName().getLast()));
+        randomUser.setFirstName(WordUtils.capitalizeFully(result.getUser().getName().getFirst()));
+        randomUser.setLastName(WordUtils.capitalizeFully(result.getUser().getName().getLast()));
         randomUser.setGender(result.getUser().getGender());
         randomUser.setPicture(result.getUser().getPicture());
+        randomUser.setSeed(result.getSeed());
 
         return randomUser;
     }

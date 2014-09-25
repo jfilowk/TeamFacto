@@ -7,6 +7,7 @@ import android.view.MenuItem;
 
 import com.jfilowk.teamfactory.R;
 import com.jfilowk.teamfactory.ui.fragments.DialogSelectTeam;
+import com.jfilowk.teamfactory.ui.fragments.FragmentInitProgress;
 import com.jfilowk.teamfactory.ui.presenter.HomeActivityPresenter;
 import com.jfilowk.teamfactory.ui.presenter.HomeActivityPresenterImp;
 import com.jfilowk.teamfactory.ui.views.HomeActivityView;
@@ -52,6 +53,9 @@ public class HomeActivity extends ActionBarActivity implements HomeActivityView 
 
     @Override
     public void initProgressFragment() {
+
+        FragmentInitProgress progress = new FragmentInitProgress();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, progress).commit();
 
     }
 
