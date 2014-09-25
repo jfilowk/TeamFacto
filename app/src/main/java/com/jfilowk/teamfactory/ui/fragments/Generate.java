@@ -19,8 +19,7 @@ import butterknife.InjectView;
  */
 public class Generate extends Fragment {
 
-    @InjectView(R.id.setText)
-    TextView prueba;
+    @InjectView(R.id.setText) TextView prueba;
     Activity activity;
 
 
@@ -32,13 +31,13 @@ public class Generate extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        ButterKnife.inject(activity);
         super.onCreate(savedInstanceState);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_generate, null);
+        ButterKnife.inject(this, root);
         String bundle = getArguments().getString("Hola");
         prueba.setText(bundle);
         return root;

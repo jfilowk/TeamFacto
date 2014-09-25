@@ -1,26 +1,20 @@
 package com.jfilowk.teamfactory.datasource;
 
-import android.text.format.Time;
-
 import com.jfilowk.teamfactory.datasource.api.RandomUserApi;
-import com.jfilowk.teamfactory.datasource.api.RandomUserApiEvent;
-import com.jfilowk.teamfactory.datasource.api.RandomUserApiEventImpl;
 import com.jfilowk.teamfactory.datasource.api.RandomUserApiImpl;
 import com.jfilowk.teamfactory.datasource.api.callback.RandomUserApiCallback;
-import com.jfilowk.teamfactory.datasource.api.callback.RandomUserApiEventCallback;
 import com.jfilowk.teamfactory.datasource.binder.RandomUserMapper;
 import com.jfilowk.teamfactory.datasource.cache.EventCache;
 import com.jfilowk.teamfactory.datasource.cache.EventCacheImpl;
 import com.jfilowk.teamfactory.datasource.cache.callback.EventCacheCallback;
 import com.jfilowk.teamfactory.datasource.cache.callback.EventCallbackBase;
 import com.jfilowk.teamfactory.datasource.callbacks.EventCallback;
-import com.jfilowk.teamfactory.datasource.callbacks.RandomUserCallback;
 import com.jfilowk.teamfactory.datasource.entities.Event;
 import com.jfilowk.teamfactory.datasource.entities.EventCollection;
 import com.jfilowk.teamfactory.datasource.entities.RandomUserCollection;
 import com.terro.entities.UserRandomResponse;
 
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -29,12 +23,10 @@ import java.util.List;
 public class EventDataSourceImpl implements EventDataSource {
 
     EventCache eventCache;
-    RandomUserApiEvent randomUserApiEvent;
     RandomUserApi randomUserApi;
 
     public EventDataSourceImpl() {
         this.eventCache = new EventCacheImpl();
-        this.randomUserApiEvent = new RandomUserApiEventImpl();
         this.randomUserApi = new RandomUserApiImpl();
     }
 
@@ -72,39 +64,24 @@ public class EventDataSourceImpl implements EventDataSource {
     }
 
     @Override
-    public void showEvent(RandomUserCollection collection, EventCallback eventCallback) {
+    public void showEvent(final EventCallback eventCallback) {
 
-    }
-
-    @Override
-    public void showEvent(EventCallback eventCallback) {
-
-        Event event = new Event();
-        Time now = new Time();
-        now.setToNow();
-
-
-
-        event.setId(1);
-        event.setNumUser(collection.size());
-        event.setNumTeams(2);
-        event.setCreated_at(new Date());
-        event.setListUsers(collection);
-        event.setType("Futbol");
-
-        EventCollection collectionEvent = new EventCollection();
-        collectionEvent.add(event);
-
-        eventCallback.onSuccess(collectionEvent);
-
-    }
-
-    @Override
-    public void getUsers(final RandomUserApiEventCallback callback) {
-        this.randomUserApiEvent.getRandomUsers(new RandomUserApiEventCallback() {
+        this.randomUserApi.getRandomUserApi(new RandomUserApiCallback() {
             @Override
             public void onSuccess(UserRandomResponse response) {
-                callback.onSuccess(response);
+                RandomUserMapper mapper = new RandomUserMapper();
+                RandomUserCollection collection = mapper.transformResultToRandomUserCollection(response);
+                Event event = new Event();
+                event.setType("Sport");
+                event.setNumUser(collection.size());
+                event.setNumTeams(2);
+                event.setListUsers(collection);
+                Calendar rightNow = Calendar.getInstance();
+                event.setCreated_at(rightNow.getTime());
+                event.setId(1);
+                EventCollection eventCollection = new EventCollection();
+                eventCollection.add(event);
+                eventCallback.onSuccess(eventCollection);
             }
 
             @Override
@@ -112,5 +89,6 @@ public class EventDataSourceImpl implements EventDataSource {
 
             }
         });
+
     }
 }
