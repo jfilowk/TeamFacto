@@ -21,7 +21,7 @@ public class GenerateTeamPresenterImpl implements GenerateTeamPresenter {
 
     @Override
     public void onResume() {
-    this.view.initProgressFragment();
+        this.view.initProgressFragment();
         showTeams();
     }
 

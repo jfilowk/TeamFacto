@@ -7,6 +7,7 @@ import android.view.MenuItem;
 
 import com.jfilowk.teamfactory.R;
 import com.jfilowk.teamfactory.datasource.entities.EventCollection;
+import com.jfilowk.teamfactory.ui.fragments.FragmentInitProgress;
 import com.jfilowk.teamfactory.ui.fragments.Generate;
 import com.jfilowk.teamfactory.ui.presenter.GenerateTeamPresenter;
 import com.jfilowk.teamfactory.ui.presenter.GenerateTeamPresenterImpl;
@@ -51,6 +52,8 @@ public class GenerateTeam extends ActionBarActivity implements GenerateTeamView 
 
     @Override
     public void initProgressFragment() {
+        FragmentInitProgress progressFragment = new FragmentInitProgress();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_generate, progressFragment).commit();
     }
 
     @Override
