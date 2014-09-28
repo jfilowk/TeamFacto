@@ -3,20 +3,20 @@ package com.jfilowk.teamfactory.ui.presenter;
 import com.jfilowk.teamfactory.datasource.EventDataSource;
 import com.jfilowk.teamfactory.datasource.EventDataSourceImpl;
 import com.jfilowk.teamfactory.datasource.RandomUserDataSource;
-import com.jfilowk.teamfactory.datasource.RandomUserDataSourceImp;
+import com.jfilowk.teamfactory.datasource.RandomUserDataSourceImpl;
 import com.jfilowk.teamfactory.ui.views.HomeActivityView;
 
 /**
  * Created by Jose Luis on 19/09/14.
  */
-public class HomeActivityPresenterImp implements HomeActivityPresenter {
+public class HomeActivityPresenterImpl implements HomeActivityPresenter {
 
     private RandomUserDataSource randomdataSource;
     private EventDataSource eventDataSource;
     private HomeActivityView view;
 
-    public HomeActivityPresenterImp(HomeActivityView view) {
-        this.randomdataSource = new RandomUserDataSourceImp();
+    public HomeActivityPresenterImpl(HomeActivityView view) {
+        this.randomdataSource = new RandomUserDataSourceImpl();
         this.eventDataSource = new EventDataSourceImpl();
         this.view = view;
     }

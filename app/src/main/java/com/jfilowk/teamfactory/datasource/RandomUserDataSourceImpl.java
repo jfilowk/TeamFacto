@@ -13,13 +13,13 @@ import com.terro.entities.UserRandomResponse;
 /**
  * Created by Jose Luis on 19/09/14.
  */
-public class RandomUserDataSourceImp implements RandomUserDataSource {
+public class RandomUserDataSourceImpl implements RandomUserDataSource {
 
     private RandomUserCache cache;
     private RandomUserApi api;
     private RandomUserMapper mapper;
 
-    public RandomUserDataSourceImp() {
+    public RandomUserDataSourceImpl() {
         this.cache = new RandomUserCacheImp();
         this.api = new RandomUserApiImpl();
         this.mapper = new RandomUserMapper();

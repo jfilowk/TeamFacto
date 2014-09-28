@@ -9,7 +9,7 @@ import com.jfilowk.teamfactory.R;
 import com.jfilowk.teamfactory.ui.fragments.DialogSelectTeam;
 import com.jfilowk.teamfactory.ui.fragments.FragmentInitProgress;
 import com.jfilowk.teamfactory.ui.presenter.HomeActivityPresenter;
-import com.jfilowk.teamfactory.ui.presenter.HomeActivityPresenterImp;
+import com.jfilowk.teamfactory.ui.presenter.HomeActivityPresenterImpl;
 import com.jfilowk.teamfactory.ui.views.HomeActivityView;
 
 public class HomeActivity extends ActionBarActivity implements HomeActivityView {
@@ -65,7 +65,7 @@ public class HomeActivity extends ActionBarActivity implements HomeActivityView 
     }
 
     private void init() {
-        this.presenter = new HomeActivityPresenterImp(this);
+        this.presenter = new HomeActivityPresenterImpl(this);
     }
 
     @Override

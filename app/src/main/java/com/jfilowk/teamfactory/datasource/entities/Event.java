@@ -11,19 +11,19 @@ public class Event {
     String type;
     int numUser;
     int numTeams;
-    RandomUserCollection listUsers;
+    TeamCollection listTeams;
     Date created_at;
 
     public Event() {
 
     }
 
-    public Event(int id, String type, int numUser, int numTeams, RandomUserCollection listUsers, Date created_at) {
+    public Event(int id, String type, int numUser, int numTeams, TeamCollection listTeams, Date created_at) {
         this.id = id;
         this.type = type;
         this.numUser = numUser;
         this.numTeams = numTeams;
-        this.listUsers = listUsers;
+        this.listTeams = listTeams;
         this.created_at = created_at;
     }
 
@@ -59,12 +59,12 @@ public class Event {
         this.numTeams = numTeams;
     }
 
-    public RandomUserCollection getListUsers() {
-        return listUsers;
+    public TeamCollection getListTeams() {
+        return listTeams;
     }
 
-    public void setListUsers(RandomUserCollection listUsers) {
-        this.listUsers = listUsers;
+    public void setListTeams(TeamCollection listTeams) {
+        this.listTeams = listTeams;
     }
 
     public Date getCreated_at() {

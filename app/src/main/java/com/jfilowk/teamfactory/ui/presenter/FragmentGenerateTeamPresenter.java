@@ -1,9 +1,10 @@
 package com.jfilowk.teamfactory.ui.presenter;
 
 /**
- * Created by Javi on 23/09/14.
+ * Created by Javi on 26/09/14.
  */
-public interface GenerateTeamPresenter {
+public interface FragmentGenerateTeamPresenter {
     public void onResume();
     public void onError();
+    public void showTeams();
 }

@@ -11,7 +11,10 @@ import com.jfilowk.teamfactory.datasource.cache.callback.EventCallbackBase;
 import com.jfilowk.teamfactory.datasource.callbacks.EventCallback;
 import com.jfilowk.teamfactory.datasource.entities.Event;
 import com.jfilowk.teamfactory.datasource.entities.EventCollection;
+import com.jfilowk.teamfactory.datasource.entities.RandomUser;
 import com.jfilowk.teamfactory.datasource.entities.RandomUserCollection;
+import com.jfilowk.teamfactory.datasource.entities.Team;
+import com.jfilowk.teamfactory.datasource.entities.TeamCollection;
 import com.terro.entities.UserRandomResponse;
 
 import java.util.Calendar;
@@ -70,12 +73,27 @@ public class EventDataSourceImpl implements EventDataSource {
             @Override
             public void onSuccess(UserRandomResponse response) {
                 RandomUserMapper mapper = new RandomUserMapper();
-                RandomUserCollection collection = mapper.transformResultToRandomUserCollection(response);
+                RandomUserCollection responseCollection = mapper.transformResultToRandomUserCollection(response);
+
+                //Create teams.
                 Event event = new Event();
+                int numUsers = 8; // 4 users each team
+                int numTeams = 2; // 2 teams
+                TeamCollection teamCollection = new TeamCollection();
+                for (int i = 0; i < numTeams; i++) {
+                    Team team = new Team();
+                    team.setId(i);
+                    team.setName("Team "+(char)('A' + i));
+                    RandomUserCollection userCollection = new RandomUserCollection();
+                    for (int j = 0; j < numUsers/numTeams; j++) {
+                        RandomUser userTemp = responseCollection.get(j);
+                        userCollection.add(userTemp);
+                    }
+                    team.setUserCollection(userCollection);
+                    teamCollection.add(team);
+                }
                 event.setType("Sport");
-                event.setNumUser(collection.size());
-                event.setNumTeams(2);
-                event.setListUsers(collection);
+                event.setListTeams(teamCollection);
                 Calendar rightNow = Calendar.getInstance();
                 event.setCreated_at(rightNow.getTime());
                 event.setId(1);
