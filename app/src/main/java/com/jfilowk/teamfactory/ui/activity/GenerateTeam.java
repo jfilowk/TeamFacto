@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import com.jfilowk.teamfactory.R;
 import com.jfilowk.teamfactory.datasource.entities.EventCollection;
 import com.jfilowk.teamfactory.ui.fragments.FragmentGenerateTeam;
-import com.jfilowk.teamfactory.ui.fragments.FragmentInitProgress;
 import com.jfilowk.teamfactory.ui.presenter.GenerateTeamPresenter;
 import com.jfilowk.teamfactory.ui.presenter.GenerateTeamPresenterImpl;
 import com.jfilowk.teamfactory.ui.views.GenerateTeamView;
@@ -52,17 +51,18 @@ public class GenerateTeam extends ActionBarActivity implements GenerateTeamView 
 
     @Override
     public void initProgressFragment() {
-        FragmentInitProgress progressFragment = new FragmentInitProgress();
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_generate, progressFragment).commit();
+        /*FragmentInitProgress progressFragment = new FragmentInitProgress();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_generate, progressFragment).commit();*/
+        FragmentGenerateTeam generateFragment = new FragmentGenerateTeam();
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_generate, generateFragment).commit();
     }
 
     @Override
     public void initMainFragment(EventCollection event) {
 
         FragmentGenerateTeam generateFragment = new FragmentGenerateTeam();
-        Bundle b = new Bundle();
-        b.putString("Hola", event.get(0).getListTeams().get(1).getName());
-        generateFragment.setArguments(b);
+
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_generate, generateFragment).commit();
 
     }
