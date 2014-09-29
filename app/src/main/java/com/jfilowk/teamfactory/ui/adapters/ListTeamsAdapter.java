@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.jfilowk.teamfactory.R;
 import com.jfilowk.teamfactory.datasource.entities.RandomUser;
 import com.jfilowk.teamfactory.datasource.entities.Team;
+import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.text.WordUtils;
 
@@ -99,7 +100,7 @@ public class ListTeamsAdapter extends BaseAdapter {
                 RandomUser user = (RandomUser) teams.get(position);
                 itemHolder.firstNameUser.setText(WordUtils.capitalizeFully(user.getFirstName()));
                 itemHolder.lastNameUser.setText(WordUtils.capitalizeFully(user.getLastName()));
-                itemHolder.imageUser.setImageResource(android.R.drawable.ic_dialog_alert);
+                Picasso.with(context).load(user.getPicture()).into(itemHolder.imageUser);
                 break;
         }
 
