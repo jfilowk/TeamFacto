@@ -79,6 +79,7 @@ public class EventDataSourceImpl implements EventDataSource {
                 Event event = new Event();
                 int numUsers = 8; // 4 users each team
                 int numTeams = 2; // 2 teams
+                int x = 0;
                 TeamCollection teamCollection = new TeamCollection();
                 for (int i = 0; i < numTeams; i++) {
                     Team team = new Team();
@@ -86,8 +87,10 @@ public class EventDataSourceImpl implements EventDataSource {
                     team.setName("Team "+(char)('A' + i));
                     RandomUserCollection userCollection = new RandomUserCollection();
                     for (int j = 0; j < numUsers/numTeams; j++) {
-                        RandomUser userTemp = responseCollection.get(j);
+                        System.out.println(x);
+                        RandomUser userTemp = responseCollection.get(x);
                         userCollection.add(userTemp);
+                        x++;
                     }
                     team.setUserCollection(userCollection);
                     teamCollection.add(team);

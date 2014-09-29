@@ -9,6 +9,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jfilowk.teamfactory.R;
+import com.jfilowk.teamfactory.datasource.entities.RandomUser;
+import com.jfilowk.teamfactory.datasource.entities.Team;
+
+import org.apache.commons.lang3.text.WordUtils;
 
 import java.util.List;
 
@@ -81,7 +85,8 @@ public class ListTeamsAdapter extends BaseAdapter {
                 } else {
                     sectionHolder = (SectionViewHolder) convertView.getTag();
                 }
-                sectionHolder.teamName.setText("Equipo");
+                Team team = (Team) teams.get(position);
+                sectionHolder.teamName.setText(team.getName());
                 break;
             case ITEM_VIEW_TYPE_USER:
                 if (convertView == null) {
@@ -91,8 +96,9 @@ public class ListTeamsAdapter extends BaseAdapter {
                 } else {
                     itemHolder = (ItemViewHolder) convertView.getTag();
                 }
-                itemHolder.firstNameUser.setText("1");
-                itemHolder.lastNameUser.setText("2");
+                RandomUser user = (RandomUser) teams.get(position);
+                itemHolder.firstNameUser.setText(WordUtils.capitalizeFully(user.getFirstName()));
+                itemHolder.lastNameUser.setText(WordUtils.capitalizeFully(user.getLastName()));
                 itemHolder.imageUser.setImageResource(android.R.drawable.ic_dialog_alert);
                 break;
         }
