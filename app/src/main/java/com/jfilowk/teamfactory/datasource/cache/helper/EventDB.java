@@ -9,5 +9,6 @@ import com.jfilowk.teamfactory.datasource.entities.Event;
  */
 public interface EventDB {
     public long createEvent (Event event);
+    public Cursor getEvent(long id);
     public Cursor getAllEvents ();
 }
