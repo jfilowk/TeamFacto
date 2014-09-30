@@ -19,8 +19,6 @@ public class RandomUserCacheImp implements RandomUserCache {
     @Override
     public void getRandomUserCache(RandomUserCacheCallback callback) {
 
-        list = db.getAllUsers();
-
         callback.onSuccess(list);
 
     }

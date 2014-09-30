@@ -1,25 +1,32 @@
 package com.jfilowk.teamfactory.datasource.entities;
 
+import java.util.Date;
+
 /**
  * Created by Javi on 21/09/14.
  */
 public class RandomUser {
 
     int id;
-    String seed;
-    String name;
-    String picture;
+    String firstName;
+    String lastName;
     String gender;
+    String picture;
+    String seed;
+    Date created_at;
 
     public RandomUser() {
+
     }
 
-    public RandomUser(int id, String name, String picture, String gender, String seed) {
+    public RandomUser(String firstName, int id, String lastName, String gender, String picture, String seed, Date created_at) {
+        this.firstName = firstName;
         this.id = id;
-        this.seed = seed;
-        this.name = name;
-        this.picture = picture;
+        this.lastName = lastName;
         this.gender = gender;
+        this.picture = picture;
+        this.seed = seed;
+        this.created_at = created_at;
     }
 
     public int getId() {
@@ -30,28 +37,20 @@ public class RandomUser {
         this.id = id;
     }
 
-    public String getSeed() {
-        return seed;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setSeed(String seed) {
-        this.seed = seed;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getName() {
-        return name;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPicture() {
-        return picture;
-    }
-
-    public void setPicture(String picture) {
-        this.picture = picture;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getGender() {
@@ -62,4 +61,27 @@ public class RandomUser {
         this.gender = gender;
     }
 
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
+    public String getSeed() {
+        return seed;
+    }
+
+    public void setSeed(String seed) {
+        this.seed = seed;
+    }
+
+    public Date getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(Date created_at) {
+        this.created_at = created_at;
+    }
 }

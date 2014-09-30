@@ -1,6 +1,7 @@
 package com.jfilowk.teamfactory.ui.fragments;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -12,6 +13,7 @@ import android.widget.GridView;
 import android.widget.Toast;
 
 import com.jfilowk.teamfactory.R;
+import com.jfilowk.teamfactory.ui.activity.GenerateTeam;
 import com.jfilowk.teamfactory.ui.adapters.GridSelectionTeamAdapter;
 
 import org.json.JSONArray;
@@ -62,6 +64,8 @@ public class DialogSelectTeam extends DialogFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(mActivity, "Has pulsado el tipo "+ nameType[position], Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(mActivity, GenerateTeam.class);
+                startActivity(i);
                 //Faltaría crear la implementación para abrir la nueva actividad y mandar los datos para mostrar.
             }
         });

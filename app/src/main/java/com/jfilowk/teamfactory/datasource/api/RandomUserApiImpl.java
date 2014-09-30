@@ -24,9 +24,9 @@ public class RandomUserApiImpl implements RandomUserApi {
         this.userAsync = randomUser.userServicesAsync();
     }
 
-    @Override public void getRandomUserApi(final RandomUserApiCallback callback) {
-
-        userAsync.listUserAsync(20, new Callback<UserRandomResponse>() {
+    @Override
+    public void getRandomUserApi(final RandomUserApiCallback callback) {
+        userAsync.listUserAsync(40, new Callback<UserRandomResponse>() {
             @Override
             public void success(UserRandomResponse userRandomResponse, Response response) {
                 callback.onSuccess(userRandomResponse);

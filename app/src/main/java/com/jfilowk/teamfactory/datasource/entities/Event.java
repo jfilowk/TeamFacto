@@ -1,5 +1,7 @@
 package com.jfilowk.teamfactory.datasource.entities;
 
+import java.util.Date;
+
 /**
  * Created by Javi on 22/09/14.
  */
@@ -7,23 +9,23 @@ public class Event {
 
     int id;
     String type;
-    int numberPlayers;
-    int numberTeams;
-    String created_at;
-    RandomUserCollection randomUserCollection;
+    int numUser;
+    int numTeams;
+    TeamCollection listTeams;
+    Date created_at;
 
     public Event() {
+
     }
 
-    public Event(RandomUserCollection randomUserCollection, int id, String type, int numberPlayers, int numberTeams, String created_at) {
-        this.randomUserCollection = randomUserCollection;
+    public Event(int id, String type, int numUser, int numTeams, TeamCollection listTeams, Date created_at) {
         this.id = id;
         this.type = type;
-        this.numberPlayers = numberPlayers;
-        this.numberTeams = numberTeams;
+        this.numUser = numUser;
+        this.numTeams = numTeams;
+        this.listTeams = listTeams;
         this.created_at = created_at;
     }
-
 
     public int getId() {
         return id;
@@ -41,35 +43,35 @@ public class Event {
         this.type = type;
     }
 
-    public int getNumberPlayers() {
-        return numberPlayers;
+    public int getNumUser() {
+        return numUser;
     }
 
-    public void setNumberPlayers(int numberPlayers) {
-        this.numberPlayers = numberPlayers;
+    public void setNumUser(int numUser) {
+        this.numUser = numUser;
     }
 
-    public int getNumberTeams() {
-        return numberTeams;
+    public int getNumTeams() {
+        return numTeams;
     }
 
-    public void setNumberTeams(int numberTeams) {
-        this.numberTeams = numberTeams;
+    public void setNumTeams(int numTeams) {
+        this.numTeams = numTeams;
     }
 
-    public String getCreated_at() {
+    public TeamCollection getListTeams() {
+        return listTeams;
+    }
+
+    public void setListTeams(TeamCollection listTeams) {
+        this.listTeams = listTeams;
+    }
+
+    public Date getCreated_at() {
         return created_at;
     }
 
-    public void setCreated_at(String created_at) {
+    public void setCreated_at(Date created_at) {
         this.created_at = created_at;
-    }
-
-    public RandomUserCollection getRandomUserCollection() {
-        return randomUserCollection;
-    }
-
-    public void setRandomUserCollection(RandomUserCollection randomUserCollection) {
-        this.randomUserCollection = randomUserCollection;
     }
 }

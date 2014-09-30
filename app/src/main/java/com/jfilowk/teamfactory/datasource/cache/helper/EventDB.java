@@ -8,6 +8,7 @@ import com.jfilowk.teamfactory.datasource.entities.Event;
  * Created by Javi on 22/09/14.
  */
 public interface EventDB {
-    public Event createEvent (Event event);
+    public long createEvent (Event event);
+    public Cursor getEvent(long id);
     public Cursor getAllEvents ();
 }
