@@ -9,7 +9,7 @@ import com.jfilowk.teamfactory.ui.views.FragmentGenerateTeamView;
 /**
  * Created by Javi on 26/09/14.
  */
-public class FragmentGenerateTeamPresenterImpl implements FragmentGenerateTeamPresenter{
+public class FragmentGenerateTeamPresenterImpl implements FragmentGenerateTeamPresenter {
 
     FragmentGenerateTeamView view;
     private EventDataSource eventDataSource;

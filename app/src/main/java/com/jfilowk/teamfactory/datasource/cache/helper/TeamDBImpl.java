@@ -23,13 +23,13 @@ public class TeamDBImpl extends DatabaseHelper implements TeamDB {
     @Override
     public long createTeam(Team team) {
         SQLiteDatabase db = this.getWritableDatabase();
-        long lTeam = db.insert(DBConstants.CREATE_TABLE_TEAM, null, bindTeam(team));
+        long lTeam = db.insert(DBConstants.TABLE_TEAM, null, bindTeam(team));
         return lTeam;
     }
 
     @Override
     public Cursor getTeams() {
-        String selectQuery = "SELECT * FROM " + DBConstants.CREATE_TABLE_TEAM;
+        String selectQuery = "SELECT * FROM " + DBConstants.TABLE_TEAM;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursorTeam = db.rawQuery(selectQuery, null);
 
