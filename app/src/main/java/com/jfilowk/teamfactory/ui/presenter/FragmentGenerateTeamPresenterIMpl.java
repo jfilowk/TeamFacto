@@ -1,8 +1,12 @@
 package com.jfilowk.teamfactory.ui.presenter;
 
+import android.util.Log;
+
+import com.jfilowk.teamfactory.BuildConfig;
 import com.jfilowk.teamfactory.datasource.EventDataSource;
 import com.jfilowk.teamfactory.datasource.EventDataSourceImpl;
-import com.jfilowk.teamfactory.datasource.callbacks.EventCallback;
+import com.jfilowk.teamfactory.datasource.cache.callback.EventCallbackBase;
+import com.jfilowk.teamfactory.datasource.entities.Event;
 import com.jfilowk.teamfactory.datasource.entities.EventCollection;
 import com.jfilowk.teamfactory.ui.views.FragmentGenerateTeamView;
 
@@ -11,12 +15,12 @@ import com.jfilowk.teamfactory.ui.views.FragmentGenerateTeamView;
  */
 public class FragmentGenerateTeamPresenterImpl implements FragmentGenerateTeamPresenter {
 
-    FragmentGenerateTeamView view;
+    private FragmentGenerateTeamView view;
     private EventDataSource eventDataSource;
 
     public FragmentGenerateTeamPresenterImpl(FragmentGenerateTeamView view) {
         this.view = view;
-        eventDataSource = new EventDataSourceImpl();
+        this.eventDataSource = new EventDataSourceImpl();
     }
 
     @Override
@@ -30,11 +34,16 @@ public class FragmentGenerateTeamPresenterImpl implements FragmentGenerateTeamPr
     }
 
     @Override
-    public void showTeams() {
-        eventDataSource.showEvent(new EventCallback() {
+    public void showTeams(EventCollection eventCollection) {
+        this.view.initListView(eventCollection);
+    }
+
+    @Override
+    public void createEvent(Event event) {
+        eventDataSource.createEvent(event, new EventCallbackBase() {
             @Override
-            public void onSuccess(EventCollection collection) {
-                view.initListView(collection);
+            public void onSuccess() {
+             if (BuildConfig.DEBUG) Log.d("Team", "Hi team!");
             }
 
             @Override

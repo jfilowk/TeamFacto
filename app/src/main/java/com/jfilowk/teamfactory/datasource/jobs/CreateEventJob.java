@@ -1,7 +1,6 @@
 package com.jfilowk.teamfactory.datasource.jobs;
 
-import com.jfilowk.teamfactory.datasource.EventDataSource;
-import com.jfilowk.teamfactory.datasource.EventDataSourceImpl;
+import com.jfilowk.teamfactory.datasource.cache.EventCache;
 import com.jfilowk.teamfactory.datasource.cache.callback.EventCallbackBase;
 import com.jfilowk.teamfactory.datasource.entities.Event;
 import com.path.android.jobqueue.Job;
@@ -12,13 +11,15 @@ import com.path.android.jobqueue.Params;
  */
 public class CreateEventJob extends Job {
 
-    Event event;
-    EventDataSource eventDataSource;
+    private Event event;
+    private EventCallbackBase listener;
+    private EventCache cache;
 
-    public CreateEventJob(Event event) {
+    public CreateEventJob(Event event, EventCache cache, EventCallbackBase listener) {
         super(new Params(Priority.MID).requireNetwork());
         this.event = event;
-        eventDataSource = new EventDataSourceImpl();
+        this.listener = listener;
+        this.cache = cache;
     }
 
     @Override
@@ -30,17 +31,16 @@ public class CreateEventJob extends Job {
     @Override
     public void onRun() throws Throwable {
 
-        eventDataSource.createEvent(event,new EventCallbackBase() {
-    @Override
-    public void onSuccess() {
-        System.out.println("I like the way you do it.");
-    }
+        boolean result = cache.createEvent(event);
 
-    @Override
-    public void onError() {
+        if (result) {
+            if (listener != null)
+                listener.onSuccess();
+        } else {
+            listener.onError();
+        }
 
-    }
-});
+
 
     }
 

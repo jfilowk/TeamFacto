@@ -2,6 +2,8 @@ package com.jfilowk.teamfactory.ui.presenter;
 
 import com.jfilowk.teamfactory.datasource.EventDataSource;
 import com.jfilowk.teamfactory.datasource.EventDataSourceImpl;
+import com.jfilowk.teamfactory.datasource.callbacks.EventCallback;
+import com.jfilowk.teamfactory.datasource.entities.EventCollection;
 import com.jfilowk.teamfactory.ui.views.GenerateTeamView;
 
 /**
@@ -20,6 +22,17 @@ public class GenerateTeamPresenterImpl implements GenerateTeamPresenter {
     @Override
     public void onResume() {
         this.view.initProgressFragment();
+        this.eventDataSource.showEvent(new EventCallback() {
+            @Override
+            public void onSuccess(EventCollection collection) {
+                view.initMainFragment(collection);
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
     }
 
     @Override

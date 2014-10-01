@@ -1,12 +1,13 @@
 package com.jfilowk.teamfactory.datasource.entities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Javi on 22/09/14.
  */
-public class EventCollection {
+public class EventCollection implements Serializable {
 
     private List<Event> list;
 

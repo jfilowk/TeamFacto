@@ -1,11 +1,12 @@
 package com.jfilowk.teamfactory.datasource.entities;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by Javi on 21/09/14.
  */
-public class RandomUser {
+public class RandomUser implements Serializable {
 
     int id;
     String firstName;

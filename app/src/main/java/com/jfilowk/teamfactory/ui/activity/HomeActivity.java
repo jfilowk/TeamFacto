@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.jfilowk.teamfactory.R;
+import com.jfilowk.teamfactory.datasource.entities.EventCollection;
 import com.jfilowk.teamfactory.ui.fragments.DialogSelectTeam;
 import com.jfilowk.teamfactory.ui.fragments.FragmentInitProgress;
 import com.jfilowk.teamfactory.ui.presenter.HomeActivityPresenter;
@@ -60,7 +61,7 @@ public class HomeActivity extends ActionBarActivity implements HomeActivityView 
     }
 
     @Override
-    public void initMainFragment(Object object) {
+    public void initMainFragment(EventCollection eventCollection) {
 
     }
 

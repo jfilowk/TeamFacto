@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBarActivity;
 import com.jfilowk.teamfactory.R;
 import com.jfilowk.teamfactory.datasource.entities.EventCollection;
 import com.jfilowk.teamfactory.ui.fragments.FragmentGenerateTeam;
+import com.jfilowk.teamfactory.ui.fragments.FragmentInitProgress;
 import com.jfilowk.teamfactory.ui.presenter.GenerateTeamPresenter;
 import com.jfilowk.teamfactory.ui.presenter.GenerateTeamPresenterImpl;
 import com.jfilowk.teamfactory.ui.views.GenerateTeamView;
@@ -48,19 +49,19 @@ public class GenerateTeam extends ActionBarActivity implements GenerateTeamView 
 
     @Override
     public void initProgressFragment() {
-        /*FragmentInitProgress progressFragment = new FragmentInitProgress();
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_generate, progressFragment).commit();*/
-        FragmentGenerateTeam generateFragment = new FragmentGenerateTeam();
-
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_generate, generateFragment).commit();
+        FragmentInitProgress progressFragment = new FragmentInitProgress();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_generate, progressFragment).commit();
     }
 
     @Override
     public void initMainFragment(EventCollection event) {
-
-        FragmentGenerateTeam generateFragment = new FragmentGenerateTeam();
-
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_generate, generateFragment).commit();
+        FragmentGenerateTeam fragmentGenerateTeam = FragmentGenerateTeam.newInstance(event);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_generate, fragmentGenerateTeam).commit();
+/*        FragmentGenerateTeam generateFragment = new FragmentGenerateTeam();
+        Bundle b = new Bundle();
+        b.putSerializable("event", event);
+        generateFragment.setArguments(b);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_generate, generateFragment).commit();*/
 
     }
 
@@ -69,10 +70,8 @@ public class GenerateTeam extends ActionBarActivity implements GenerateTeamView 
 
     }
 
-    public void init(){
-
+    public void init() {
         presenter = new GenerateTeamPresenterImpl(this);
         ButterKnife.inject(this);
-
     }
 }

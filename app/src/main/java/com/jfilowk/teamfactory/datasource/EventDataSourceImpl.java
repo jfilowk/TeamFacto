@@ -15,10 +15,13 @@ import com.jfilowk.teamfactory.datasource.entities.RandomUser;
 import com.jfilowk.teamfactory.datasource.entities.RandomUserCollection;
 import com.jfilowk.teamfactory.datasource.entities.Team;
 import com.jfilowk.teamfactory.datasource.entities.TeamCollection;
+import com.jfilowk.teamfactory.datasource.jobs.CreateEventJob;
+import com.jfilowk.teamfactory.ui.TeamFactoApp;
+import com.path.android.jobqueue.JobManager;
 import com.terro.entities.UserRandomResponse;
 
 import java.util.Calendar;
-import java.util.List;
+import java.util.Date;
 
 /**
  * Created by Javi on 22/09/14.
@@ -27,30 +30,36 @@ public class EventDataSourceImpl implements EventDataSource {
 
     EventCache eventCache;
     RandomUserApi randomUserApi;
+    private JobManager jobManager;
 
     public EventDataSourceImpl() {
         this.eventCache = new EventCacheImpl();
         this.randomUserApi = new RandomUserApiImpl();
+        jobManager = TeamFactoApp.get().getJobManager();
     }
 
     @Override
-    public void createEvent(Event event, EventCallbackBase eventCallback) {
+    public void createEvent(Event event, final EventCallbackBase eventCallback) {
 
-        boolean insert = eventCache.createEvent(event);
+        jobManager.addJobInBackground(new CreateEventJob(event, eventCache, new EventCallbackBase() {
+            @Override
+            public void onSuccess() {
+                eventCallback.onSuccess();
+            }
 
-        if (insert) {
-            eventCallback.onSuccess();
-        } else {
-            eventCallback.onError();
-        }
+            @Override
+            public void onError() {
+                eventCallback.onError();
+            }
+        }));
     }
 
     @Override
-    public void getAllEvents(EventCallback eventCallback) {
+    public void getAllEvents(final EventCallback eventCallback) {
         this.eventCache.getEvent(new EventCacheCallback() {
             @Override
-            public void onSuccess(List<Event> list) {
-                //Usar mapper y demás.
+            public void onSuccess(EventCollection eventCollection) {
+                eventCallback.onSuccess(eventCollection);
             }
 
             @Override
@@ -98,7 +107,8 @@ public class EventDataSourceImpl implements EventDataSource {
                 event.setType("Sport");
                 event.setListTeams(teamCollection);
                 Calendar rightNow = Calendar.getInstance();
-                event.setCreated_at(rightNow.getTime());
+                Date date = Calendar.getInstance().getTime();
+                event.setCreated_at(date.toString());
                 event.setId(1);
                 EventCollection eventCollection = new EventCollection();
                 eventCollection.add(event);

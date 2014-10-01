@@ -1,9 +1,11 @@
 package com.jfilowk.teamfactory.datasource.entities;
 
+import java.io.Serializable;
+
 /**
  * Created by Javi on 26/09/14.
  */
-public class Team {
+public class Team implements Serializable {
 
     int id;
     String name;

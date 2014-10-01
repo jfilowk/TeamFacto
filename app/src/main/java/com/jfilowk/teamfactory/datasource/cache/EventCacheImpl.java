@@ -1,5 +1,8 @@
 package com.jfilowk.teamfactory.datasource.cache;
 
+import android.database.Cursor;
+
+import com.jfilowk.teamfactory.datasource.binder.EventMapper;
 import com.jfilowk.teamfactory.datasource.cache.callback.EventCacheCallback;
 import com.jfilowk.teamfactory.datasource.cache.helper.EventDB;
 import com.jfilowk.teamfactory.datasource.cache.helper.EventDBImpl;
@@ -8,6 +11,7 @@ import com.jfilowk.teamfactory.datasource.cache.helper.RandomUserDBImpl;
 import com.jfilowk.teamfactory.datasource.cache.helper.TeamDB;
 import com.jfilowk.teamfactory.datasource.cache.helper.TeamDBImpl;
 import com.jfilowk.teamfactory.datasource.entities.Event;
+import com.jfilowk.teamfactory.datasource.entities.EventCollection;
 import com.jfilowk.teamfactory.datasource.entities.RandomUser;
 import com.jfilowk.teamfactory.datasource.entities.RandomUserCollection;
 import com.jfilowk.teamfactory.datasource.entities.Team;
@@ -22,6 +26,7 @@ public class EventCacheImpl implements EventCache {
     private EventDB eventDB;
     private TeamDB teamDB;
     private RandomUserDB randomUserDB;
+    private EventMapper mapper;
 
     public EventCacheImpl() {
         init();
@@ -42,7 +47,7 @@ public class EventCacheImpl implements EventCache {
                         long idUser = randomUserDB.createRandomUser(user, idTeam);
                         if (idUser != -1) {
                             long idEventUser = eventDB.createEventUser(idEvent, idUser);
-                            if(idEventUser != -1){
+                            if (idEventUser != -1) {
                             } else {
                                 return false;
                             }
@@ -63,14 +68,20 @@ public class EventCacheImpl implements EventCache {
 
     @Override
     public void getEvent(EventCacheCallback callback) {
-        eventDB.getAllEvents();
-        callback.onSuccess(null);
+        Cursor cursor = eventDB.getAllEvents();
+        EventCollection eventCollection = mapper.transformEventCursorToEventCollection(cursor);
+        if (eventCollection.getCollection().size() > 0){
+            callback.onSuccess(eventCollection);
+        }else {
+            callback.onError();
+        }
+
     }
 
     public void init() {
         this.eventDB = new EventDBImpl(TeamFactoApp.get());
         this.teamDB = new TeamDBImpl(TeamFactoApp.get());
         this.randomUserDB = new RandomUserDBImpl(TeamFactoApp.get());
-
+        this.mapper = new EventMapper();
     }
 }
