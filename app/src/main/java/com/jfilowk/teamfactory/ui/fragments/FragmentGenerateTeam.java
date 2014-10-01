@@ -11,22 +11,23 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.jfilowk.teamfactory.R;
 import com.jfilowk.teamfactory.datasource.EventDataSource;
 import com.jfilowk.teamfactory.datasource.EventDataSourceImpl;
 import com.jfilowk.teamfactory.datasource.RandomUserDataSource;
 import com.jfilowk.teamfactory.datasource.RandomUserDataSourceImpl;
-import com.jfilowk.teamfactory.datasource.cache.callback.EventCallbackBase;
 import com.jfilowk.teamfactory.datasource.callbacks.EventCallback;
 import com.jfilowk.teamfactory.datasource.entities.Event;
 import com.jfilowk.teamfactory.datasource.entities.EventCollection;
 import com.jfilowk.teamfactory.datasource.entities.RandomUser;
 import com.jfilowk.teamfactory.datasource.entities.Team;
+import com.jfilowk.teamfactory.datasource.jobs.CreateEventJob;
+import com.jfilowk.teamfactory.ui.TeamFactoApp;
 import com.jfilowk.teamfactory.ui.adapters.ListTeamsAdapter;
 import com.jfilowk.teamfactory.ui.presenter.FragmentGenerateTeamPresenter;
 import com.jfilowk.teamfactory.ui.views.FragmentGenerateTeamView;
+import com.path.android.jobqueue.JobManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,11 +48,13 @@ public class FragmentGenerateTeam extends Fragment implements FragmentGenerateTe
     EventDataSource eventDataSource;
     RandomUserDataSource randomUserDataSource;
     Event event;
+    JobManager jobManager;
 
     public FragmentGenerateTeam() {
         this.eventDataSource = new EventDataSourceImpl();
         this.randomUserDataSource = new RandomUserDataSourceImpl();
         this.event = new Event();
+        jobManager = TeamFactoApp.get().getJobManager();
     }
 
     @Override
@@ -76,17 +79,7 @@ public class FragmentGenerateTeam extends Fragment implements FragmentGenerateTe
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.accept_event) {
-            this.eventDataSource.createEvent(this.event, new EventCallbackBase() {
-                @Override
-                public void onSuccess() {
-                    Toast.makeText(activity.getApplicationContext(), "Insertado", Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onError() {
-
-                }
-            });
+            jobManager.addJobInBackground(new CreateEventJob(this.event));
             return true;
         }
         return super.onOptionsItemSelected(item);
