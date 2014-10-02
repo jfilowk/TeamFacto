@@ -24,8 +24,6 @@ public class CreateEventJob extends Job {
 
     @Override
     public void onAdded() {
-
-
     }
 
     @Override
@@ -39,14 +37,10 @@ public class CreateEventJob extends Job {
         } else {
             listener.onError();
         }
-
-
-
     }
 
     @Override
     protected void onCancel() {
-
     }
 
     @Override

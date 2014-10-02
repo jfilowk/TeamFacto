@@ -1,7 +1,6 @@
 package com.jfilowk.teamfactory.datasource.entities;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * Created by Javi on 21/09/14.
@@ -14,13 +13,13 @@ public class RandomUser implements Serializable {
     String gender;
     String picture;
     String seed;
-    Date created_at;
+    String created_at;
 
     public RandomUser() {
 
     }
 
-    public RandomUser(String firstName, int id, String lastName, String gender, String picture, String seed, Date created_at) {
+    public RandomUser(String firstName, int id, String lastName, String gender, String picture, String seed, String created_at) {
         this.firstName = firstName;
         this.id = id;
         this.lastName = lastName;
@@ -78,11 +77,11 @@ public class RandomUser implements Serializable {
         this.seed = seed;
     }
 
-    public Date getCreated_at() {
+    public String getCreated_at() {
         return created_at;
     }
 
-    public void setCreated_at(Date created_at) {
+    public void setCreated_at(String created_at) {
         this.created_at = created_at;
     }
 }

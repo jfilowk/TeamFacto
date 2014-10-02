@@ -41,17 +41,16 @@ public class FragmentGenerateTeam extends Fragment implements FragmentGenerateTe
     private EventCollection eventCollection;
     private Event event;
 
+    public FragmentGenerateTeam() {
+    }
+
     public static FragmentGenerateTeam newInstance (EventCollection collection) {
         FragmentGenerateTeam fragmentGenerateTeam = new FragmentGenerateTeam();
-
         Bundle data = new Bundle();
         data.putSerializable(KEY_EVENT, collection);
         fragmentGenerateTeam.setArguments(data);
 
         return fragmentGenerateTeam;
-    }
-
-    public FragmentGenerateTeam() {
     }
 
     @Override

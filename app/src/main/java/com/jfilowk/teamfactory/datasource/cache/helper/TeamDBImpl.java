@@ -36,6 +36,15 @@ public class TeamDBImpl extends DatabaseHelper implements TeamDB {
         return cursorTeam;
     }
 
+    @Override
+    public Cursor getTeam(long idTeam) {
+        String selectQuery = "SELECT * FROM " + DBConstants.TABLE_TEAM + " WHERE " + DBConstants.KEY_ID + " = " + idTeam;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursorTeam = db.rawQuery(selectQuery, null);
+
+        return cursorTeam;
+    }
+
     private ContentValues bindTeam (Team team){
         ContentValues values = new ContentValues();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

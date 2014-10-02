@@ -10,6 +10,13 @@ import com.jfilowk.teamfactory.datasource.entities.EventCollection;
  */
 public class EventMapper {
 
+
+    private static String KEY_ID = "id";
+    private static String KEY_TYPE = "type";
+    private static String KEY_NUM_USERS = "num_users";
+    private static String KEY_NUM_TEAMS = "num_teams";
+    private static String KEY_CREATED = "created_at";
+
     public EventMapper() {
     }
 
@@ -17,11 +24,11 @@ public class EventMapper {
 
         EventCollection eventList = new EventCollection();
 
-        int id = cursor.getColumnIndex("id");
-        int type = cursor.getColumnIndex("type");
-        int num_users = cursor.getColumnIndex("num_users");
-        int num_teams = cursor.getColumnIndex("num_teams");
-        int created_at = cursor.getColumnIndex("created_at");
+        int id = cursor.getColumnIndex(KEY_ID);
+        int type = cursor.getColumnIndex(KEY_TYPE);
+        int num_users = cursor.getColumnIndex(KEY_NUM_USERS);
+        int num_teams = cursor.getColumnIndex(KEY_NUM_TEAMS);
+        int created_at = cursor.getColumnIndex(KEY_CREATED);
 
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             Event event = new Event();

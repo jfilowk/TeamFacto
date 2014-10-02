@@ -28,8 +28,8 @@ import java.util.Date;
  */
 public class EventDataSourceImpl implements EventDataSource {
 
-    EventCache eventCache;
-    RandomUserApi randomUserApi;
+    private EventCache eventCache;
+    private RandomUserApi randomUserApi;
     private JobManager jobManager;
 
     public EventDataSourceImpl() {
@@ -40,7 +40,6 @@ public class EventDataSourceImpl implements EventDataSource {
 
     @Override
     public void createEvent(Event event, final EventCallbackBase eventCallback) {
-
         jobManager.addJobInBackground(new CreateEventJob(event, eventCache, new EventCallbackBase() {
             @Override
             public void onSuccess() {
@@ -56,7 +55,7 @@ public class EventDataSourceImpl implements EventDataSource {
 
     @Override
     public void getAllEvents(final EventCallback eventCallback) {
-        this.eventCache.getEvent(new EventCacheCallback() {
+        this.eventCache.getEvents(new EventCacheCallback() {
             @Override
             public void onSuccess(EventCollection eventCollection) {
                 eventCallback.onSuccess(eventCollection);
@@ -64,14 +63,25 @@ public class EventDataSourceImpl implements EventDataSource {
 
             @Override
             public void onError() {
-
+                eventCallback.onError();
             }
         });
 
     }
 
     @Override
-    public void getEvent(EventCallback eventCallback) {
+    public void getEvent(Event event, final EventCallback eventCallback) {
+        this.eventCache.getEvent(event, new EventCallbackBase() {
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
 
     }
 

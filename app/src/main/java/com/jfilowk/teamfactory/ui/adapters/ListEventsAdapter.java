@@ -59,8 +59,8 @@ public class ListEventsAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.listEventDate.setText(eventList.get(position).getCreated_at().toString());
-        holder.listEventNumUsers.setText(eventList.get(position).getNumUser());
+        holder.listEventDate.setText(eventList.get(position).getCreated_at());
+        holder.listEventNumUsers.setText(String.valueOf(eventList.get(position).getNumTeams()));
 
         return convertView;
     }

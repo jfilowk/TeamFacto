@@ -57,12 +57,6 @@ public class GenerateTeam extends ActionBarActivity implements GenerateTeamView 
     public void initMainFragment(EventCollection event) {
         FragmentGenerateTeam fragmentGenerateTeam = FragmentGenerateTeam.newInstance(event);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_generate, fragmentGenerateTeam).commit();
-/*        FragmentGenerateTeam generateFragment = new FragmentGenerateTeam();
-        Bundle b = new Bundle();
-        b.putSerializable("event", event);
-        generateFragment.setArguments(b);
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_generate, generateFragment).commit();*/
-
     }
 
     @Override

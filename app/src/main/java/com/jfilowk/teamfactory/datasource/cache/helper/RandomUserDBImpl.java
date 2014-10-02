@@ -26,7 +26,7 @@ public class RandomUserDBImpl extends DatabaseHelper implements RandomUserDB {
     }
 
     public Cursor getRandomUser(int id) {
-        String selectQuery = "SELECT  * FROM " + DBConstants.TABLE_USER + " WHERE id = " + DBConstants.KEY_ID;
+        String selectQuery = "SELECT  * FROM " + DBConstants.TABLE_USER + " WHERE " + DBConstants.KEY_ID + " = " + DBConstants.KEY_ID;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursorUser = db.rawQuery(selectQuery, null);
 

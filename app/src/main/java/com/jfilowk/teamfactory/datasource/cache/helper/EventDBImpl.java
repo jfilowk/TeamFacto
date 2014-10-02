@@ -35,6 +35,14 @@ public class EventDBImpl extends DatabaseHelper implements EventDB {
         return  lEventUser;
     }
 
+    @Override
+    public Cursor getIdUserEvent(long idEvent) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT id_user FROM " + DBConstants.TABLE_RANDOM_EVENT + " WHERE id_event = " + idEvent;
+        Cursor cursorIdUsers = db.rawQuery(selectQuery, null);
+
+        return cursorIdUsers;
+    }
 
     @Override
     public Cursor getEvent(long id) {
