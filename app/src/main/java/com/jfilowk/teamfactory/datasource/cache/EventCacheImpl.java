@@ -5,8 +5,8 @@ import android.database.Cursor;
 import com.jfilowk.teamfactory.datasource.binder.EventMapper;
 import com.jfilowk.teamfactory.datasource.binder.RandomUserMapper;
 import com.jfilowk.teamfactory.datasource.binder.TeamMapper;
+import com.jfilowk.teamfactory.datasource.cache.callback.AnEventCacheCallback;
 import com.jfilowk.teamfactory.datasource.cache.callback.EventCacheCallback;
-import com.jfilowk.teamfactory.datasource.cache.callback.EventCallbackBase;
 import com.jfilowk.teamfactory.datasource.cache.helper.EventDB;
 import com.jfilowk.teamfactory.datasource.cache.helper.EventDBImpl;
 import com.jfilowk.teamfactory.datasource.cache.helper.RandomUserDB;
@@ -84,35 +84,52 @@ public class EventCacheImpl implements EventCache {
     }
 
     @Override
-    public void getEvent(Event eventSend, EventCallbackBase callback) {
+    public void getEvent(Event eventSend, AnEventCacheCallback callback) {
         RandomUserMapper userMapper = new RandomUserMapper();
         TeamMapper teamMapper = new TeamMapper();
         RandomUserCollection collection = new RandomUserCollection();
         TeamCollection teamCollection = new TeamCollection();
         Event event = eventSend;
 
-
-        Cursor idUsers = eventDB.getIdUserEvent(event.getId());
-        int idUser = idUsers.getColumnIndex(KEY_ID_USER);
-        for (idUsers.moveToFirst(); !idUsers.isAfterLast(); idUsers.moveToNext()) {
-            idUsers.getLong(idUser);
-            Cursor user = randomUserDB.getRandomUser(idUser);
+        Cursor idUsers = eventDB.getIdUserEvent(event.getId()); // fetch all users id from an event
+        int idUser = idUsers.getColumnIndex(KEY_ID_USER); // set column id
+        for (idUsers.moveToFirst(); !idUsers.isAfterLast(); idUsers.moveToNext()) { // iterate to the users id cursor
+            int idDB = idUsers.getInt(idUser); // get id
+            Cursor user = randomUserDB.getRandomUser(idDB);
+            int idTeam = 0;
+            for (user.moveToFirst(); !user.isAfterLast(); user.moveToNext()) {
+                idTeam = user.getInt(6);
+            }
             RandomUser randomUser = userMapper.transformCursorToRandomUser(user);
-            collection.add(randomUser);
-            int idTeamColumn = user.getColumnIndex("team_id");
-            int idTeam = user.getInt(idTeamColumn);
             Cursor teamDB = this.teamDB.getTeam(idTeam);
-            if(!teamCollection.getCollection().isEmpty()) {
-                for (Team team : teamCollection.getCollection()){
-                    if (team.getId() == idTeam){
-                        team.getUserCollection().add(randomUser);
-                    } else {
-                        Team teamMap = teamMapper.transformCursorToTeam(teamDB);
-                        teamMap.getUserCollection().add(randomUser);
-                        teamCollection.add(teamMap);
+            if (!teamCollection.getCollection().isEmpty()) {
+                Team teamMap = teamMapper.transformCursorToTeam(teamDB);
+                if(checkIfTeamExist(teamCollection, teamMap)){
+                    for (Team c : teamCollection.getCollection()){
+                        if (teamMap.getId() == c.getId()){
+                            c.getUserCollection().add(randomUser);
+                        }
                     }
+                } else {
+                    teamMap.getUserCollection().add(randomUser);
+                    teamCollection.add(teamMap);
                 }
+
+                /*if (teamCollection.getCollection().contains(teamMap)) {
+                    for (int i = 0; i < teamCollection.getCollection().size(); i++) {
+                        Team team = teamCollection.getCollection().get(i);
+                        if (team.getId() == idTeam) {
+                            System.out.println("Entro");
+                            team.getUserCollection().add(randomUser);
+                        }
+                    }
+                } else {
+                    System.out.println("Entro2");
+                    teamMap.getUserCollection().add(randomUser);
+                    teamCollection.add(teamMap);
+                }*/
             } else {
+                System.out.println("entro 3");
                 Team team = teamMapper.transformCursorToTeam(teamDB);
                 team.getUserCollection().add(randomUser);
                 teamCollection.add(team);
@@ -121,12 +138,20 @@ public class EventCacheImpl implements EventCache {
 
         event.setListTeams(teamCollection);
 
-
-        if(event.getListTeams().getCollection().size() > 0) {
-            callback.onSuccess();
+        if (event.getListTeams().getCollection().size() > 0) {
+            callback.onSuccess(event);
         } else {
             callback.onError();
         }
+    }
+
+    private boolean checkIfTeamExist (TeamCollection teamCollection, Team team){
+        for (Team teamC : teamCollection.getCollection()){
+            if (teamC.getId() == team.getId()){
+              return true;
+            }
+        }
+        return false;
     }
 
     public void init() {

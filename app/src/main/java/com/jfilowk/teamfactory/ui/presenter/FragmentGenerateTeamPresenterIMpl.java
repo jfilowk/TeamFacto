@@ -7,7 +7,6 @@ import com.jfilowk.teamfactory.datasource.EventDataSource;
 import com.jfilowk.teamfactory.datasource.EventDataSourceImpl;
 import com.jfilowk.teamfactory.datasource.cache.callback.EventCallbackBase;
 import com.jfilowk.teamfactory.datasource.entities.Event;
-import com.jfilowk.teamfactory.datasource.entities.EventCollection;
 import com.jfilowk.teamfactory.ui.views.FragmentGenerateTeamView;
 
 /**
@@ -34,8 +33,8 @@ public class FragmentGenerateTeamPresenterImpl implements FragmentGenerateTeamPr
     }
 
     @Override
-    public void showTeams(EventCollection eventCollection) {
-        this.view.initListView(eventCollection);
+    public void showTeams(Event event) {
+        this.view.initListView(event);
     }
 
     @Override

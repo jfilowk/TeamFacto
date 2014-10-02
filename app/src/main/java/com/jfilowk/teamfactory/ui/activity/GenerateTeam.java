@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 
 import com.jfilowk.teamfactory.R;
-import com.jfilowk.teamfactory.datasource.entities.EventCollection;
+import com.jfilowk.teamfactory.datasource.entities.Event;
 import com.jfilowk.teamfactory.ui.fragments.FragmentGenerateTeam;
 import com.jfilowk.teamfactory.ui.fragments.FragmentInitProgress;
 import com.jfilowk.teamfactory.ui.presenter.GenerateTeamPresenter;
@@ -18,14 +18,18 @@ import butterknife.ButterKnife;
  */
 public class GenerateTeam extends ActionBarActivity implements GenerateTeamView {
 
-    GenerateTeamPresenter presenter;
+    private GenerateTeamPresenter presenter;
+    private Event event;
+    private static String KEY_EVENT = "event";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_generate_team);
+       this.event = (Event) getIntent().getSerializableExtra(KEY_EVENT);
         init();
-        presenter.onResume();
+        presenter.onResume(this.event);
 
     }
 
@@ -54,7 +58,7 @@ public class GenerateTeam extends ActionBarActivity implements GenerateTeamView 
     }
 
     @Override
-    public void initMainFragment(EventCollection event) {
+    public void initMainFragment(Event event) {
         FragmentGenerateTeam fragmentGenerateTeam = FragmentGenerateTeam.newInstance(event);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_generate, fragmentGenerateTeam).commit();
     }

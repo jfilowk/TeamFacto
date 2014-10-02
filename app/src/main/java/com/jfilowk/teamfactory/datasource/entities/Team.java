@@ -12,6 +12,7 @@ public class Team implements Serializable {
     RandomUserCollection userCollection;
 
     public Team() {
+        this.userCollection = new RandomUserCollection();
     }
 
     public Team(int id, String name) {
@@ -20,11 +21,6 @@ public class Team implements Serializable {
         this.userCollection = new RandomUserCollection();
     }
 
-    public Team (int id, String name, RandomUserCollection userCollection) {
-        this.id = id;
-        this.name = name;
-        this.userCollection = userCollection;
-    }
 
     public int getId() {
         return id;
