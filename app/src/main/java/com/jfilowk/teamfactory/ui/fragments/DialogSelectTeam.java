@@ -66,7 +66,6 @@ public class DialogSelectTeam extends DialogFragment {
                 Toast.makeText(mActivity, "Has pulsado el tipo "+ nameType[position], Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(mActivity, GenerateTeam.class);
                 startActivity(i);
-                //Faltaría crear la implementación para abrir la nueva actividad y mandar los datos para mostrar.
             }
         });
         return root;

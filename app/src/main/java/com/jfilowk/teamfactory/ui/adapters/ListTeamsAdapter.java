@@ -25,12 +25,8 @@ import butterknife.InjectView;
  */
 public class ListTeamsAdapter extends BaseAdapter {
 
-    // View Type for TEAMS
     private static final int ITEM_VIEW_TYPE_TEAM = 0;
-    // View Type for USER
     private static final int ITEM_VIEW_TYPE_USER = 1;
-    // Types of Views that need to be handled
-    // -- TEAMS and USERS rows --
     private static final int ITEM_VIEW_TYPE_COUNT = 2;
 
     private List<Object> teams;
@@ -43,10 +39,13 @@ public class ListTeamsAdapter extends BaseAdapter {
 
     @Override
     public int getItemViewType(int position) {
-        if (this.teams.get(position).getClass().getSimpleName().equals("Team")) {
+
+        if (teams.get(position) instanceof Team) {
             return ITEM_VIEW_TYPE_TEAM;
+
         } else {
             return ITEM_VIEW_TYPE_USER;
+
         }
     }
 
@@ -74,7 +73,6 @@ public class ListTeamsAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ItemViewHolder itemHolder = null;
         SectionViewHolder sectionHolder = null;
-        System.out.println(this.teams.get(position).getClass().getSimpleName()+"tipo"+getItemViewType(position));
         int type = getItemViewType(position);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         switch (type) {
@@ -122,7 +120,8 @@ public class ListTeamsAdapter extends BaseAdapter {
     }
 
     static class SectionViewHolder {
-        @InjectView(R.id.textTeamName) TextView teamName;
+        @InjectView(R.id.textTeamName)
+        TextView teamName;
 
         SectionViewHolder(View view) {
 

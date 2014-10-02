@@ -6,8 +6,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.jfilowk.teamfactory.R;
+import com.jfilowk.teamfactory.datasource.entities.EventCollection;
 import com.jfilowk.teamfactory.ui.fragments.DialogSelectTeam;
 import com.jfilowk.teamfactory.ui.fragments.FragmentInitProgress;
+import com.jfilowk.teamfactory.ui.fragments.FragmentListAllEvents;
 import com.jfilowk.teamfactory.ui.presenter.HomeActivityPresenter;
 import com.jfilowk.teamfactory.ui.presenter.HomeActivityPresenterImpl;
 import com.jfilowk.teamfactory.ui.views.HomeActivityView;
@@ -60,8 +62,9 @@ public class HomeActivity extends ActionBarActivity implements HomeActivityView 
     }
 
     @Override
-    public void initMainFragment(Object object) {
-
+    public void initMainFragment(EventCollection eventCollection) {
+        FragmentListAllEvents fragmentListAllEvents  = FragmentListAllEvents.newInstance(eventCollection);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragmentListAllEvents).commit();
     }
 
     private void init() {

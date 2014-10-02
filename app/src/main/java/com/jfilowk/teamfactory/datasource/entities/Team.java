@@ -1,22 +1,26 @@
 package com.jfilowk.teamfactory.datasource.entities;
 
+import java.io.Serializable;
+
 /**
  * Created by Javi on 26/09/14.
  */
-public class Team {
+public class Team implements Serializable {
 
     int id;
     String name;
     RandomUserCollection userCollection;
 
     public Team() {
+        this.userCollection = new RandomUserCollection();
     }
 
-    public Team (int id, String name, RandomUserCollection userCollection) {
+    public Team(int id, String name) {
         this.id = id;
         this.name = name;
-        this.userCollection = userCollection;
+        this.userCollection = new RandomUserCollection();
     }
+
 
     public int getId() {
         return id;

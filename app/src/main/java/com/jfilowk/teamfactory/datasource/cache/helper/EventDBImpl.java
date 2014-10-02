@@ -24,8 +24,24 @@ public class EventDBImpl extends DatabaseHelper implements EventDB {
     @Override
     public long createEvent(Event event) {
         SQLiteDatabase db = this.getWritableDatabase();
-        long lEvent = db.insert(DBConstants.CREATE_TABLE_EVENT, null, bindEvent(event));
+        long lEvent = db.insert(DBConstants.TABLE_EVENT, null, bindEvent(event));
         return lEvent;
+    }
+
+    @Override
+    public long createEventUser(long idEvent, long idUser) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        long lEventUser = db.insert(DBConstants.TABLE_RANDOM_EVENT, null, bindEventUser(idEvent, idUser));
+        return  lEventUser;
+    }
+
+    @Override
+    public Cursor getIdUserEvent(long idEvent) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT id_user FROM " + DBConstants.TABLE_RANDOM_EVENT + " WHERE id_event = " + idEvent;
+        Cursor cursorIdUsers = db.rawQuery(selectQuery, null);
+
+        return cursorIdUsers;
     }
 
     @Override
@@ -57,6 +73,13 @@ public class EventDBImpl extends DatabaseHelper implements EventDB {
         values.put("num_teams", event.getNumTeams());
         values.put("created_at", dateFormat.format(date));
 
+        return values;
+    }
+
+    private ContentValues bindEventUser(long idEvent, long idUser) {
+        ContentValues values = new ContentValues();
+        values.put("id_user", idUser);
+        values.put("id_event", idEvent);
         return values;
     }
 }

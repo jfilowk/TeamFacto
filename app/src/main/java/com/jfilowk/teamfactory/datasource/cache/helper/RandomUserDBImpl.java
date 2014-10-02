@@ -19,22 +19,14 @@ public class RandomUserDBImpl extends DatabaseHelper implements RandomUserDB {
         super(context);
     }
 
-    public long createRandomUser(RandomUser user) {
+    public long createRandomUser(RandomUser user, long teamId) {
         SQLiteDatabase db = this.getWritableDatabase();
-
-        // insert row
-        long random_id = db.insert(DBConstants.TABLE_USER, null, bindRandomUser(user));
-
-        // assigning tags to todo
-        //for (long tag_id : tag_ids) {
-        //    createTodoTag(todo_id, tag_id);
-        //}
-
+        long random_id = db.insert(DBConstants.TABLE_USER, null, bindRandomUser(user, teamId));
         return random_id;
     }
 
     public Cursor getRandomUser(int id) {
-        String selectQuery = "SELECT  * FROM " + DBConstants.TABLE_USER + " WHERE id = " + DBConstants.KEY_ID;
+        String selectQuery = "SELECT  * FROM " + DBConstants.TABLE_USER + " WHERE id = " + id;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursorUser = db.rawQuery(selectQuery, null);
 
@@ -49,7 +41,7 @@ public class RandomUserDBImpl extends DatabaseHelper implements RandomUserDB {
         return cursorUsers;
     }
 
-    private ContentValues bindRandomUser(RandomUser user) {
+    private ContentValues bindRandomUser(RandomUser user, long teamId) {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
@@ -59,6 +51,7 @@ public class RandomUserDBImpl extends DatabaseHelper implements RandomUserDB {
         values.put("gender", user.getGender());
         values.put("picture", user.getPicture());
         values.put("seed", user.getSeed());
+        values.put("team_id", teamId);
         values.put("created_at", dateFormat.format(date));
 
         return values;

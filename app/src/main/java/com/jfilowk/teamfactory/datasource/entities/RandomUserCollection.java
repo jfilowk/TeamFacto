@@ -1,12 +1,13 @@
 package com.jfilowk.teamfactory.datasource.entities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Javi on 21/09/14.
  */
-public class RandomUserCollection {
+public class RandomUserCollection implements Serializable {
 
     private List<RandomUser> list;
 

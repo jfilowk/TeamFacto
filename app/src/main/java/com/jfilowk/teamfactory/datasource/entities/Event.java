@@ -1,24 +1,24 @@
 package com.jfilowk.teamfactory.datasource.entities;
 
-import java.util.Date;
+import java.io.Serializable;
 
 /**
  * Created by Javi on 22/09/14.
  */
-public class Event {
+public class Event implements Serializable{
 
     int id;
     String type;
     int numUser;
     int numTeams;
     TeamCollection listTeams;
-    Date created_at;
+    String created_at;
 
     public Event() {
 
     }
 
-    public Event(int id, String type, int numUser, int numTeams, TeamCollection listTeams, Date created_at) {
+    public Event(int id, String type, int numUser, int numTeams, TeamCollection listTeams, String created_at) {
         this.id = id;
         this.type = type;
         this.numUser = numUser;
@@ -67,11 +67,11 @@ public class Event {
         this.listTeams = listTeams;
     }
 
-    public Date getCreated_at() {
+    public String getCreated_at() {
         return created_at;
     }
 
-    public void setCreated_at(Date created_at) {
+    public void setCreated_at(String created_at) {
         this.created_at = created_at;
     }
 }

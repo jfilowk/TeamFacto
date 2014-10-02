@@ -8,7 +8,8 @@ import com.jfilowk.teamfactory.datasource.entities.RandomUser;
  * Created by Javi on 22/09/14.
  */
 public interface RandomUserDB {
-    public long createRandomUser(RandomUser user);
+    public long createRandomUser(RandomUser user, long teamId);
+    public Cursor getRandomUser (int id);
     public Cursor getAllRandomUser ();
 }
 

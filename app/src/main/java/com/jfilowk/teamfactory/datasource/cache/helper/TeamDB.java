@@ -9,6 +9,7 @@ import com.jfilowk.teamfactory.datasource.entities.Team;
  */
 public interface TeamDB {
     public long createTeam (Team team);
+    public Cursor getTeam (long idTeam);
     public Cursor getTeams ();
 
 }
