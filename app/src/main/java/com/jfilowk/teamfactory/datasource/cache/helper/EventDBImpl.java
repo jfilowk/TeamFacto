@@ -56,10 +56,15 @@ public class EventDBImpl extends DatabaseHelper implements EventDB {
     @Override
     public Cursor getAllEvents() {
         String selectQuery = "SELECT  * FROM " + DBConstants.TABLE_EVENT;
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursorUsers = db.rawQuery(selectQuery, null);
+//        SQLiteDatabase db = ;
+//        Cursor cursorUsers =
 
-        return cursorUsers;
+        return this.getReadableDatabase().rawQuery(selectQuery, null);
+    }
+
+    @Override
+    public void closeDb() {
+        this.close();
     }
 
     private ContentValues bindEvent(Event event) {

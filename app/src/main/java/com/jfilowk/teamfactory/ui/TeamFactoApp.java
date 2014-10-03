@@ -3,9 +3,12 @@ package com.jfilowk.teamfactory.ui;
 import android.app.Application;
 import android.util.Log;
 
+import com.jfilowk.teamfactory.BuildConfig;
 import com.path.android.jobqueue.JobManager;
 import com.path.android.jobqueue.config.Configuration;
 import com.path.android.jobqueue.log.CustomLogger;
+
+import timber.log.Timber;
 
 /**
  * Created by Jose Luis on 19/09/14.
@@ -20,9 +23,18 @@ public class TeamFactoApp extends Application {
         super.onCreate();
         instance = this;
         configureJobManager();
+        configureTimber();
     }
 
     public static TeamFactoApp get() { return instance; }
+
+    private void configureTimber () {
+        if (BuildConfig.DEBUG) {
+            Timber.plant(new Timber.DebugTree());
+        } else {
+            Timber.plant(new CrashReportingTree());
+        }
+    }
 
     private void configureJobManager(){
         Configuration configuration = new Configuration.Builder(this).customLogger(new CustomLogger() {
@@ -59,4 +71,26 @@ public class TeamFactoApp extends Application {
     public JobManager getJobManager(){
         return jobManager;
     }
+
+    /** A tree which logs important information for crash reporting. */
+    private static class CrashReportingTree extends Timber.HollowTree {
+        @Override public void i(String message, Object... args) {
+            // TODO e.g., Crashlytics.log(String.format(message, args));
+        }
+
+        @Override public void i(Throwable t, String message, Object... args) {
+            i(message, args); // Just add to the log.
+        }
+
+        @Override public void e(String message, Object... args) {
+            i("ERROR: " + message, args); // Just add to the log.
+        }
+
+        @Override public void e(Throwable t, String message, Object... args) {
+            e(message, args);
+
+            // TODO e.g., Crashlytics.logException(t);
+        }
+    }
+
 }

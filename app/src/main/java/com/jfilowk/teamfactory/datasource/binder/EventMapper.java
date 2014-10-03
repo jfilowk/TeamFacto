@@ -42,6 +42,8 @@ public class EventMapper {
             eventList.add(event);
         }
 
+        cursor.close();
+
         return eventList;
     }
 

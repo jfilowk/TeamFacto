@@ -80,7 +80,6 @@ public class FragmentListAllEvents extends Fragment {
                         i.putExtra(KEY_EVENT, event);
                         startActivity(i);
                     }
-
                     @Override
                     public void onError() {
 

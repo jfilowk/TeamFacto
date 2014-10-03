@@ -21,6 +21,8 @@ import com.jfilowk.teamfactory.datasource.entities.Team;
 import com.jfilowk.teamfactory.datasource.entities.TeamCollection;
 import com.jfilowk.teamfactory.ui.TeamFactoApp;
 
+import timber.log.Timber;
+
 /**
  * Created by Javi on 22/09/14.
  */
@@ -64,6 +66,7 @@ public class EventCacheImpl implements EventCache {
                     return false;
                 }
             }
+            eventDB.closeDb();
             return true;
         } else {
             return false;
@@ -129,7 +132,7 @@ public class EventCacheImpl implements EventCache {
                     teamCollection.add(teamMap);
                 }*/
             } else {
-                System.out.println("entro 3");
+                Timber.d("Entro 3");
                 Team team = teamMapper.transformCursorToTeam(teamDB);
                 team.getUserCollection().add(randomUser);
                 teamCollection.add(team);
@@ -159,5 +162,7 @@ public class EventCacheImpl implements EventCache {
         this.teamDB = new TeamDBImpl(TeamFactoApp.get());
         this.randomUserDB = new RandomUserDBImpl(TeamFactoApp.get());
         this.mapper = new EventMapper();
+
+        Timber.tag(EventCacheImpl.class.getSimpleName());
     }
 }

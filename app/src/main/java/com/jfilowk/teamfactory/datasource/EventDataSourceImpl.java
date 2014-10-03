@@ -108,9 +108,10 @@ public class EventDataSourceImpl implements EventDataSource {
                     for (int i = 0; i < numTeams; i++) {
                         Team team = new Team();
                         team.setId(i);
-                        team.setName("Team " + (char) ('A' + i));
+                        team.setName("Team " + (char) ('A' + i)); //TODO: You are the fucking boss for this code!! Rocks!
                         RandomUserCollection userCollection = new RandomUserCollection();
-                        for (int j = 0; j < numUsers / numTeams; j++) {
+                        int numberOfPlayers = numUsers / numTeams;
+                        for (int j = 0; j < numberOfPlayers; j++) {
                             System.out.println(x);
                             RandomUser userTemp = responseCollection.get(x);
                             userCollection.add(userTemp);

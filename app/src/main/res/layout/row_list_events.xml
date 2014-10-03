@@ -5,34 +5,75 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/layer_card_background"
-    android:padding="5dp"
-    >
-
-
+    android:padding="5dp">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
-        android:id="@+id/textDateEvent"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:text="31"
+        android:id="@+id/textDayEvent"
+        android:textSize="50sp"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="10dp" />
 
     <ImageView
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:id="@+id/imgNumUsers"
-        android:layout_alignParentTop="true"
-        android:layout_toStartOf="@+id/textNumUsers" />
+        android:layout_alignTop="@+id/textDayEvent"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/usergroup32"
+        android:layout_marginRight="10dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
+        android:text="40"
         android:id="@+id/textNumUsers"
         android:layout_alignBottom="@+id/imgNumUsers"
-        android:layout_alignParentEnd="true" />
+        android:layout_toEndOf="@+id/imgNumUsers"
+        android:singleLine="false"
+        android:textSize="25sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Sept"
+        android:id="@+id/textMonthEvent"
+        android:layout_below="@+id/textDayEvent"
+        android:layout_alignStart="@+id/textDayEvent" />
+
+    <ImageView
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:id="@+id/imageView"
+        android:layout_alignBottom="@+id/textMonthEvent"
+        android:layout_alignStart="@+id/imgNumUsers"
+        android:src="@drawable/usergroup32"
+        android:layout_marginRight="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="40"
+        android:id="@+id/textTeamsEvent"
+        android:layout_toEndOf="@+id/imageView"
+        android:singleLine="false"
+        android:textSize="25sp"
+        android:layout_alignBottom="@+id/imageView" />
+
+    <ImageView
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:id="@+id/imageView2"
+        android:layout_below="@+id/textNumUsers"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/next32"
+        android:layout_marginRight="40dp" />
 
 </RelativeLayout>

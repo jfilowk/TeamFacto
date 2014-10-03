@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.jfilowk.teamfactory"
-        minSdkVersion 19
+        minSdkVersion 11
         targetSdkVersion 20
         versionCode 1
         versionName "1.0"
@@ -28,4 +28,5 @@ dependencies {
     compile project(':RandomUserApi')
     compile 'com.squareup.picasso:picasso:2.3.4'
     compile 'com.path:android-priority-jobqueue:1.1.2'
+    compile 'com.jakewharton.timber:timber:2.4.+'
 }

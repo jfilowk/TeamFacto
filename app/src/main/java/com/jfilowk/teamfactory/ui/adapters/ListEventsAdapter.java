@@ -1,6 +1,7 @@
 package com.jfilowk.teamfactory.ui.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,20 +59,20 @@ public class ListEventsAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-
-        holder.listEventDate.setText(eventList.get(position).getCreated_at());
+        convertView.setBackgroundColor(Color.parseColor("#e6e6fa"));
+        holder.listDayEvent.setText(eventList.get(position).getCreated_at());
         holder.listEventNumUsers.setText(String.valueOf(eventList.get(position).getNumTeams()));
 
         return convertView;
     }
 
     static class ViewHolder {
-        @InjectView(R.id.textDateEvent)
-        TextView listEventDate;
-
+        @InjectView(R.id.textDayEvent)
+        TextView listDayEvent;
         @InjectView(R.id.textNumUsers)
         TextView listEventNumUsers;
-
+        @InjectView(R.id.textMonthEvent) TextView listEventMonth;
+        @InjectView(R.id.textTeamsEvent) TextView listEventTeam;
 
         public ViewHolder(View view) {
             ButterKnife.inject(this, view);
