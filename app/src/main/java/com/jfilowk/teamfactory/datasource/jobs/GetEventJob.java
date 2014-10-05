@@ -6,6 +6,8 @@ import com.jfilowk.teamfactory.datasource.entities.Event;
 import com.path.android.jobqueue.Job;
 import com.path.android.jobqueue.Params;
 
+import timber.log.Timber;
+
 /**
  * Created by Javi on 02/10/14.
  */
@@ -32,11 +34,13 @@ public class GetEventJob extends Job {
        this.cache.getEvent(event, new AnEventCacheCallback() {
             @Override
             public void onSuccess(Event event) {
+                Timber.d("1");
                 listener.onSuccess(event);
             }
 
             @Override
             public void onError() {
+                Timber.d("2");
                 listener.onError();
             }
         });

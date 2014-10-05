@@ -32,8 +32,16 @@ public class EventDBImpl extends DatabaseHelper implements EventDB {
     public long createEventUser(long idEvent, long idUser) {
         SQLiteDatabase db = this.getWritableDatabase();
         long lEventUser = db.insert(DBConstants.TABLE_RANDOM_EVENT, null, bindEventUser(idEvent, idUser));
-        return  lEventUser;
+        return lEventUser;
     }
+
+    @Override
+    public long createEventTeam(long idEvent, long idTeam) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        long lEventTeam = db.insert(DBConstants.TABLE_EVENT_TEAM, null, bindEventTeam(idEvent, idTeam));
+        return lEventTeam;
+    }
+
 
     @Override
     public Cursor getIdUserEvent(long idEvent) {
@@ -42,6 +50,15 @@ public class EventDBImpl extends DatabaseHelper implements EventDB {
         Cursor cursorIdUsers = db.rawQuery(selectQuery, null);
 
         return cursorIdUsers;
+    }
+
+    @Override
+    public Cursor getIdTeamsEvent(long idEvent) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT id_team FROM " + DBConstants.TABLE_EVENT_TEAM + " WHERE id_event = " + idEvent;
+        Cursor cursorIdTeams = db.rawQuery(selectQuery, null);
+
+        return cursorIdTeams;
     }
 
     @Override
@@ -56,8 +73,6 @@ public class EventDBImpl extends DatabaseHelper implements EventDB {
     @Override
     public Cursor getAllEvents() {
         String selectQuery = "SELECT  * FROM " + DBConstants.TABLE_EVENT;
-//        SQLiteDatabase db = ;
-//        Cursor cursorUsers =
 
         return this.getReadableDatabase().rawQuery(selectQuery, null);
     }
@@ -85,6 +100,13 @@ public class EventDBImpl extends DatabaseHelper implements EventDB {
         ContentValues values = new ContentValues();
         values.put("id_user", idUser);
         values.put("id_event", idEvent);
+        return values;
+    }
+
+    private ContentValues bindEventTeam(long idEvent, long idTeam) {
+        ContentValues values = new ContentValues();
+        values.put("id_event", idEvent);
+        values.put("id_team", idTeam);
         return values;
     }
 }

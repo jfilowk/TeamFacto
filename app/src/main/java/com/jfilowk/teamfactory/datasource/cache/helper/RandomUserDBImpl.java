@@ -41,6 +41,15 @@ public class RandomUserDBImpl extends DatabaseHelper implements RandomUserDB {
         return cursorUsers;
     }
 
+    @Override
+    public Cursor getUsersTeam(long teamId) {
+        String selectQuery = "SELECT  * FROM " + DBConstants.TABLE_USER + " WHERE team_id = " +teamId;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursorUsers = db.rawQuery(selectQuery, null);
+
+        return cursorUsers;
+    }
+
     private ContentValues bindRandomUser(RandomUser user, long teamId) {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

@@ -22,9 +22,6 @@ import com.jfilowk.teamfactory.ui.TeamFactoApp;
 import com.path.android.jobqueue.JobManager;
 import com.terro.entities.UserRandomResponse;
 
-import java.util.Calendar;
-import java.util.Date;
-
 /**
  * Created by Javi on 22/09/14.
  */
@@ -89,28 +86,23 @@ public class EventDataSourceImpl implements EventDataSource {
 
     @Override
     public void showEvent(Event event, final AnEventCacheCallback eventCallback) {
-
-        if(event != null) {
-            eventCallback.onSuccess(event);
-        } else {
+        if  (event.getListTeams() == null){
+            final Event eventReturn = event;
             this.randomUserApi.getRandomUserApi(new RandomUserApiCallback() {
                 @Override
                 public void onSuccess(UserRandomResponse response) {
                     RandomUserMapper mapper = new RandomUserMapper();
                     RandomUserCollection responseCollection = mapper.transformResultToRandomUserCollection(response);
 
-                    //Create teams.
-                    Event event = new Event();
-                    int numUsers = 8; // 4 users each team
-                    int numTeams = 2; // 2 teams
                     int x = 0;
+
                     TeamCollection teamCollection = new TeamCollection();
-                    for (int i = 0; i < numTeams; i++) {
+                    for (int i = 0; i < eventReturn.getNumTeams(); i++) {
                         Team team = new Team();
                         team.setId(i);
                         team.setName("Team " + (char) ('A' + i)); //TODO: You are the fucking boss for this code!! Rocks!
                         RandomUserCollection userCollection = new RandomUserCollection();
-                        int numberOfPlayers = numUsers / numTeams;
+                        int numberOfPlayers = eventReturn.getNumUser() / eventReturn.getNumTeams();
                         for (int j = 0; j < numberOfPlayers; j++) {
                             System.out.println(x);
                             RandomUser userTemp = responseCollection.get(x);
@@ -120,14 +112,8 @@ public class EventDataSourceImpl implements EventDataSource {
                         team.setUserCollection(userCollection);
                         teamCollection.add(team);
                     }
-                    event.setType("Sport");
-                    event.setListTeams(teamCollection);
-                    Calendar rightNow = Calendar.getInstance();
-                    Date date = Calendar.getInstance().getTime();
-                    event.setCreated_at(date.toString());
-                    event.setId(1);
-
-                    eventCallback.onSuccess(event);
+                    eventReturn.setListTeams(teamCollection);
+                    eventCallback.onSuccess(eventReturn);
                 }
 
                 @Override
@@ -135,9 +121,9 @@ public class EventDataSourceImpl implements EventDataSource {
 
                 }
             });
+
+        } else{
+            eventCallback.onSuccess(event);
         }
-
-
-
     }
 }

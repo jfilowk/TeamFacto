@@ -4,16 +4,19 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.NumberPicker;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
 import com.jfilowk.teamfactory.R;
+import com.jfilowk.teamfactory.datasource.entities.Event;
+import com.jfilowk.teamfactory.ui.activity.GenerateTeam;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,6 +28,7 @@ import java.util.Arrays;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import timber.log.Timber;
 
 /**
  * Created by Javi on 21/09/14.
@@ -37,8 +41,12 @@ public class DialogSelectTeam extends DialogFragment {
     NumberPicker npUsers;
     @InjectView(R.id.npTeams) NumberPicker npTeams;
     String[] nameType;
+    RadioButton selected;
+
 
     private Activity mActivity;
+
+    String typeEvent;
 
     public static DialogSelectTeam newInstance (){
         DialogSelectTeam dialog = new DialogSelectTeam();
@@ -63,8 +71,14 @@ public class DialogSelectTeam extends DialogFragment {
                 .setPositiveButton("OK",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
-                                // do something...
-                            }
+                                Event event = new Event();
+                                event.setType(selected.getText().toString());
+                                event.setNumUser(npUsers.getValue());
+                                event.setNumTeams(npTeams.getValue());
+                                Intent i = new Intent(mActivity.getApplicationContext(), GenerateTeam.class);
+                                i.putExtra("event", event);
+                                startActivity(i);
+                                getDialog().dismiss();                            }
                         }
                 )
                 .setNegativeButton("Cancel",
@@ -78,27 +92,37 @@ public class DialogSelectTeam extends DialogFragment {
         LayoutInflater inflater = mActivity.getLayoutInflater();
         View root = inflater.inflate(R.layout.dialog_create_event, null);
         ButterKnife.inject(this, root);
-
+        selected = (RadioButton) rgTypeEvent.findViewById(R.id.rbSport);
         rgTypeEvent.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.rbSport:
-                        Toast.makeText(mActivity.getApplicationContext(), "Sport", Toast.LENGTH_SHORT).show();
+                        selected = (RadioButton) rgTypeEvent.findViewById(R.id.rbSport);
+                        typeEvent = selected.getText().toString();
+                        Timber.d(typeEvent);
                         break;
                     case R.id.rbSchool:
-                        Toast.makeText(mActivity.getApplicationContext(), "School", Toast.LENGTH_SHORT).show();
+                        selected = (RadioButton) rgTypeEvent.findViewById(R.id.rbSchool);
+                        typeEvent = selected.getText().toString();
+                        Timber.d(typeEvent);
+
                         break;
                     case R.id.rbBusiness:
-                        Toast.makeText(mActivity.getApplicationContext(), "Business", Toast.LENGTH_SHORT).show();
+                        selected = (RadioButton) rgTypeEvent.findViewById(R.id.rbBusiness);
+                        typeEvent = selected.getText().toString();
+                        Timber.d(typeEvent);
+
                         break;
                 }
             }
         });
 
-        
-
-
+        npUsers.setMaxValue(40);
+        npUsers.setMinValue(2);
+        npTeams.setMaxValue(20);
+        npTeams.setMinValue(2);
         b.setView(root);
         return b.create();
     }

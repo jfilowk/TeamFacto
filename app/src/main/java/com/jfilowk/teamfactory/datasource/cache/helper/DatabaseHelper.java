@@ -19,7 +19,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(DBConstants.CREATE_TABLE_RANDOM);
         db.execSQL(DBConstants.CREATE_TABLE_EVENT);
         db.execSQL(DBConstants.CREATE_TABLE_TEAM);
-        db.execSQL(DBConstants.CREATE_TABLE_RANDOM_EVENT);
+        //db.execSQL(DBConstants.CREATE_TABLE_RANDOM_EVENT);
+        db.execSQL(DBConstants.CREATE_TABLE_TEAM_EVENT);
 
     }
 
@@ -30,6 +31,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + DBConstants.TABLE_EVENT);
         db.execSQL("DROP TABLE IF EXISTS " + DBConstants.TABLE_TEAM);
         db.execSQL("DROP TABLE IF EXISTS " + DBConstants.TABLE_RANDOM_EVENT);
+        db.execSQL("DROP TABLE IF EXISTS " + DBConstants.TABLE_EVENT_TEAM);
 
         onCreate(db);
     }
