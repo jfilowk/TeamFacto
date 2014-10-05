@@ -79,7 +79,7 @@ public class HomeActivity extends ActionBarActivity implements HomeActivityView 
 
     private void showSelectTeamFragment(){
 
-        DialogSelectTeam dialogSelectTeam = new DialogSelectTeam();
+        DialogSelectTeam dialogSelectTeam = DialogSelectTeam.newInstance();
         dialogSelectTeam.show(getSupportFragmentManager(), "fragment_select_team");
 
     }

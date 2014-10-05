@@ -1,6 +1,7 @@
 package com.jfilowk.teamfactory.ui.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,6 +85,7 @@ public class ListTeamsAdapter extends BaseAdapter {
                 } else {
                     sectionHolder = (SectionViewHolder) convertView.getTag();
                 }
+                convertView.setBackgroundColor(Color.parseColor("#66E066"));
                 Team team = (Team) teams.get(position);
                 sectionHolder.teamName.setText(team.getName());
                 break;
@@ -96,12 +98,12 @@ public class ListTeamsAdapter extends BaseAdapter {
                     itemHolder = (ItemViewHolder) convertView.getTag();
                 }
                 RandomUser user = (RandomUser) teams.get(position);
+                convertView.setBackgroundColor(Color.parseColor("#FF4747"));
                 itemHolder.firstNameUser.setText(WordUtils.capitalizeFully(user.getFirstName()));
                 itemHolder.lastNameUser.setText(WordUtils.capitalizeFully(user.getLastName()));
                 Picasso.with(context).load(user.getPicture()).into(itemHolder.imageUser);
                 break;
         }
-
         return convertView;
     }
 

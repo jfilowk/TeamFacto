@@ -11,7 +11,12 @@ import android.widget.TextView;
 import com.jfilowk.teamfactory.R;
 import com.jfilowk.teamfactory.datasource.entities.Event;
 
+import java.text.DateFormatSymbols;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -59,9 +64,20 @@ public class ListEventsAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        convertView.setBackgroundColor(Color.parseColor("#e6e6fa"));
-        holder.listDayEvent.setText(eventList.get(position).getCreated_at());
-        holder.listEventNumUsers.setText(String.valueOf(eventList.get(position).getNumTeams()));
+
+        int randomColor = randInt(1, 3);
+
+        if(randomColor == 1) {
+            convertView.setBackgroundColor(Color.parseColor("#66E066"));
+        } else if (randomColor == 2){
+            convertView.setBackgroundColor(Color.parseColor("#FF4747"));
+        } else {
+            convertView.setBackgroundColor(Color.parseColor("#FFAD33"));
+        }
+        holder.listDayEvent.setText(shortNameDay(eventList.get(position).getCreated_at()));
+        holder.listEventMonth.setText(shortNameMonth(eventList.get(position).getCreated_at()));
+        holder.listEventNumUsers.setText(String.valueOf(eventList.get(position).getNumUser()));
+        holder.listEventTeam.setText(String.valueOf(eventList.get(position).getNumTeams()));
 
         return convertView;
     }
@@ -77,5 +93,41 @@ public class ListEventsAdapter extends BaseAdapter {
         public ViewHolder(View view) {
             ButterKnife.inject(this, view);
         }
+    }
+
+    private String shortNameMonth (String date) {
+        String months [] = new DateFormatSymbols().getShortMonths();
+        SimpleDateFormat  format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        int numMonth = 0;
+        try {
+            Date dateFromString = format.parse(date);
+             numMonth = dateFromString.getMonth()-1;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return months[numMonth];
+    }
+
+    private String shortNameDay (String date) {
+        SimpleDateFormat  format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        int numDay = 0;
+        try {
+            Date dateFromString = format.parse(date);
+            numDay = dateFromString.getDay()-1;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return String.valueOf(numDay);
+    }
+
+    public static int randInt(int min, int max) {
+
+
+        Random rand = new Random();
+
+
+        int randomNum = rand.nextInt((max - min) + 1) + min;
+
+        return randomNum;
     }
 }
