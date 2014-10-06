@@ -14,7 +14,7 @@ import com.jfilowk.teamfactory.datasource.entities.Event;
 import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
@@ -74,6 +74,7 @@ public class ListEventsAdapter extends BaseAdapter {
         } else {
             convertView.setBackgroundColor(Color.parseColor("#FFAD33"));
         }
+
         holder.listDayEvent.setText(shortNameDay(eventList.get(position).getCreated_at()));
         holder.listEventMonth.setText(shortNameMonth(eventList.get(position).getCreated_at()));
         holder.listEventNumUsers.setText(String.valueOf(eventList.get(position).getNumUser()));
@@ -100,8 +101,9 @@ public class ListEventsAdapter extends BaseAdapter {
         SimpleDateFormat  format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         int numMonth = 0;
         try {
-            Date dateFromString = format.parse(date);
-             numMonth = dateFromString.getMonth()-1;
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(format.parse(date));
+            numMonth = calendar.get(Calendar.MONTH);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -112,8 +114,9 @@ public class ListEventsAdapter extends BaseAdapter {
         SimpleDateFormat  format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         int numDay = 0;
         try {
-            Date dateFromString = format.parse(date);
-            numDay = dateFromString.getDay()-1;
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(format.parse(date));
+            numDay = calendar.get(Calendar.DAY_OF_MONTH);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -121,11 +124,7 @@ public class ListEventsAdapter extends BaseAdapter {
     }
 
     public static int randInt(int min, int max) {
-
-
         Random rand = new Random();
-
-
         int randomNum = rand.nextInt((max - min) + 1) + min;
 
         return randomNum;
