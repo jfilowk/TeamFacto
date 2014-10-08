@@ -11,5 +11,6 @@ public interface RandomUserDB {
     public long createRandomUser(RandomUser user, long teamId);
     public Cursor getRandomUser (int id);
     public Cursor getAllRandomUser ();
+    public Cursor getUsersTeam (long teamId);
 }
 

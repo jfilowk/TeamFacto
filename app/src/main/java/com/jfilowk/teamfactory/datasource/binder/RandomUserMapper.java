@@ -22,6 +22,7 @@ public class RandomUserMapper {
     private static String KEY_PICTURE = "picture";
     private static String KEY_GENDER = "gender";
     private static String KEY_SEED = "seed";
+    private static String KEY_TEAM = "team_id";
     private static String KEY_CREATED = "created_at";
 
     public RandomUser transformResultToRandomUser(Result result) {
@@ -46,6 +47,7 @@ public class RandomUserMapper {
         int gender = user.getColumnIndex(KEY_GENDER);
         int picture = user.getColumnIndex(KEY_PICTURE);
         int seed = user.getColumnIndex(KEY_SEED);
+        int team_id = user.getColumnIndex(KEY_TEAM);
         int created_at = user.getColumnIndex(KEY_CREATED);
 
         for (user.moveToFirst(); !user.isAfterLast(); user.moveToNext()) {
@@ -56,6 +58,7 @@ public class RandomUserMapper {
             randomUser.setPicture(user.getString(picture));
             randomUser.setGender(user.getString(gender));
             randomUser.setSeed(user.getString(seed));
+            randomUser.setTeam_id(user.getInt(team_id));
             randomUser.setCreated_at(user.getString(created_at));
         }
 

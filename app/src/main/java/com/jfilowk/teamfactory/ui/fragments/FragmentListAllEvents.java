@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.jfilowk.teamfactory.R;
 import com.jfilowk.teamfactory.datasource.EventDataSource;
@@ -31,6 +32,7 @@ import butterknife.InjectView;
 public class FragmentListAllEvents extends Fragment {
 
     private static String KEY_EVENT = "event";
+    private static String KEY_ERROR = "Error";
 
     @InjectView(R.id.listAllEvents)
     ListView listAllEvents;
@@ -80,10 +82,9 @@ public class FragmentListAllEvents extends Fragment {
                         i.putExtra(KEY_EVENT, event);
                         startActivity(i);
                     }
-
                     @Override
                     public void onError() {
-
+                        Toast.makeText(activity.getApplicationContext(), KEY_ERROR, Toast.LENGTH_SHORT).show();
                     }
                 });
             }

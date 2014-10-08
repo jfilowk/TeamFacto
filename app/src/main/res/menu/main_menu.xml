@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".MainMenu" >
     <item android:id="@+id/create_team"
-        android:title="@string/create_team"
+        android:title="@string/create_teams"
         android:orderInCategory="100"
         app:showAsAction="always" />
 </menu>

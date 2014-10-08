@@ -7,7 +7,6 @@ import com.jfilowk.teamfactory.datasource.binder.RandomUserMapper;
 import com.jfilowk.teamfactory.datasource.cache.EventCache;
 import com.jfilowk.teamfactory.datasource.cache.EventCacheImpl;
 import com.jfilowk.teamfactory.datasource.cache.callback.AnEventCacheCallback;
-import com.jfilowk.teamfactory.datasource.cache.callback.EventCacheCallback;
 import com.jfilowk.teamfactory.datasource.cache.callback.EventCallbackBase;
 import com.jfilowk.teamfactory.datasource.callbacks.EventCallback;
 import com.jfilowk.teamfactory.datasource.entities.Event;
@@ -18,12 +17,12 @@ import com.jfilowk.teamfactory.datasource.entities.Team;
 import com.jfilowk.teamfactory.datasource.entities.TeamCollection;
 import com.jfilowk.teamfactory.datasource.jobs.CreateEventJob;
 import com.jfilowk.teamfactory.datasource.jobs.GetEventJob;
+import com.jfilowk.teamfactory.datasource.jobs.GetEventsJob;
 import com.jfilowk.teamfactory.ui.TeamFactoApp;
 import com.path.android.jobqueue.JobManager;
 import com.terro.entities.UserRandomResponse;
 
-import java.util.Calendar;
-import java.util.Date;
+import timber.log.Timber;
 
 /**
  * Created by Javi on 22/09/14.
@@ -51,23 +50,24 @@ public class EventDataSourceImpl implements EventDataSource {
             @Override
             public void onError() {
                 eventCallback.onError();
+                Timber.e("Entro en el CreateEventEventSource");
             }
         }));
     }
 
     @Override
     public void getAllEvents(final EventCallback eventCallback) {
-        this.eventCache.getEvents(new EventCacheCallback() {
+        jobManager.addJobInBackground(new GetEventsJob(eventCache, new EventCallback() {
             @Override
-            public void onSuccess(EventCollection eventCollection) {
-                eventCallback.onSuccess(eventCollection);
+            public void onSuccess(EventCollection collection) {
+                eventCallback.onSuccess(collection);
             }
 
             @Override
             public void onError() {
                 eventCallback.onError();
             }
-        });
+        }));
 
     }
 
@@ -89,28 +89,24 @@ public class EventDataSourceImpl implements EventDataSource {
 
     @Override
     public void showEvent(Event event, final AnEventCacheCallback eventCallback) {
-
-        if(event != null) {
-            eventCallback.onSuccess(event);
-        } else {
+        if (event.getListTeams() == null) {
+            final Event eventReturn = event;
             this.randomUserApi.getRandomUserApi(new RandomUserApiCallback() {
                 @Override
                 public void onSuccess(UserRandomResponse response) {
                     RandomUserMapper mapper = new RandomUserMapper();
                     RandomUserCollection responseCollection = mapper.transformResultToRandomUserCollection(response);
 
-                    //Create teams.
-                    Event event = new Event();
-                    int numUsers = 8; // 4 users each team
-                    int numTeams = 2; // 2 teams
                     int x = 0;
+
                     TeamCollection teamCollection = new TeamCollection();
-                    for (int i = 0; i < numTeams; i++) {
+                    for (int i = 0; i < eventReturn.getNumTeams(); i++) {
                         Team team = new Team();
                         team.setId(i);
-                        team.setName("Team " + (char) ('A' + i));
+                        team.setName("Team " + (char) ('A' + i)); //TODO: You are the fucking boss for this code!! Rocks!
                         RandomUserCollection userCollection = new RandomUserCollection();
-                        for (int j = 0; j < numUsers / numTeams; j++) {
+                        int numberOfPlayers = eventReturn.getNumUser() / eventReturn.getNumTeams();
+                        for (int j = 0; j < numberOfPlayers; j++) {
                             System.out.println(x);
                             RandomUser userTemp = responseCollection.get(x);
                             userCollection.add(userTemp);
@@ -119,24 +115,18 @@ public class EventDataSourceImpl implements EventDataSource {
                         team.setUserCollection(userCollection);
                         teamCollection.add(team);
                     }
-                    event.setType("Sport");
-                    event.setListTeams(teamCollection);
-                    Calendar rightNow = Calendar.getInstance();
-                    Date date = Calendar.getInstance().getTime();
-                    event.setCreated_at(date.toString());
-                    event.setId(1);
-
-                    eventCallback.onSuccess(event);
+                    eventReturn.setListTeams(teamCollection);
+                    eventCallback.onSuccess(eventReturn);
                 }
 
                 @Override
                 public void onError() {
-
+                    eventCallback.onError();
                 }
             });
+
+        } else {
+            eventCallback.onSuccess(event);
         }
-
-
-
     }
 }

@@ -13,19 +13,21 @@ public class RandomUser implements Serializable {
     String gender;
     String picture;
     String seed;
+    int team_id;
     String created_at;
 
     public RandomUser() {
 
     }
 
-    public RandomUser(String firstName, int id, String lastName, String gender, String picture, String seed, String created_at) {
-        this.firstName = firstName;
+    public RandomUser(int id, String firstName, String lastName, String gender, String picture, String seed, int team_id, String created_at) {
         this.id = id;
+        this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
         this.picture = picture;
         this.seed = seed;
+        this.team_id = team_id;
         this.created_at = created_at;
     }
 
@@ -75,6 +77,14 @@ public class RandomUser implements Serializable {
 
     public void setSeed(String seed) {
         this.seed = seed;
+    }
+
+    public int getTeam_id() {
+        return team_id;
+    }
+
+    public void setTeam_id(int team_id) {
+        this.team_id = team_id;
     }
 
     public String getCreated_at() {

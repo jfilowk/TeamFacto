@@ -1,8 +1,5 @@
 package com.jfilowk.teamfactory.ui.presenter;
 
-import android.util.Log;
-
-import com.jfilowk.teamfactory.BuildConfig;
 import com.jfilowk.teamfactory.datasource.EventDataSource;
 import com.jfilowk.teamfactory.datasource.EventDataSourceImpl;
 import com.jfilowk.teamfactory.datasource.cache.callback.EventCallbackBase;
@@ -21,6 +18,7 @@ public class FragmentGenerateTeamPresenterImpl implements FragmentGenerateTeamPr
         this.view = view;
         this.eventDataSource = new EventDataSourceImpl();
     }
+
 
     @Override
     public void onResume() {
@@ -42,12 +40,12 @@ public class FragmentGenerateTeamPresenterImpl implements FragmentGenerateTeamPr
         eventDataSource.createEvent(event, new EventCallbackBase() {
             @Override
             public void onSuccess() {
-             if (BuildConfig.DEBUG) Log.d("Team", "Hi team!");
+
             }
 
             @Override
             public void onError() {
-
+                view.initFragmentError();
             }
         });
     }

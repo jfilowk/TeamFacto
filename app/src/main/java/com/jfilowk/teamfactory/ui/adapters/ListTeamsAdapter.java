@@ -1,6 +1,7 @@
 package com.jfilowk.teamfactory.ui.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +16,12 @@ import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.text.WordUtils;
 
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import timber.log.Timber;
 
 /**
  * Created by Javi on 28/09/14.
@@ -31,10 +34,14 @@ public class ListTeamsAdapter extends BaseAdapter {
 
     private List<Object> teams;
     private Context context;
+    private HashMap<String, String> colorsTeam;
+    private int color = 1;
+    private String[] colors = {"#FFFFFF" ,"#66E066", "#33B5E5", "#FFBB33", "#AA66CC", "#33B5E5"};
 
     public ListTeamsAdapter(Context context, List<Object> teams) {
         this.context = context;
         this.teams = teams;
+        this.colorsTeam = new HashMap<String, String>();
     }
 
     @Override
@@ -85,6 +92,17 @@ public class ListTeamsAdapter extends BaseAdapter {
                     sectionHolder = (SectionViewHolder) convertView.getTag();
                 }
                 Team team = (Team) teams.get(position);
+                if (colorsTeam.keySet().isEmpty()) {
+                    this.colorsTeam.put(String.valueOf(team.getId()), colors[color]);
+                    color++;
+                } else {
+                    if (!checkIdTeam(team)) {
+                        this.colorsTeam.put(String.valueOf(team.getId()), colors[color]);
+                        color++;
+                    }
+                }
+
+                convertView.setBackgroundColor(Color.parseColor(colorsTeam.get(String.valueOf(team.getId()))));
                 sectionHolder.teamName.setText(team.getName());
                 break;
             case ITEM_VIEW_TYPE_USER:
@@ -96,17 +114,36 @@ public class ListTeamsAdapter extends BaseAdapter {
                     itemHolder = (ItemViewHolder) convertView.getTag();
                 }
                 RandomUser user = (RandomUser) teams.get(position);
+                String colorString = "";
+                if(user.getTeam_id() == 0){
+                    colorString = "#FFFFFF";
+                    itemHolder.firstNameUser.setTextColor(Color.BLACK);
+                    itemHolder.lastNameUser.setTextColor(Color.BLACK);
+                }else{
+                   colorString = colorsTeam.get(String.valueOf(user.getTeam_id()));
+                }
+                convertView.setBackgroundColor(Color.parseColor(colorString));
                 itemHolder.firstNameUser.setText(WordUtils.capitalizeFully(user.getFirstName()));
                 itemHolder.lastNameUser.setText(WordUtils.capitalizeFully(user.getLastName()));
                 Picasso.with(context).load(user.getPicture()).into(itemHolder.imageUser);
                 break;
         }
-
         return convertView;
     }
 
-    static class ItemViewHolder {
+    private boolean checkIdTeam(Team team) {
+        int i = 0;
+        for (String key : colorsTeam.keySet()) {
+            if (String.valueOf(team.getId()).equals(key)) {
+                i++;
+            }
+        }
+        Timber.e("Valor de la I" + i);
+        return i >= 1;
 
+    }
+
+    static class ItemViewHolder {
         @InjectView(R.id.textFirstNameUserItem)
         TextView firstNameUser;
         @InjectView(R.id.textLastNameUserItem)
@@ -127,6 +164,5 @@ public class ListTeamsAdapter extends BaseAdapter {
 
             ButterKnife.inject(this, view);
         }
-
     }
 }

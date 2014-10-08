@@ -6,5 +6,6 @@
     <string name="action_settings">Settings</string>
     <string name="create_team">Create Team</string>
     <string name="accept_event">Accept Event</string>
+    <string name="create_teams">Create Teams</string>
 
 </resources>

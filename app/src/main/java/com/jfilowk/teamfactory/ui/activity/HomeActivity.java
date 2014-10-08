@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import com.jfilowk.teamfactory.R;
 import com.jfilowk.teamfactory.datasource.entities.EventCollection;
 import com.jfilowk.teamfactory.ui.fragments.DialogSelectTeam;
+import com.jfilowk.teamfactory.ui.fragments.FragmentError;
 import com.jfilowk.teamfactory.ui.fragments.FragmentInitProgress;
 import com.jfilowk.teamfactory.ui.fragments.FragmentListAllEvents;
 import com.jfilowk.teamfactory.ui.presenter.HomeActivityPresenter;
@@ -18,10 +19,13 @@ public class HomeActivity extends ActionBarActivity implements HomeActivityView 
 
     private HomeActivityPresenter presenter;
 
+    private static String FRAGMENT_SELECT_TEAM = "fragment_select_team";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
+
         init();
 
     }
@@ -34,19 +38,16 @@ public class HomeActivity extends ActionBarActivity implements HomeActivityView 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
         if (id == R.id.create_team) {
-            // Mostrar la creación del equipo.
+
             presenter.selectTeam();
             return true;
         }
@@ -78,10 +79,14 @@ public class HomeActivity extends ActionBarActivity implements HomeActivityView 
 
     private void showSelectTeamFragment(){
 
-        DialogSelectTeam dialogSelectTeam = new DialogSelectTeam();
-        dialogSelectTeam.show(getSupportFragmentManager(), "fragment_select_team");
+        DialogSelectTeam dialogSelectTeam = DialogSelectTeam.newInstance();
+        dialogSelectTeam.show(getSupportFragmentManager(), FRAGMENT_SELECT_TEAM);
 
     }
 
-
+    @Override
+    public void initErrorFragment() {
+        FragmentError fragmentError = FragmentError.newInstance();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragmentError).commit();
+    }
 }
