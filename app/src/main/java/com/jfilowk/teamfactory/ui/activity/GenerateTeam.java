@@ -2,9 +2,11 @@ package com.jfilowk.teamfactory.ui.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.widget.Toast;
 
 import com.jfilowk.teamfactory.R;
 import com.jfilowk.teamfactory.datasource.entities.Event;
+import com.jfilowk.teamfactory.ui.fragments.FragmentError;
 import com.jfilowk.teamfactory.ui.fragments.FragmentGenerateTeam;
 import com.jfilowk.teamfactory.ui.fragments.FragmentInitProgress;
 import com.jfilowk.teamfactory.ui.presenter.GenerateTeamPresenter;
@@ -27,29 +29,10 @@ public class GenerateTeam extends ActionBarActivity implements GenerateTeamView 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_generate_team);
-       this.event = (Event) getIntent().getSerializableExtra(KEY_EVENT);
         init();
         presenter.onResume(this.event);
 
     }
-
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.generate_team_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.create_team) {
-            // Mostrar la creación del equipo.
-            Toast.makeText(this, "Holita111", Toast.LENGTH_SHORT).show();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }*/
 
     @Override
     public void initProgressFragment() {
@@ -65,10 +48,14 @@ public class GenerateTeam extends ActionBarActivity implements GenerateTeamView 
 
     @Override
     public void initErrorFragment() {
+        FragmentError fragmentError = FragmentError.newInstance();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_generate, fragmentError).commit();
+        Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
 
     }
 
     public void init() {
+        this.event = (Event) getIntent().getSerializableExtra(KEY_EVENT);
         presenter = new GenerateTeamPresenterImpl(this);
         ButterKnife.inject(this);
     }

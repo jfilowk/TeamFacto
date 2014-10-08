@@ -1,7 +1,6 @@
 package com.jfilowk.teamfactory.ui.adapters;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Random;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -25,6 +23,10 @@ import butterknife.InjectView;
  * Created by Javi on 01/10/14.
  */
 public class ListEventsAdapter extends BaseAdapter {
+
+    private static final String KEY_SCHOOL = "School";
+    private static final String KEY_BUSINESS = "Business";
+    private static final String KEY_SPORT = "Sport";
 
     private List<Event> eventList;
     private Context context;
@@ -65,14 +67,14 @@ public class ListEventsAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        int randomColor = randInt(1, 3);
-
-        if(randomColor == 1) {
-            convertView.setBackgroundColor(Color.parseColor("#66E066"));
-        } else if (randomColor == 2){
-            convertView.setBackgroundColor(Color.parseColor("#FF4747"));
+        if (eventList.get(position).getType().equals(KEY_SCHOOL)) {
+            convertView.setBackgroundColor(context.getResources().getColor(R.color.orange));
+        } else if (eventList.get(position).getType().equals(KEY_BUSINESS)) {
+            convertView.setBackgroundColor(context.getResources().getColor(R.color.red));
+        } else if (eventList.get(position).getType().equals(KEY_SPORT)) {
+            convertView.setBackgroundColor(context.getResources().getColor(R.color.green));
         } else {
-            convertView.setBackgroundColor(Color.parseColor("#FFAD33"));
+
         }
 
         holder.listDayEvent.setText(shortNameDay(eventList.get(position).getCreated_at()));
@@ -88,17 +90,19 @@ public class ListEventsAdapter extends BaseAdapter {
         TextView listDayEvent;
         @InjectView(R.id.textNumUsers)
         TextView listEventNumUsers;
-        @InjectView(R.id.textMonthEvent) TextView listEventMonth;
-        @InjectView(R.id.textTeamsEvent) TextView listEventTeam;
+        @InjectView(R.id.textMonthEvent)
+        TextView listEventMonth;
+        @InjectView(R.id.textTeamsEvent)
+        TextView listEventTeam;
 
         public ViewHolder(View view) {
             ButterKnife.inject(this, view);
         }
     }
 
-    private String shortNameMonth (String date) {
-        String months [] = new DateFormatSymbols().getShortMonths();
-        SimpleDateFormat  format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private String shortNameMonth(String date) {
+        String months[] = new DateFormatSymbols().getShortMonths();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         int numMonth = 0;
         try {
             Calendar calendar = Calendar.getInstance();
@@ -110,8 +114,8 @@ public class ListEventsAdapter extends BaseAdapter {
         return months[numMonth];
     }
 
-    private String shortNameDay (String date) {
-        SimpleDateFormat  format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private String shortNameDay(String date) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         int numDay = 0;
         try {
             Calendar calendar = Calendar.getInstance();
@@ -121,12 +125,5 @@ public class ListEventsAdapter extends BaseAdapter {
             e.printStackTrace();
         }
         return String.valueOf(numDay);
-    }
-
-    public static int randInt(int min, int max) {
-        Random rand = new Random();
-        int randomNum = rand.nextInt((max - min) + 1) + min;
-
-        return randomNum;
     }
 }

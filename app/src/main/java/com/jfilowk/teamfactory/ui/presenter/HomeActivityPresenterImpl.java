@@ -7,7 +7,7 @@ import com.jfilowk.teamfactory.datasource.entities.EventCollection;
 import com.jfilowk.teamfactory.ui.views.HomeActivityView;
 
 /**
- * Created by Jose Luis on 19/09/14.
+ * Created by Javi on 19/09/14.
  */
 public class HomeActivityPresenterImpl implements HomeActivityPresenter {
 
@@ -31,7 +31,7 @@ public class HomeActivityPresenterImpl implements HomeActivityPresenter {
 
             @Override
             public void onError() {
-
+            view.initErrorFragment();
             }
         });
 
@@ -41,4 +41,6 @@ public class HomeActivityPresenterImpl implements HomeActivityPresenter {
     public void selectTeam() {
         this.view.initSelectTeamFragment();
     }
+
+
 }

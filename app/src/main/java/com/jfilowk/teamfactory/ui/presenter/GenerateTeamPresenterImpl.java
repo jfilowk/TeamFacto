@@ -19,7 +19,6 @@ public class GenerateTeamPresenterImpl implements GenerateTeamPresenter {
         eventDataSource = new EventDataSourceImpl();
     }
 
-    //TODO: Falta hacer que checkea las necesidades del event.
     @Override
     public void onResume(Event event) {
         this.view.initProgressFragment();
@@ -31,7 +30,7 @@ public class GenerateTeamPresenterImpl implements GenerateTeamPresenter {
 
             @Override
             public void onError() {
-
+                view.initErrorFragment();
             }
         });
     }

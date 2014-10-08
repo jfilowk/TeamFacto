@@ -139,13 +139,11 @@ public class ListTeamsAdapter extends BaseAdapter {
             }
         }
         Timber.e("Valor de la I" + i);
-        if (i >= 1) return true;
-        else return false;
+        return i >= 1;
 
     }
 
     static class ItemViewHolder {
-
         @InjectView(R.id.textFirstNameUserItem)
         TextView firstNameUser;
         @InjectView(R.id.textLastNameUserItem)
@@ -166,6 +164,5 @@ public class ListTeamsAdapter extends BaseAdapter {
 
             ButterKnife.inject(this, view);
         }
-
     }
 }

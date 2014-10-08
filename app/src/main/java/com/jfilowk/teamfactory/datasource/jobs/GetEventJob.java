@@ -18,7 +18,7 @@ public class GetEventJob extends Job {
     private EventCache cache;
 
     public GetEventJob(Event event, EventCache cache, AnEventCacheCallback listener) {
-        super(new Params(Priority.MID).requireNetwork());
+        super(new Params(Priority.MID));
         this.event = event;
         this.listener = listener;
         this.cache = cache;
@@ -44,7 +44,6 @@ public class GetEventJob extends Job {
                 listener.onError();
             }
         });
-
     }
 
     @Override

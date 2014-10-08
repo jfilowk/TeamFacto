@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.jfilowk.teamfactory.R;
 import com.jfilowk.teamfactory.datasource.entities.Event;
@@ -107,5 +108,10 @@ public class FragmentGenerateTeam extends Fragment implements FragmentGenerateTe
         ListTeamsAdapter adapter = new ListTeamsAdapter(activity.getApplicationContext(), objectList);
         listViewTeams.setAdapter(adapter);
 
+    }
+
+    @Override
+    public void initFragmentError() {
+        Toast.makeText(activity.getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
     }
 }

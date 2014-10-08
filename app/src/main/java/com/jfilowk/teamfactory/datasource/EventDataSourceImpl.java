@@ -7,7 +7,6 @@ import com.jfilowk.teamfactory.datasource.binder.RandomUserMapper;
 import com.jfilowk.teamfactory.datasource.cache.EventCache;
 import com.jfilowk.teamfactory.datasource.cache.EventCacheImpl;
 import com.jfilowk.teamfactory.datasource.cache.callback.AnEventCacheCallback;
-import com.jfilowk.teamfactory.datasource.cache.callback.EventCacheCallback;
 import com.jfilowk.teamfactory.datasource.cache.callback.EventCallbackBase;
 import com.jfilowk.teamfactory.datasource.callbacks.EventCallback;
 import com.jfilowk.teamfactory.datasource.entities.Event;
@@ -18,9 +17,12 @@ import com.jfilowk.teamfactory.datasource.entities.Team;
 import com.jfilowk.teamfactory.datasource.entities.TeamCollection;
 import com.jfilowk.teamfactory.datasource.jobs.CreateEventJob;
 import com.jfilowk.teamfactory.datasource.jobs.GetEventJob;
+import com.jfilowk.teamfactory.datasource.jobs.GetEventsJob;
 import com.jfilowk.teamfactory.ui.TeamFactoApp;
 import com.path.android.jobqueue.JobManager;
 import com.terro.entities.UserRandomResponse;
+
+import timber.log.Timber;
 
 /**
  * Created by Javi on 22/09/14.
@@ -48,23 +50,24 @@ public class EventDataSourceImpl implements EventDataSource {
             @Override
             public void onError() {
                 eventCallback.onError();
+                Timber.e("Entro en el CreateEventEventSource");
             }
         }));
     }
 
     @Override
     public void getAllEvents(final EventCallback eventCallback) {
-        this.eventCache.getEvents(new EventCacheCallback() {
+        jobManager.addJobInBackground(new GetEventsJob(eventCache, new EventCallback() {
             @Override
-            public void onSuccess(EventCollection eventCollection) {
-                eventCallback.onSuccess(eventCollection);
+            public void onSuccess(EventCollection collection) {
+                eventCallback.onSuccess(collection);
             }
 
             @Override
             public void onError() {
                 eventCallback.onError();
             }
-        });
+        }));
 
     }
 
@@ -86,7 +89,7 @@ public class EventDataSourceImpl implements EventDataSource {
 
     @Override
     public void showEvent(Event event, final AnEventCacheCallback eventCallback) {
-        if  (event.getListTeams() == null){
+        if (event.getListTeams() == null) {
             final Event eventReturn = event;
             this.randomUserApi.getRandomUserApi(new RandomUserApiCallback() {
                 @Override
@@ -118,11 +121,11 @@ public class EventDataSourceImpl implements EventDataSource {
 
                 @Override
                 public void onError() {
-
+                    eventCallback.onError();
                 }
             });
 
-        } else{
+        } else {
             eventCallback.onSuccess(event);
         }
     }

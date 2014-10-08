@@ -7,4 +7,5 @@ import com.jfilowk.teamfactory.datasource.entities.Event;
  */
 public interface FragmentGenerateTeamView {
     public void initListView(Event event);
+    public void initFragmentError();
 }

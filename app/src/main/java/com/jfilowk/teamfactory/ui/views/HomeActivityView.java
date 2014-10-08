@@ -11,4 +11,6 @@ public interface HomeActivityView {
     public void initMainFragment(EventCollection eventCollection);
 
     public void initSelectTeamFragment();
+
+    public void initErrorFragment();
 }

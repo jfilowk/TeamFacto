@@ -28,34 +28,34 @@ import java.util.Arrays;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import timber.log.Timber;
 
 /**
  * Created by Javi on 21/09/14.
  */
 public class DialogSelectTeam extends DialogFragment {
 
+    private static final String KEY_OK_CAPS = "OK";
+    private static final String KEY_CANCEL = "Cancel";
+    private static final String KEY_EVENT = "event";
 
-    @InjectView(R.id.rgTypeEvent)    RadioGroup rgTypeEvent;
-    @InjectView(R.id.npUsers)
-    NumberPicker npUsers;
-    @InjectView(R.id.npTeams) NumberPicker npTeams;
-    String[] nameType;
+
+    @InjectView(R.id.rgTypeEvent)   RadioGroup rgTypeEvent;
+    @InjectView(R.id.npUsers)   NumberPicker npUsers;
+    @InjectView(R.id.npTeams)   NumberPicker npTeams;
     RadioButton selected;
 
-
     private Activity mActivity;
-
     String typeEvent;
+    String[] nameType;
+
+    public DialogSelectTeam() {
+
+    }
 
     public static DialogSelectTeam newInstance (){
         DialogSelectTeam dialog = new DialogSelectTeam();
         dialog.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
         return dialog;
-    }
-
-    public DialogSelectTeam() {
-
     }
 
     @Override
@@ -68,7 +68,7 @@ public class DialogSelectTeam extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder b=  new  AlertDialog.Builder(getActivity())
-                .setPositiveButton("OK",
+                .setPositiveButton(KEY_OK_CAPS,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 Event event = new Event();
@@ -76,12 +76,12 @@ public class DialogSelectTeam extends DialogFragment {
                                 event.setNumUser(npUsers.getValue());
                                 event.setNumTeams(npTeams.getValue());
                                 Intent i = new Intent(mActivity.getApplicationContext(), GenerateTeam.class);
-                                i.putExtra("event", event);
+                                i.putExtra(KEY_EVENT, event);
                                 startActivity(i);
                                 getDialog().dismiss();                            }
                         }
                 )
-                .setNegativeButton("Cancel",
+                .setNegativeButton(KEY_CANCEL,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 dialog.dismiss();
@@ -94,26 +94,21 @@ public class DialogSelectTeam extends DialogFragment {
         ButterKnife.inject(this, root);
         selected = (RadioButton) rgTypeEvent.findViewById(R.id.rbSport);
         rgTypeEvent.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.rbSport:
                         selected = (RadioButton) rgTypeEvent.findViewById(R.id.rbSport);
                         typeEvent = selected.getText().toString();
-                        Timber.d(typeEvent);
                         break;
                     case R.id.rbSchool:
                         selected = (RadioButton) rgTypeEvent.findViewById(R.id.rbSchool);
                         typeEvent = selected.getText().toString();
-                        Timber.d(typeEvent);
 
                         break;
                     case R.id.rbBusiness:
                         selected = (RadioButton) rgTypeEvent.findViewById(R.id.rbBusiness);
                         typeEvent = selected.getText().toString();
-                        Timber.d(typeEvent);
-
                         break;
                 }
             }
