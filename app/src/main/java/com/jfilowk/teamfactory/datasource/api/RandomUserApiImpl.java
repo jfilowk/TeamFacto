@@ -11,7 +11,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
- * Created by Jose Luis on 19/09/14.
+ * Created by Javi on 19/09/14.
  */
 public class RandomUserApiImpl implements RandomUserApi {
 
@@ -25,8 +25,8 @@ public class RandomUserApiImpl implements RandomUserApi {
     }
 
     @Override
-    public void getRandomUserApi(final RandomUserApiCallback callback) {
-        userAsync.listUserAsync(40, new Callback<UserRandomResponse>() {
+    public void getRandomUserApi(int numUsers, final RandomUserApiCallback callback) {
+        userAsync.listUserAsync(numUsers, new Callback<UserRandomResponse>() {
             @Override
             public void success(UserRandomResponse userRandomResponse, Response response) {
                 callback.onSuccess(userRandomResponse);
@@ -37,7 +37,21 @@ public class RandomUserApiImpl implements RandomUserApi {
                 callback.onError();
             }
         });
+    }
 
+    @Override
+    public void getRandomUserApiUser(final RandomUserApiCallback callback) {
+        userAsync.listUserAsync(20, new Callback<UserRandomResponse>() {
+            @Override
+            public void success(UserRandomResponse userRandomResponse, Response response) {
+                callback.onSuccess(userRandomResponse);
+            }
 
-  }
+            @Override
+            public void failure(RetrofitError error) {
+                callback.onError();
+            }
+        });
+    }
+
 }

@@ -50,7 +50,8 @@ public class GenerateTeam extends ActionBarActivity implements GenerateTeamView 
     public void initErrorFragment() {
         FragmentError fragmentError = FragmentError.newInstance();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_generate, fragmentError).commit();
-        Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Error, check your Internet connection", Toast.LENGTH_SHORT).show();
+        finish();
 
     }
 

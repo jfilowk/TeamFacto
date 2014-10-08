@@ -23,7 +23,7 @@
             android:checked="true"
             android:gravity="center"
             android:padding="5dp"
-            android:text="Sport" />
+            android:text="@string/sport" />
 
         <RadioButton
             android:id="@+id/rbSchool"
@@ -33,7 +33,7 @@
             android:button="@null"
             android:gravity="center"
             android:padding="5dp"
-            android:text="School" />
+            android:text="@string/school" />
 
         <RadioButton
             android:id="@+id/rbBusiness"
@@ -43,7 +43,7 @@
             android:button="@null"
             android:gravity="center"
             android:padding="5dp"
-            android:text="Business" />
+            android:text="@string/business" />
 
     </RadioGroup>
 
@@ -77,7 +77,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Users"
+        android:text="@string/users"
         android:id="@+id/textView"
         android:layout_toStartOf="@+id/npTeams"
         android:gravity="center"
@@ -91,7 +91,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Teams"
+        android:text="@string/teams"
         android:id="@+id/textView2"
         android:layout_below="@+id/npTeams"
         android:layout_alignLeft="@+id/npTeams"

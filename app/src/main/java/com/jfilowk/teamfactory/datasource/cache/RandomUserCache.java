@@ -4,7 +4,7 @@ import com.jfilowk.teamfactory.datasource.cache.callback.RandomUserCacheCallback
 import com.jfilowk.teamfactory.datasource.entities.RandomUser;
 
 /**
- * Created by Jose Luis on 19/09/14.
+ * Created by Javi on 19/09/14.
  */
 public interface RandomUserCache {
   public boolean createUser (RandomUser user, long idTeam);

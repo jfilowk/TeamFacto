@@ -3,7 +3,7 @@ package com.jfilowk.teamfactory.datasource.callbacks;
 import com.jfilowk.teamfactory.datasource.entities.RandomUserCollection;
 
 /**
- * Created by Jose Luis on 19/09/14.
+ * Created by Javi on 19/09/14.
  */
 public interface RandomUserCallback {
   public void onSuccess (RandomUserCollection collection);

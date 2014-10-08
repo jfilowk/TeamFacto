@@ -5,7 +5,7 @@ import com.jfilowk.teamfactory.datasource.callbacks.RandomUserCallback;
 import com.jfilowk.teamfactory.datasource.entities.RandomUser;
 
 /**
- * Created by Jose Luis on 19/09/14.
+ * Created by Javi on 19/09/14.
  */
 public interface RandomUserDataSource {
     public void createRandomUser(RandomUser user,RandomUserCallbackBase callback);

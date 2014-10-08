@@ -91,7 +91,7 @@ public class EventDataSourceImpl implements EventDataSource {
     public void showEvent(Event event, final AnEventCacheCallback eventCallback) {
         if (event.getListTeams() == null) {
             final Event eventReturn = event;
-            this.randomUserApi.getRandomUserApi(new RandomUserApiCallback() {
+            this.randomUserApi.getRandomUserApi(event.getNumUser(), new RandomUserApiCallback() {
                 @Override
                 public void onSuccess(UserRandomResponse response) {
                     RandomUserMapper mapper = new RandomUserMapper();
@@ -103,7 +103,7 @@ public class EventDataSourceImpl implements EventDataSource {
                     for (int i = 0; i < eventReturn.getNumTeams(); i++) {
                         Team team = new Team();
                         team.setId(i);
-                        team.setName("Team " + (char) ('A' + i)); //TODO: You are the fucking boss for this code!! Rocks!
+                        team.setName("Team " + (char) ('A' + i));
                         RandomUserCollection userCollection = new RandomUserCollection();
                         int numberOfPlayers = eventReturn.getNumUser() / eventReturn.getNumTeams();
                         for (int j = 0; j < numberOfPlayers; j++) {

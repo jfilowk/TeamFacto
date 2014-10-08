@@ -11,7 +11,7 @@ import com.path.android.jobqueue.log.CustomLogger;
 import timber.log.Timber;
 
 /**
- * Created by Jose Luis on 19/09/14.
+ * Created by Javi on 19/09/14.
  */
 public class TeamFactoApp extends Application {
 

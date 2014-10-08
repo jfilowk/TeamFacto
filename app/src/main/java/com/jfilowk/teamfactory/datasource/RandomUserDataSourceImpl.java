@@ -13,7 +13,7 @@ import com.jfilowk.teamfactory.datasource.entities.RandomUserCollection;
 import com.terro.entities.UserRandomResponse;
 
 /**
- * Created by Jose Luis on 19/09/14.
+ * Created by Javi on 19/09/14.
  */
 public class RandomUserDataSourceImpl implements RandomUserDataSource {
 
@@ -40,20 +40,7 @@ public class RandomUserDataSourceImpl implements RandomUserDataSource {
     @Override
     public void getRandomUser(final RandomUserCallback callback) {
 
-        /*this.cache.getRandomUserCache(new RandomUserCacheCallback() {
-            @Override
-            public void onSuccess(List<RandomUser> response) {
-                RandomUserCollection collection = mapper.transformCacheToRandomUserCollection(response);
-                callback.onSuccess(collection);
-            }
-
-            @Override
-            public void onError() {
-
-            }
-        });*/
-
-        this.api.getRandomUserApi(new RandomUserApiCallback() {
+        this.api.getRandomUserApiUser(new RandomUserApiCallback() {
             @Override
             public void onSuccess(UserRandomResponse response) {
                 RandomUserCollection collection = mapper.transformResultToRandomUserCollection(response);

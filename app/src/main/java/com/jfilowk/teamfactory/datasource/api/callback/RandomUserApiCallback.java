@@ -3,7 +3,7 @@ package com.jfilowk.teamfactory.datasource.api.callback;
 import com.terro.entities.UserRandomResponse;
 
 /**
- * Created by Jose Luis on 19/09/14.
+ * Created by Javi on 19/09/14.
  */
 public interface RandomUserApiCallback {
     public void onSuccess(UserRandomResponse response);

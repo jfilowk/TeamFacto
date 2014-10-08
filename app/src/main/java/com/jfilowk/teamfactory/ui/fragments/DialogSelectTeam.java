@@ -18,14 +18,6 @@ import com.jfilowk.teamfactory.R;
 import com.jfilowk.teamfactory.datasource.entities.Event;
 import com.jfilowk.teamfactory.ui.activity.GenerateTeam;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Arrays;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -121,40 +113,4 @@ public class DialogSelectTeam extends DialogFragment {
         b.setView(root);
         return b.create();
     }
-
-    public String getNameTypeString() {
-        String json = null;
-        try {
-
-            InputStream is = mActivity.getAssets().open("gridTypes.json");
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, "UTF-8");
-
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-        return json;
-    }
-
-    public void createStringArrayTypes() {
-        String json = getNameTypeString();
-        try {
-            JSONObject jsonObject = new JSONObject(json);
-            JSONArray types = jsonObject.getJSONArray("types");
-            nameType = new String[types.length()];
-            for (int i = 0; i < types.length(); i++) {
-                JSONObject object = types.getJSONObject(i);
-                nameType[i] = object.getString("name");
-            }
-            System.out.println(Arrays.toString(nameType));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-    }
-
 }

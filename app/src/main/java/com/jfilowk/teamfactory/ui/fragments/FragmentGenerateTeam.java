@@ -62,14 +62,21 @@ public class FragmentGenerateTeam extends Fragment implements FragmentGenerateTe
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        event = new Event();
+        this.event = new Event();
         presenter = new FragmentGenerateTeamPresenterImpl(this);
         setHasOptionsMenu(true);
+
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.generate_team_menu, menu);
+        if (!event.getListTeams().getCollection().isEmpty()) inflater.inflate(R.menu.generate_team_menu, menu);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem save = menu.findItem(R.id.accept_event);
+        if (event.getListTeams().getCollection().get(0).getId() != 0)  save.setVisible(false);
     }
 
     @Override
@@ -77,6 +84,7 @@ public class FragmentGenerateTeam extends Fragment implements FragmentGenerateTe
         int id = item.getItemId();
         if (id == R.id.accept_event) {
             presenter.createEvent(event);
+            activity.finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -112,6 +120,7 @@ public class FragmentGenerateTeam extends Fragment implements FragmentGenerateTe
 
     @Override
     public void initFragmentError() {
-        Toast.makeText(activity.getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
+        Toast.makeText(activity.getApplicationContext(), "Error, Check your connection", Toast.LENGTH_SHORT).show();
+        getActivity().finish();
     }
 }
