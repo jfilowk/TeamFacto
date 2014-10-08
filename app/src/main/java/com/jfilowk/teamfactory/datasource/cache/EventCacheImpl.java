@@ -29,9 +29,7 @@ import timber.log.Timber;
  */
 public class EventCacheImpl implements EventCache {
 
-    private static String KEY_ID_USER = "id_user";
     private static String KEY_ID_TEAM = "id_team";
-    private static String KEY_ID_TEAM_USER = "team_id";
 
     private EventDB eventDB;
     private TeamDB teamDB;

@@ -86,6 +86,9 @@ public class FragmentGenerateTeam extends Fragment implements FragmentGenerateTe
             presenter.createEvent(event);
             activity.finish();
             return true;
+        } else if (id == android.R.id.home){
+            activity.onBackPressed();
+            return true;
         }
         return super.onOptionsItemSelected(item);
 

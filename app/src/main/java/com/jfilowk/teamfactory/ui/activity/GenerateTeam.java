@@ -59,5 +59,6 @@ public class GenerateTeam extends ActionBarActivity implements GenerateTeamView 
         this.event = (Event) getIntent().getSerializableExtra(KEY_EVENT);
         presenter = new GenerateTeamPresenterImpl(this);
         ButterKnife.inject(this);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 }
