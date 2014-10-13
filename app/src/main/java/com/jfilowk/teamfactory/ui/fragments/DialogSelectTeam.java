@@ -39,6 +39,7 @@ public class DialogSelectTeam extends DialogFragment {
     private Activity mActivity;
     String typeEvent;
     String[] nameType;
+    int numTeams = 2;
 
     public DialogSelectTeam() {
 
@@ -59,7 +60,7 @@ public class DialogSelectTeam extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder b=  new  AlertDialog.Builder(getActivity())
+        AlertDialog.Builder b =  new  AlertDialog.Builder(getActivity())
                 .setPositiveButton(KEY_OK_CAPS,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
@@ -106,9 +107,26 @@ public class DialogSelectTeam extends DialogFragment {
             }
         });
 
+        npTeams.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                numTeams = picker.getValue();
+                npUsers.setMinValue(numTeams*2);
+            }
+        });
+
+        npUsers.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                picker.setMinValue(numTeams*2);
+            }
+        });
+
+        npUsers.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        npTeams.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         npUsers.setMaxValue(40);
-        npUsers.setMinValue(2);
-        npTeams.setMaxValue(20);
+        npUsers.setMinValue(4);
+        npTeams.setMaxValue(5);
         npTeams.setMinValue(2);
         b.setView(root);
         return b.create();

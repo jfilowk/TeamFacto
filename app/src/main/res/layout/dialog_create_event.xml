@@ -81,24 +81,21 @@
         android:id="@+id/textView"
         android:layout_toStartOf="@+id/npTeams"
         android:gravity="center"
-        android:layout_alignBottom="@+id/textView2"
-        android:layout_alignLeft="@+id/npUsers"
-        android:layout_alignStart="@+id/npUsers"
         android:layout_alignTop="@+id/textView2"
         android:layout_alignRight="@+id/npUsers"
-        android:layout_alignEnd="@+id/npUsers" />
+        android:layout_alignEnd="@+id/npUsers"
+        android:layout_marginRight="90dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/teams"
         android:id="@+id/textView2"
-        android:layout_below="@+id/npTeams"
-        android:layout_alignLeft="@+id/npTeams"
-        android:layout_alignStart="@+id/npTeams"
         android:gravity="center"
-        android:layout_alignRight="@+id/npTeams"
-        android:layout_alignEnd="@+id/npTeams"
-        android:layout_marginTop="-15dp" />
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="41dp"
+        android:layout_below="@+id/rgTypeEvent"
+        android:layout_alignRight="@+id/rgTypeEvent"
+        android:layout_alignEnd="@+id/rgTypeEvent" />
 
 </RelativeLayout>
