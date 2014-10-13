@@ -55,4 +55,9 @@ public class TeamDBImpl extends DatabaseHelper implements TeamDB {
 
         return values;
     }
+
+    @Override
+    public void closeDB() {
+        this.close();
+    }
 }

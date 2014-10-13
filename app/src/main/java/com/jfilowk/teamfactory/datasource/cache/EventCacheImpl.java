@@ -70,6 +70,8 @@ public class EventCacheImpl implements EventCache {
                 }
             }
             eventDB.closeDb();
+            teamDB.closeDB();
+            randomUserDB.closeDB();
             return true;
         } else {
             return false;
@@ -81,6 +83,7 @@ public class EventCacheImpl implements EventCache {
     public void getEvents(EventCacheCallback callback) {
         Cursor cursor = eventDB.getAllEvents();
         EventCollection eventCollection = eventMapper.transformEventCursorToEventCollection(cursor);
+        eventDB.closeDb();
         if (eventCollection.getCollection().size() > 0) {
             callback.onSuccess(eventCollection);
         } else {
@@ -114,6 +117,9 @@ public class EventCacheImpl implements EventCache {
             teamCollection.add(team);
         }
         event.setListTeams(teamCollection);
+        eventDB.closeDb();
+        teamDB.closeDB();
+        randomUserDB.closeDB();
         if (event.getListTeams().getCollection().size() > 0) {
             callback.onSuccess(event);
         } else {

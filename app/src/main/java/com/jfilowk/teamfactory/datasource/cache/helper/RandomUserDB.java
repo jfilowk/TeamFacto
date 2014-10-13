@@ -12,5 +12,7 @@ public interface RandomUserDB {
     public Cursor getRandomUser (int id);
     public Cursor getAllRandomUser ();
     public Cursor getUsersTeam (long teamId);
+    public void closeDB();
+
 }
 

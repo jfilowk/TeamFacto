@@ -65,4 +65,8 @@ public class RandomUserDBImpl extends DatabaseHelper implements RandomUserDB {
 
         return values;
     }
+    public void closeDB(){
+        this.close();
+    }
+
 }
