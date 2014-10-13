@@ -36,7 +36,7 @@ public class ListTeamsAdapter extends BaseAdapter {
     private Context context;
     private HashMap<String, String> colorsTeam;
     private int color = 1;
-    private String[] colors = {"#FFFFFF" ,"#66E066", "#33B5E5", "#FFBB33", "#AA66CC", "#33B5E5"};
+    private String[] colors = {"#FFFFFF" ,"#9ceb9c", "#ff6969", "#ffc85b", "#bb84d6", "#5b92ff"};
 
     public ListTeamsAdapter(Context context, List<Object> teams) {
         this.context = context;
@@ -120,7 +120,12 @@ public class ListTeamsAdapter extends BaseAdapter {
                     itemHolder.firstNameUser.setTextColor(Color.BLACK);
                     itemHolder.lastNameUser.setTextColor(Color.BLACK);
                 }else{
-                   colorString = colorsTeam.get(String.valueOf(user.getTeam_id()));
+                    colorString =colorsTeam.get(String.valueOf(user.getTeam_id()));
+                    StringBuilder stringBuilder = new StringBuilder(colorString);
+                    stringBuilder.deleteCharAt(0);
+                    stringBuilder.insert(0, "#CC");
+                    colorString = stringBuilder.toString();
+                    Timber.e(colorString);
                 }
                 convertView.setBackgroundColor(Color.parseColor(colorString));
                 itemHolder.firstNameUser.setText(WordUtils.capitalizeFully(user.getFirstName()));

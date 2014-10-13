@@ -32,7 +32,7 @@ public class RandomUserMapper {
         randomUser.setFirstName(WordUtils.capitalizeFully(result.getUser().getName().getFirst()));
         randomUser.setLastName(WordUtils.capitalizeFully(result.getUser().getName().getLast()));
         randomUser.setGender(result.getUser().getGender());
-        randomUser.setPicture(result.getUser().getPicture());
+        randomUser.setPicture(result.getUser().getPicture().getMedium());
         randomUser.setSeed(result.getSeed());
 
         return randomUser;

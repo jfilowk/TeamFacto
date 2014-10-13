@@ -9,6 +9,7 @@ import com.terro.services.UserServiceAsync;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import timber.log.Timber;
 
 /**
  * Created by Javi on 19/09/14.
@@ -34,6 +35,7 @@ public class RandomUserApiImpl implements RandomUserApi {
 
             @Override
             public void failure(RetrofitError error) {
+                Timber.e(error.toString());
                 callback.onError();
             }
         });
