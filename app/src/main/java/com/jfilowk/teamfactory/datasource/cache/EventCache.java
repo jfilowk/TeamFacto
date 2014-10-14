@@ -11,4 +11,5 @@ public interface EventCache {
     public boolean createEvent (Event event);
     public void getEvents (EventCacheCallback callback);
     public void getEvent (Event event, AnEventCacheCallback callback);
+    public boolean deleteEvent(long id);
 }

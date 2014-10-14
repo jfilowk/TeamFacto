@@ -127,6 +127,15 @@ public class EventCacheImpl implements EventCache {
         }
     }
 
+    @Override
+    public boolean deleteEvent(long id) {
+        if(this.eventDB.deleteEvent(id) > 0){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public void init() {
         this.eventDB = new EventDBImpl(TeamFactoApp.get());
         this.teamDB = new TeamDBImpl(TeamFactoApp.get());

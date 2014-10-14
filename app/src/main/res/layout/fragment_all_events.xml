@@ -5,10 +5,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ListView
+    <com.nhaarman.listviewanimations.itemmanipulation.DynamicListView
         android:id="@+id/listAllEvents"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
         android:scrollbars="none"
         android:dividerHeight="3dp"

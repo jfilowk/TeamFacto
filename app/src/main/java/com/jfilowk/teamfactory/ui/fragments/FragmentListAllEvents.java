@@ -3,23 +3,27 @@ package com.jfilowk.teamfactory.ui.fragments;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.jfilowk.teamfactory.R;
 import com.jfilowk.teamfactory.datasource.EventDataSource;
 import com.jfilowk.teamfactory.datasource.EventDataSourceImpl;
 import com.jfilowk.teamfactory.datasource.cache.callback.AnEventCacheCallback;
+import com.jfilowk.teamfactory.datasource.cache.callback.EventCallbackBase;
 import com.jfilowk.teamfactory.datasource.entities.Event;
 import com.jfilowk.teamfactory.datasource.entities.EventCollection;
 import com.jfilowk.teamfactory.ui.activity.GenerateTeam;
 import com.jfilowk.teamfactory.ui.adapters.ListEventsAdapter;
+import com.nhaarman.listviewanimations.appearance.simple.AlphaInAnimationAdapter;
+import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
+import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.OnDismissCallback;
 
 import java.util.List;
 
@@ -35,7 +39,7 @@ public class FragmentListAllEvents extends Fragment {
     private static String KEY_ERROR = "Error";
 
     @InjectView(R.id.listAllEvents)
-    ListView listAllEvents;
+    DynamicListView listAllEvents;
 
     private Activity activity;
     private EventDataSource eventDataSource;
@@ -69,8 +73,38 @@ public class FragmentListAllEvents extends Fragment {
         ButterKnife.inject(this, viewRoot);
         final EventCollection eventCollection = (EventCollection) getArguments().getSerializable(KEY_EVENT);
         final List<Event> eventList = eventCollection.getCollection();
-        ListEventsAdapter adapter = new ListEventsAdapter(eventList, activity.getApplicationContext());
+        final ListEventsAdapter adapter = new ListEventsAdapter(eventList, activity.getApplicationContext());
+        AlphaInAnimationAdapter animationAdapter = new AlphaInAnimationAdapter(adapter);
+        animationAdapter.setAbsListView(listAllEvents);
+        listAllEvents.setAdapter(animationAdapter);
         listAllEvents.setAdapter(adapter);
+
+        listAllEvents.enableSwipeToDismiss(new OnDismissCallback() {
+            @Override
+            public void onDismiss(@NonNull ViewGroup viewGroup, @NonNull int[] ints) {
+                for(final int pos : ints ){
+                    eventDataSource.deleteEvent(eventList.get(pos).getId(), new EventCallbackBase() {
+                        @Override
+                        public void onSuccess() {
+                            activity.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(activity.getApplicationContext(), "Removed", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onError() {
+
+                        }
+                    });
+                    eventList.remove(pos);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+        });
 
         listAllEvents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

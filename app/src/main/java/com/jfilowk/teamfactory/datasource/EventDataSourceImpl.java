@@ -16,6 +16,7 @@ import com.jfilowk.teamfactory.datasource.entities.RandomUserCollection;
 import com.jfilowk.teamfactory.datasource.entities.Team;
 import com.jfilowk.teamfactory.datasource.entities.TeamCollection;
 import com.jfilowk.teamfactory.datasource.jobs.CreateEventJob;
+import com.jfilowk.teamfactory.datasource.jobs.DeleteEventJob;
 import com.jfilowk.teamfactory.datasource.jobs.GetEventJob;
 import com.jfilowk.teamfactory.datasource.jobs.GetEventsJob;
 import com.jfilowk.teamfactory.ui.TeamFactoApp;
@@ -128,5 +129,20 @@ public class EventDataSourceImpl implements EventDataSource {
         } else {
             eventCallback.onSuccess(event);
         }
+    }
+
+    @Override
+    public void deleteEvent(long id, final EventCallbackBase eventCallbackBase) {
+        jobManager.addJobInBackground(new DeleteEventJob(id, eventCache, new EventCallbackBase() {
+            @Override
+            public void onSuccess() {
+                eventCallbackBase.onSuccess();
+            }
+
+            @Override
+            public void onError() {
+                eventCallbackBase.onError();
+            }
+        }));
     }
 }

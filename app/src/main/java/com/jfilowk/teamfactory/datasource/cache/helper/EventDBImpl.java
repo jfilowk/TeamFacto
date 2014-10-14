@@ -78,6 +78,13 @@ public class EventDBImpl extends DatabaseHelper implements EventDB {
     }
 
     @Override
+    public int deleteEvent(long id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int numRows = db.delete(DBConstants.TABLE_EVENT,"id = "+String.valueOf(id), null);
+        return numRows;
+    }
+
+    @Override
     public void closeDb() {
         this.close();
     }

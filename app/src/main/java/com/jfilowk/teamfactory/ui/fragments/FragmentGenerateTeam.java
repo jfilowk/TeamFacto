@@ -10,7 +10,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.jfilowk.teamfactory.R;
@@ -21,6 +20,8 @@ import com.jfilowk.teamfactory.ui.adapters.ListTeamsAdapter;
 import com.jfilowk.teamfactory.ui.presenter.FragmentGenerateTeamPresenter;
 import com.jfilowk.teamfactory.ui.presenter.FragmentGenerateTeamPresenterImpl;
 import com.jfilowk.teamfactory.ui.views.FragmentGenerateTeamView;
+import com.nhaarman.listviewanimations.appearance.simple.AlphaInAnimationAdapter;
+import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +37,7 @@ public class FragmentGenerateTeam extends Fragment implements FragmentGenerateTe
     private static final String KEY_EVENT = "key_event";
 
     @InjectView(R.id.listViewTeams)
-    ListView listViewTeams;
+    DynamicListView listViewTeams;
     private Activity activity;
     private FragmentGenerateTeamPresenter presenter;
     private Event event;
@@ -70,13 +71,14 @@ public class FragmentGenerateTeam extends Fragment implements FragmentGenerateTe
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        if (!event.getListTeams().getCollection().isEmpty()) inflater.inflate(R.menu.generate_team_menu, menu);
+        if (!event.getListTeams().getCollection().isEmpty())
+            inflater.inflate(R.menu.generate_team_menu, menu);
     }
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         MenuItem save = menu.findItem(R.id.accept_event);
-        if (event.getListTeams().getCollection().get(0).getId() != 0)  save.setVisible(false);
+        if (event.getListTeams().getCollection().get(0).getId() != 0) save.setVisible(false);
     }
 
     @Override
@@ -86,7 +88,7 @@ public class FragmentGenerateTeam extends Fragment implements FragmentGenerateTe
             presenter.createEvent(event);
             activity.finish();
             return true;
-        } else if (id == android.R.id.home){
+        } else if (id == android.R.id.home) {
             activity.onBackPressed();
             return true;
         }
@@ -105,7 +107,7 @@ public class FragmentGenerateTeam extends Fragment implements FragmentGenerateTe
 
     @Override
     public void initListView(Event event) {
-        List<Object> objectList = new ArrayList<Object>();
+        final List<Object> objectList = new ArrayList<Object>();
         this.event = event;
         List<Team> teamList = event.getListTeams().getCollection();
         for (Team team : teamList) {
@@ -117,7 +119,9 @@ public class FragmentGenerateTeam extends Fragment implements FragmentGenerateTe
         }
 
         ListTeamsAdapter adapter = new ListTeamsAdapter(activity.getApplicationContext(), objectList);
-        listViewTeams.setAdapter(adapter);
+        AlphaInAnimationAdapter animationAdapter = new AlphaInAnimationAdapter(adapter);
+        animationAdapter.setAbsListView(listViewTeams);
+        listViewTeams.setAdapter(animationAdapter);
 
     }
 

@@ -13,4 +13,5 @@ public interface EventDataSource {
     public void getAllEvents(EventCallback eventCallback);
     public void getEvent (Event event, AnEventCacheCallback eventCallback);
     public void showEvent(Event event, AnEventCacheCallback eventCallback);
+    public void deleteEvent(long id, EventCallbackBase eventCallbackBase);
 }
