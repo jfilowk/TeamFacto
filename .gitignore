@@ -6,12 +6,12 @@ build
 # Eclipse project files
 .project
 .settings/	
-/.idea/workspace.xml
-/.idea/misc.xml
-/.idea/.name
-/.idea/modules.xml
-/.idea/runConfigurations.xml
-/.idea/gradle.xml
-/.idea/compiler.xml
-/.idea/vcs.xml
+.idea/workspace.xml
+.idea/misc.xml
+.idea/.name
+.idea/modules.xml
+.idea/runConfigurations.xml
+.idea/gradle.xml
+.idea/compiler.xml
+.idea/vcs.xml
 .classpath
