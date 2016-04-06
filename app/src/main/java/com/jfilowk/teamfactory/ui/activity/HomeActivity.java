@@ -12,9 +12,9 @@ import com.jfilowk.teamfactory.ui.fragments.FragmentInitProgress;
 import com.jfilowk.teamfactory.ui.fragments.FragmentListAllEvents;
 import com.jfilowk.teamfactory.ui.presenter.HomeActivityPresenter;
 import com.jfilowk.teamfactory.ui.presenter.HomeActivityPresenterImpl;
-import com.jfilowk.teamfactory.ui.views.HomeActivityView;
 
-public class HomeActivity extends ActionBarActivity implements HomeActivityView {
+public class HomeActivity extends ActionBarActivity
+    implements HomeActivityPresenter.HomeActivityView {
 
   private HomeActivityPresenter presenter;
 
@@ -23,7 +23,7 @@ public class HomeActivity extends ActionBarActivity implements HomeActivityView 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main_menu);
-
+    presenter.attachView(this);
     init();
   }
 

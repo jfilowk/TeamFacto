@@ -6,7 +6,17 @@ import com.jfilowk.teamfactory.datasource.entities.Event;
  * Created by Javi on 23/09/14.
  */
 public interface GenerateTeamPresenter {
-  public void onResume(Event event);
+  void onResume(Event event);
 
-  public void onError();
+  void onError();
+
+  void attachView(GenerateTeamView generateTeamView);
+
+  interface GenerateTeamView {
+    void initProgressFragment();
+
+    void initMainFragment(Event collection);
+
+    void initErrorFragment();
+  }
 }

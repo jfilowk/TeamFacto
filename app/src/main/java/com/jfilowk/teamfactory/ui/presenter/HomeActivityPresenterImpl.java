@@ -1,10 +1,8 @@
 package com.jfilowk.teamfactory.ui.presenter;
 
 import com.jfilowk.teamfactory.datasource.EventDataSource;
-import com.jfilowk.teamfactory.datasource.EventDataSourceImpl;
 import com.jfilowk.teamfactory.datasource.callbacks.EventCallback;
 import com.jfilowk.teamfactory.datasource.entities.EventCollection;
-import com.jfilowk.teamfactory.ui.views.HomeActivityView;
 
 /**
  * Created by Javi on 19/09/14.
@@ -14,9 +12,8 @@ public class HomeActivityPresenterImpl implements HomeActivityPresenter {
   private EventDataSource eventDataSource;
   private HomeActivityView view;
 
-  public HomeActivityPresenterImpl(HomeActivityView view) {
-    this.eventDataSource = new EventDataSourceImpl();
-    this.view = view;
+  public HomeActivityPresenterImpl(EventDataSource eventDataSource) {
+    this.eventDataSource = eventDataSource;
   }
 
   @Override public void onResume() {
@@ -35,5 +32,9 @@ public class HomeActivityPresenterImpl implements HomeActivityPresenter {
 
   @Override public void selectTeam() {
     this.view.initSelectTeamFragment();
+  }
+
+  @Override public void attachView(HomeActivityView homeActivityView) {
+    this.view = homeActivityView;
   }
 }

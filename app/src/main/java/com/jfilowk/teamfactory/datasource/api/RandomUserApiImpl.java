@@ -1,10 +1,9 @@
 package com.jfilowk.teamfactory.datasource.api;
 
-import com.jfilowk.teamfactory.BuildConfig;
 import com.jfilowk.teamfactory.datasource.api.callback.RandomUserApiCallback;
-import com.terro.RandomUser;
 import com.terro.entities.UserRandomResponse;
 import com.terro.services.UserServiceAsync;
+import javax.inject.Inject;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -17,11 +16,9 @@ public class RandomUserApiImpl implements RandomUserApi {
 
   private UserServiceAsync userAsync;
 
-  public RandomUserApiImpl() {
-    RandomUser randomUser = new RandomUser();
-    if (BuildConfig.DEBUG) randomUser.setIsDebug(true);
-
-    this.userAsync = randomUser.userServicesAsync();
+  @Inject
+  public RandomUserApiImpl(UserServiceAsync userAsync) {
+    this.userAsync = userAsync;
   }
 
   @Override public void getRandomUserApi(int numUsers, final RandomUserApiCallback callback) {

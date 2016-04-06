@@ -19,23 +19,23 @@ import com.jfilowk.teamfactory.datasource.entities.RandomUser;
 import com.jfilowk.teamfactory.datasource.entities.Team;
 import com.jfilowk.teamfactory.ui.adapters.ListTeamsAdapter;
 import com.jfilowk.teamfactory.ui.presenter.FragmentGenerateTeamPresenter;
-import com.jfilowk.teamfactory.ui.presenter.FragmentGenerateTeamPresenterImpl;
-import com.jfilowk.teamfactory.ui.views.FragmentGenerateTeamView;
 import com.nhaarman.listviewanimations.appearance.simple.AlphaInAnimationAdapter;
 import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
 import java.util.ArrayList;
 import java.util.List;
+import javax.inject.Inject;
 
 /**
  * Created by Javi on 25/09/14.
  */
-public class FragmentGenerateTeam extends Fragment implements FragmentGenerateTeamView {
+public class FragmentGenerateTeam extends Fragment
+    implements FragmentGenerateTeamPresenter.FragmentGenerateTeamView {
 
   private static final String KEY_EVENT = "key_event";
 
   @InjectView(R.id.listViewTeams) DynamicListView listViewTeams;
   private Activity activity;
-  private FragmentGenerateTeamPresenter presenter;
+  @Inject FragmentGenerateTeamPresenter presenter;
   private Event event;
 
   public FragmentGenerateTeam() {
@@ -58,7 +58,7 @@ public class FragmentGenerateTeam extends Fragment implements FragmentGenerateTe
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     this.event = new Event();
-    presenter = new FragmentGenerateTeamPresenterImpl(this);
+    presenter.attachView(this);
     setHasOptionsMenu(true);
   }
 

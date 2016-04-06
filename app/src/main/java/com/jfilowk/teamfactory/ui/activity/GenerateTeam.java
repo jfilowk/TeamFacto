@@ -16,7 +16,7 @@ import com.jfilowk.teamfactory.ui.views.GenerateTeamView;
 /**
  * Created by Javi on 23/09/14.
  */
-public class GenerateTeam extends ActionBarActivity implements GenerateTeamView {
+public class GenerateTeam extends ActionBarActivity implements GenerateTeamPresenter.GenerateTeamView {
 
   private GenerateTeamPresenter presenter;
   private Event event;
@@ -26,6 +26,7 @@ public class GenerateTeam extends ActionBarActivity implements GenerateTeamView 
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_generate_team);
     init();
+    presenter.attachView(this);
     presenter.onResume(this.event);
   }
 

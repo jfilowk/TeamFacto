@@ -1,3 +1,4 @@
+/*
 package com.jfilowk.teamfactory.datasource;
 
 import com.jfilowk.teamfactory.datasource.api.RandomUserApi;
@@ -12,9 +13,11 @@ import com.jfilowk.teamfactory.datasource.entities.RandomUser;
 import com.jfilowk.teamfactory.datasource.entities.RandomUserCollection;
 import com.terro.entities.UserRandomResponse;
 
+*/
 /**
  * Created by Javi on 19/09/14.
- */
+ *//*
+
 public class RandomUserDataSourceImpl implements RandomUserDataSource {
 
   private RandomUserCache cache;
@@ -50,3 +53,4 @@ public class RandomUserDataSourceImpl implements RandomUserDataSource {
     });
   }
 }
+*/

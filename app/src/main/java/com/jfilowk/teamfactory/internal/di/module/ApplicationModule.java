@@ -13,6 +13,8 @@ import com.jfilowk.teamfactory.datasource.cache.helper.RandomUserDBImpl;
 import com.jfilowk.teamfactory.datasource.cache.helper.TeamDB;
 import com.jfilowk.teamfactory.datasource.cache.helper.TeamDBImpl;
 import com.jfilowk.teamfactory.ui.TeamFactoApp;
+import com.terro.RandomUser;
+import com.terro.services.UserServiceAsync;
 import dagger.Module;
 import dagger.Provides;
 import javax.inject.Singleton;
@@ -30,19 +32,19 @@ import javax.inject.Singleton;
     return this.teamFactoApp.getApplicationContext();
   }
 
-  @Provides @Singleton RandomUserMapper provideRandomUserMapper(){
+  @Provides @Singleton RandomUserMapper provideRandomUserMapper() {
     return new RandomUserMapper();
   }
 
-  @Provides @Singleton TeamMapper provideTeamMapper(){
+  @Provides @Singleton TeamMapper provideTeamMapper() {
     return new TeamMapper();
   }
 
-  @Provides @Singleton EventMapper provideEventMapper(){
+  @Provides @Singleton EventMapper provideEventMapper() {
     return new EventMapper();
   }
 
-  @Provides @Singleton RandomUserDB provideRandomUserDB(RandomUserDBImpl randomUserDB){
+  @Provides @Singleton RandomUserDB provideRandomUserDB(RandomUserDBImpl randomUserDB) {
     return randomUserDB;
   }
 
@@ -54,8 +56,11 @@ import javax.inject.Singleton;
     return eventDB;
   }
 
-  @Provides @Singleton EventCache provideEventCache(EventCacheImpl eventCache){
+  @Provides @Singleton EventCache provideEventCache(EventCacheImpl eventCache) {
     return eventCache;
   }
 
+  @Provides @Singleton UserServiceAsync provideUserServiceAsync() {
+    return new RandomUser().setIsDebug(false).userServicesAsync();
+  }
 }

@@ -1,11 +1,9 @@
 package com.jfilowk.teamfactory.datasource;
 
 import com.jfilowk.teamfactory.datasource.api.RandomUserApi;
-import com.jfilowk.teamfactory.datasource.api.RandomUserApiImpl;
 import com.jfilowk.teamfactory.datasource.api.callback.RandomUserApiCallback;
 import com.jfilowk.teamfactory.datasource.binder.RandomUserMapper;
 import com.jfilowk.teamfactory.datasource.cache.EventCache;
-import com.jfilowk.teamfactory.datasource.cache.EventCacheImpl;
 import com.jfilowk.teamfactory.datasource.cache.callback.AnEventCacheCallback;
 import com.jfilowk.teamfactory.datasource.cache.callback.EventCallbackBase;
 import com.jfilowk.teamfactory.datasource.callbacks.EventCallback;
@@ -22,6 +20,7 @@ import com.jfilowk.teamfactory.datasource.jobs.GetEventsJob;
 import com.jfilowk.teamfactory.ui.TeamFactoApp;
 import com.path.android.jobqueue.JobManager;
 import com.terro.entities.UserRandomResponse;
+import javax.inject.Inject;
 import timber.log.Timber;
 
 /**
@@ -33,9 +32,9 @@ public class EventDataSourceImpl implements EventDataSource {
   private RandomUserApi randomUserApi;
   private JobManager jobManager;
 
-  public EventDataSourceImpl() {
-    this.eventCache = new EventCacheImpl();
-    this.randomUserApi = new RandomUserApiImpl();
+  @Inject public EventDataSourceImpl(EventCache eventCache, RandomUserApi randomUserApi) {
+    this.eventCache = eventCache;
+    this.randomUserApi = randomUserApi;
     jobManager = TeamFactoApp.get().getJobManager();
   }
 
