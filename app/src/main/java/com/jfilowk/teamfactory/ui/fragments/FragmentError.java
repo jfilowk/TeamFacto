@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.jfilowk.teamfactory.R;
 
 /**
@@ -14,16 +13,16 @@ import com.jfilowk.teamfactory.R;
  */
 public class FragmentError extends Fragment {
 
-    public static FragmentError newInstance (){
-        FragmentError fragmentError = new FragmentError();
+  public static FragmentError newInstance() {
+    FragmentError fragmentError = new FragmentError();
 
-        return fragmentError;
-    }
+    return fragmentError;
+  }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_error, null);
+  @Override public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+      @Nullable Bundle savedInstanceState) {
+    View root = inflater.inflate(R.layout.fragment_error, null);
 
-        return root;
-    }
+    return root;
+  }
 }

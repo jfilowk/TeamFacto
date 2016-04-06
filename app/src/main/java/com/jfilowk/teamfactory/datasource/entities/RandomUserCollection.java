@@ -9,25 +9,25 @@ import java.util.List;
  */
 public class RandomUserCollection implements Serializable {
 
-    private List<RandomUser> list;
+  private List<RandomUser> list;
 
-    public RandomUserCollection() {
-        list = new ArrayList<RandomUser>();
-    }
+  public RandomUserCollection() {
+    list = new ArrayList<RandomUser>();
+  }
 
-    public RandomUser get (int position) {
-        return list.get(position);
-    }
+  public RandomUser get(int position) {
+    return list.get(position);
+  }
 
-    public void add (RandomUser randomUser){
-        list.add(randomUser);
-    }
+  public void add(RandomUser randomUser) {
+    list.add(randomUser);
+  }
 
-    public List<RandomUser> getCollection () {
-        return this.list;
-    }
+  public List<RandomUser> getCollection() {
+    return this.list;
+  }
 
-    public int size () {
-        return this.list.size();
-    }
+  public int size() {
+    return this.list.size();
+  }
 }

@@ -11,36 +11,29 @@ import com.jfilowk.teamfactory.ui.views.HomeActivityView;
  */
 public class HomeActivityPresenterImpl implements HomeActivityPresenter {
 
-    private EventDataSource eventDataSource;
-    private HomeActivityView view;
+  private EventDataSource eventDataSource;
+  private HomeActivityView view;
 
-    public HomeActivityPresenterImpl(HomeActivityView view) {
-        this.eventDataSource = new EventDataSourceImpl();
-        this.view = view;
-    }
+  public HomeActivityPresenterImpl(HomeActivityView view) {
+    this.eventDataSource = new EventDataSourceImpl();
+    this.view = view;
+  }
 
-    @Override
-    public void onResume() {
-        this.view.initProgressFragment();
+  @Override public void onResume() {
+    this.view.initProgressFragment();
 
-        this.eventDataSource.getAllEvents(new EventCallback() {
-            @Override
-            public void onSuccess(EventCollection collection) {
-                view.initMainFragment(collection);
-            }
+    this.eventDataSource.getAllEvents(new EventCallback() {
+      @Override public void onSuccess(EventCollection collection) {
+        view.initMainFragment(collection);
+      }
 
-            @Override
-            public void onError() {
-            view.initErrorFragment();
-            }
-        });
+      @Override public void onError() {
+        view.initErrorFragment();
+      }
+    });
+  }
 
-    }
-
-    @Override
-    public void selectTeam() {
-        this.view.initSelectTeamFragment();
-    }
-
-
+  @Override public void selectTeam() {
+    this.view.initSelectTeamFragment();
+  }
 }

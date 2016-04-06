@@ -8,8 +8,11 @@ import com.jfilowk.teamfactory.datasource.entities.Event;
  * Created by Javi on 22/09/14.
  */
 public interface EventCache {
-    public boolean createEvent (Event event);
-    public void getEvents (EventCacheCallback callback);
-    public void getEvent (Event event, AnEventCacheCallback callback);
-    public boolean deleteEvent(long id);
+  public boolean createEvent(Event event);
+
+  public void getEvents(EventCacheCallback callback);
+
+  public void getEvent(Event event, AnEventCacheCallback callback);
+
+  public boolean deleteEvent(long id);
 }

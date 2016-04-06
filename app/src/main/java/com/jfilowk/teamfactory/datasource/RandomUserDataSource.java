@@ -8,6 +8,7 @@ import com.jfilowk.teamfactory.datasource.entities.RandomUser;
  * Created by Javi on 19/09/14.
  */
 public interface RandomUserDataSource {
-    public void createRandomUser(RandomUser user,RandomUserCallbackBase callback);
-    public void getRandomUser(RandomUserCallback callback);
+  public void createRandomUser(RandomUser user, RandomUserCallbackBase callback);
+
+  public void getRandomUser(RandomUserCallback callback);
 }

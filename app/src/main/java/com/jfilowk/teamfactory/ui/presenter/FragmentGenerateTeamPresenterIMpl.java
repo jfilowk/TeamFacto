@@ -11,42 +11,35 @@ import com.jfilowk.teamfactory.ui.views.FragmentGenerateTeamView;
  */
 public class FragmentGenerateTeamPresenterImpl implements FragmentGenerateTeamPresenter {
 
-    private FragmentGenerateTeamView view;
-    private EventDataSource eventDataSource;
+  private FragmentGenerateTeamView view;
+  private EventDataSource eventDataSource;
 
-    public FragmentGenerateTeamPresenterImpl(FragmentGenerateTeamView view) {
-        this.view = view;
-        this.eventDataSource = new EventDataSourceImpl();
-    }
+  public FragmentGenerateTeamPresenterImpl(FragmentGenerateTeamView view) {
+    this.view = view;
+    this.eventDataSource = new EventDataSourceImpl();
+  }
 
+  @Override public void onResume() {
 
-    @Override
-    public void onResume() {
+  }
 
-    }
+  @Override public void onError() {
 
-    @Override
-    public void onError() {
+  }
 
-    }
+  @Override public void showTeams(Event event) {
+    this.view.initListView(event);
+  }
 
-    @Override
-    public void showTeams(Event event) {
-        this.view.initListView(event);
-    }
+  @Override public void createEvent(Event event) {
+    eventDataSource.createEvent(event, new EventCallbackBase() {
+      @Override public void onSuccess() {
 
-    @Override
-    public void createEvent(Event event) {
-        eventDataSource.createEvent(event, new EventCallbackBase() {
-            @Override
-            public void onSuccess() {
+      }
 
-            }
-
-            @Override
-            public void onError() {
-                view.initFragmentError();
-            }
-        });
-    }
+      @Override public void onError() {
+        view.initFragmentError();
+      }
+    });
+  }
 }

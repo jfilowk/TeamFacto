@@ -9,21 +9,21 @@ import java.util.List;
  */
 public class TeamCollection implements Serializable {
 
-    private List<Team> list;
+  private List<Team> list;
 
-    public TeamCollection() {
-        this.list = new ArrayList<Team>();
-    }
-    public Team get (int position) {
-        return list.get(position);
-    }
+  public TeamCollection() {
+    this.list = new ArrayList<Team>();
+  }
 
-    public void add (Team team){
-        list.add(team);
-    }
+  public Team get(int position) {
+    return list.get(position);
+  }
 
-    public List<Team> getCollection () {
-        return this.list;
-    }
+  public void add(Team team) {
+    list.add(team);
+  }
 
+  public List<Team> getCollection() {
+    return this.list;
+  }
 }

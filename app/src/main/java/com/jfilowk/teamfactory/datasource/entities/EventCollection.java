@@ -9,21 +9,21 @@ import java.util.List;
  */
 public class EventCollection implements Serializable {
 
-    private List<Event> list;
+  private List<Event> list;
 
-    public EventCollection() {
-        list = new ArrayList<Event>();
-    }
+  public EventCollection() {
+    list = new ArrayList<Event>();
+  }
 
-    public Event get(int position) {
-        return this.list.get(position);
-    }
+  public Event get(int position) {
+    return this.list.get(position);
+  }
 
-    public void add(Event event) {
-        list.add(event);
-    }
+  public void add(Event event) {
+    list.add(event);
+  }
 
-    public List<Event> getCollection() {
-        return this.list;
-    }
+  public List<Event> getCollection() {
+    return this.list;
+  }
 }

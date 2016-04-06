@@ -3,99 +3,108 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    >
 
-    <RadioGroup
-        android:id="@+id/rgTypeEvent"
-        android:layout_width="match_parent"
+  <RadioGroup
+      android:id="@+id/rgTypeEvent"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginLeft="5dp"
+      android:layout_marginTop="10dp"
+      android:gravity="center"
+      android:orientation="horizontal"
+      >
+
+    <RadioButton
+        android:id="@+id/rbSport"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="10dp"
+        android:background="@drawable/rbtn_sport"
+        android:button="@null"
+        android:checked="true"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:padding="5dp"
+        android:text="@string/sport"
+        />
 
-        <RadioButton
-            android:id="@+id/rbSport"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rbtn_sport"
-            android:button="@null"
-            android:checked="true"
-            android:gravity="center"
-            android:padding="5dp"
-            android:text="@string/sport" />
-
-        <RadioButton
-            android:id="@+id/rbSchool"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rbtn_school"
-            android:button="@null"
-            android:gravity="center"
-            android:padding="5dp"
-            android:text="@string/school" />
-
-        <RadioButton
-            android:id="@+id/rbBusiness"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rbtn_business"
-            android:button="@null"
-            android:gravity="center"
-            android:padding="5dp"
-            android:text="@string/business" />
-
-    </RadioGroup>
-
-    <NumberPicker
-        android:id="@+id/npUsers"
-        android:layout_width="wrap_content"
+    <RadioButton
+        android:id="@+id/rbSchool"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/rgTypeEvent"
-        android:layout_marginLeft="80dp"
-        android:layout_toEndOf="@+id/npUsers"
-        android:layout_toStartOf="@+id/npUsers"
-        android:scaleX="0.7"
-        android:scaleY="0.7"
-        android:baselineAligned="false"
-        android:layout_alignParentEnd="false"
-        android:layout_marginTop="-15dp" />
-
-    <NumberPicker
-        android:id="@+id/npTeams"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/rgTypeEvent"
-        android:layout_alignRight="@+id/rgTypeEvent"
-        android:layout_alignTop="@+id/npUsers"
-        android:layout_marginRight="80dp"
-        android:layout_toEndOf="@+id/npTeams"
-        android:layout_toStartOf="@+id/npTeams"
-        android:scaleX="0.7"
-        android:scaleY="0.7" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/users"
-        android:id="@+id/textView"
-        android:layout_toStartOf="@+id/npTeams"
+        android:background="@drawable/rbtn_school"
+        android:button="@null"
         android:gravity="center"
-        android:layout_alignTop="@+id/textView2"
-        android:layout_alignRight="@+id/npUsers"
-        android:layout_alignEnd="@+id/npUsers"
-        android:layout_marginRight="90dp" />
+        android:padding="5dp"
+        android:text="@string/school"
+        />
 
-    <TextView
-        android:layout_width="wrap_content"
+    <RadioButton
+        android:id="@+id/rbBusiness"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:text="@string/teams"
-        android:id="@+id/textView2"
+        android:background="@drawable/rbtn_business"
+        android:button="@null"
         android:gravity="center"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="41dp"
-        android:layout_below="@+id/rgTypeEvent"
-        android:layout_alignRight="@+id/rgTypeEvent"
-        android:layout_alignEnd="@+id/rgTypeEvent" />
+        android:padding="5dp"
+        android:text="@string/business"
+        />
+
+  </RadioGroup>
+
+  <NumberPicker
+      android:id="@+id/npUsers"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_below="@+id/rgTypeEvent"
+      android:layout_marginLeft="80dp"
+      android:layout_toEndOf="@+id/npUsers"
+      android:layout_toStartOf="@+id/npUsers"
+      android:scaleX="0.7"
+      android:scaleY="0.7"
+      android:baselineAligned="false"
+      android:layout_alignParentEnd="false"
+      android:layout_marginTop="-15dp"
+      />
+
+  <NumberPicker
+      android:id="@+id/npTeams"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignEnd="@+id/rgTypeEvent"
+      android:layout_alignRight="@+id/rgTypeEvent"
+      android:layout_alignTop="@+id/npUsers"
+      android:layout_marginRight="80dp"
+      android:layout_toEndOf="@+id/npTeams"
+      android:layout_toStartOf="@+id/npTeams"
+      android:scaleX="0.7"
+      android:scaleY="0.7"
+      />
+
+  <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/users"
+      android:id="@+id/textView"
+      android:layout_toStartOf="@+id/npTeams"
+      android:gravity="center"
+      android:layout_alignTop="@+id/textView2"
+      android:layout_alignRight="@+id/npUsers"
+      android:layout_alignEnd="@+id/npUsers"
+      android:layout_marginRight="90dp"
+      />
+
+  <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/teams"
+      android:id="@+id/textView2"
+      android:gravity="center"
+      android:layout_marginRight="30dp"
+      android:layout_marginTop="41dp"
+      android:layout_below="@+id/rgTypeEvent"
+      android:layout_alignRight="@+id/rgTypeEvent"
+      android:layout_alignEnd="@+id/rgTypeEvent"
+      />
 
 </RelativeLayout>

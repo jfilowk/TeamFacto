@@ -11,32 +11,28 @@ import com.jfilowk.teamfactory.ui.views.GenerateTeamView;
  */
 public class GenerateTeamPresenterImpl implements GenerateTeamPresenter {
 
-    GenerateTeamView view;
-    EventDataSource eventDataSource;
+  GenerateTeamView view;
+  EventDataSource eventDataSource;
 
-    public GenerateTeamPresenterImpl(GenerateTeamView view) {
-        this.view = view;
-        eventDataSource = new EventDataSourceImpl();
-    }
+  public GenerateTeamPresenterImpl(GenerateTeamView view) {
+    this.view = view;
+    eventDataSource = new EventDataSourceImpl();
+  }
 
-    @Override
-    public void onResume(Event event) {
-        this.view.initProgressFragment();
-        this.eventDataSource.showEvent(event, new AnEventCacheCallback() {
-            @Override
-            public void onSuccess(Event event) {
-                view.initMainFragment(event);
-            }
+  @Override public void onResume(Event event) {
+    this.view.initProgressFragment();
+    this.eventDataSource.showEvent(event, new AnEventCacheCallback() {
+      @Override public void onSuccess(Event event) {
+        view.initMainFragment(event);
+      }
 
-            @Override
-            public void onError() {
-                view.initErrorFragment();
-            }
-        });
-    }
+      @Override public void onError() {
+        view.initErrorFragment();
+      }
+    });
+  }
 
-    @Override
-    public void onError() {
+  @Override public void onError() {
 
-    }
+  }
 }

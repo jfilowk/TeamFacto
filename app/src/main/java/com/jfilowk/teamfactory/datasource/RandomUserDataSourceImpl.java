@@ -17,41 +17,36 @@ import com.terro.entities.UserRandomResponse;
  */
 public class RandomUserDataSourceImpl implements RandomUserDataSource {
 
-    private RandomUserCache cache;
-    private RandomUserApi api;
-    private RandomUserMapper mapper;
+  private RandomUserCache cache;
+  private RandomUserApi api;
+  private RandomUserMapper mapper;
 
-    public RandomUserDataSourceImpl() {
-        this.cache = new RandomUserCacheImp();
-        this.api = new RandomUserApiImpl();
-        this.mapper = new RandomUserMapper();
+  public RandomUserDataSourceImpl() {
+    this.cache = new RandomUserCacheImp();
+    this.api = new RandomUserApiImpl();
+    this.mapper = new RandomUserMapper();
+  }
+
+  @Override public void createRandomUser(RandomUser user, RandomUserCallbackBase callback) {
+    boolean response = cache.createUser(user, 1);
+    if (response) {
+      callback.onSuccess();
+    } else {
+      callback.onError();
     }
+  }
 
-    @Override
-    public void createRandomUser(RandomUser user,RandomUserCallbackBase callback) {
-        boolean response = cache.createUser(user, 1);
-        if (response) {
-            callback.onSuccess();
-        } else {
-            callback.onError();
-        }
-    }
+  @Override public void getRandomUser(final RandomUserCallback callback) {
 
-    @Override
-    public void getRandomUser(final RandomUserCallback callback) {
+    this.api.getRandomUserApiUser(new RandomUserApiCallback() {
+      @Override public void onSuccess(UserRandomResponse response) {
+        RandomUserCollection collection = mapper.transformResultToRandomUserCollection(response);
+        callback.onSuccess(collection);
+      }
 
-        this.api.getRandomUserApiUser(new RandomUserApiCallback() {
-            @Override
-            public void onSuccess(UserRandomResponse response) {
-                RandomUserCollection collection = mapper.transformResultToRandomUserCollection(response);
-                callback.onSuccess(collection);
-            }
+      @Override public void onError() {
 
-            @Override
-            public void onError() {
-
-            }
-        });
-
-    }
+      }
+    });
+  }
 }
