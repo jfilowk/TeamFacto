@@ -8,18 +8,15 @@ import com.jfilowk.teamfactory.datasource.cache.callback.AnEventCacheCallback;
 import com.jfilowk.teamfactory.datasource.cache.callback.EventCacheCallback;
 import com.jfilowk.teamfactory.datasource.cache.helper.DBConstants;
 import com.jfilowk.teamfactory.datasource.cache.helper.EventDB;
-import com.jfilowk.teamfactory.datasource.cache.helper.EventDBImpl;
 import com.jfilowk.teamfactory.datasource.cache.helper.RandomUserDB;
-import com.jfilowk.teamfactory.datasource.cache.helper.RandomUserDBImpl;
 import com.jfilowk.teamfactory.datasource.cache.helper.TeamDB;
-import com.jfilowk.teamfactory.datasource.cache.helper.TeamDBImpl;
 import com.jfilowk.teamfactory.datasource.entities.Event;
 import com.jfilowk.teamfactory.datasource.entities.EventCollection;
 import com.jfilowk.teamfactory.datasource.entities.RandomUser;
 import com.jfilowk.teamfactory.datasource.entities.RandomUserCollection;
 import com.jfilowk.teamfactory.datasource.entities.Team;
 import com.jfilowk.teamfactory.datasource.entities.TeamCollection;
-import com.jfilowk.teamfactory.ui.TeamFactoApp;
+import javax.inject.Inject;
 import timber.log.Timber;
 
 /**
@@ -36,8 +33,16 @@ public class EventCacheImpl implements EventCache {
   private TeamMapper teamMapper;
   private RandomUserMapper randomUserMapper;
 
-  public EventCacheImpl() {
-    init();
+  @Inject public EventCacheImpl(EventDB eventDB, TeamDB teamDB, RandomUserDB randomUserDB,
+      EventMapper eventMapper, TeamMapper teamMapper, RandomUserMapper randomUserMapper) {
+    this.eventDB = eventDB;
+    this.teamDB = teamDB;
+    this.randomUserDB = randomUserDB;
+    this.eventMapper = eventMapper;
+    this.teamMapper = teamMapper;
+    this.randomUserMapper = randomUserMapper;
+
+    Timber.tag(EventCacheImpl.class.getSimpleName());
   }
 
   @Override public boolean createEvent(Event event) {
@@ -128,16 +133,5 @@ public class EventCacheImpl implements EventCache {
     } else {
       return false;
     }
-  }
-
-  public void init() {
-    this.eventDB = new EventDBImpl(TeamFactoApp.get());
-    this.teamDB = new TeamDBImpl(TeamFactoApp.get());
-    this.randomUserDB = new RandomUserDBImpl(TeamFactoApp.get());
-    this.eventMapper = new EventMapper();
-    this.teamMapper = new TeamMapper();
-    this.randomUserMapper = new RandomUserMapper();
-
-    Timber.tag(EventCacheImpl.class.getSimpleName());
   }
 }

@@ -7,12 +7,14 @@ import android.database.sqlite.SQLiteDatabase;
 import com.jfilowk.teamfactory.datasource.entities.Team;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.inject.Inject;
 
 /**
  * Created by Javi on 30/09/14.
  */
 public class TeamDBImpl extends DatabaseHelper implements TeamDB {
 
+  @Inject
   public TeamDBImpl(Context context) {
     super(context);
   }

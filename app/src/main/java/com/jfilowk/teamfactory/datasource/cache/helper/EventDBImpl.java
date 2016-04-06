@@ -7,12 +7,14 @@ import android.database.sqlite.SQLiteDatabase;
 import com.jfilowk.teamfactory.datasource.entities.Event;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.inject.Inject;
 
 /**
  * Created by Javi on 22/09/14.
  */
 public class EventDBImpl extends DatabaseHelper implements EventDB {
 
+  @Inject
   public EventDBImpl(Context context) {
     super(context);
   }

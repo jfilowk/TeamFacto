@@ -7,12 +7,14 @@ import android.database.sqlite.SQLiteDatabase;
 import com.jfilowk.teamfactory.datasource.entities.RandomUser;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.inject.Inject;
 
 /**
  * Created by Javi on 22/09/14.
  */
 public class RandomUserDBImpl extends DatabaseHelper implements RandomUserDB {
 
+  @Inject
   public RandomUserDBImpl(Context context) {
     super(context);
   }
