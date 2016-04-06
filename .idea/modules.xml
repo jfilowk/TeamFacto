@@ -3,11 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/RandomUserApi/RandomUserApi.iml" filepath="$PROJECT_DIR$/RandomUserApi/RandomUserApi.iml" />
-      <module fileurl="file://$PROJECT_DIR$/RandomUserApi/RandomUserApi.iml" filepath="$PROJECT_DIR$/RandomUserApi/RandomUserApi.iml" />
       <module fileurl="file://$PROJECT_DIR$/TeamFacto.iml" filepath="$PROJECT_DIR$/TeamFacto.iml" />
-      <module fileurl="file://$PROJECT_DIR$/TeamFactory.iml" filepath="$PROJECT_DIR$/TeamFactory.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
 </project>
-
