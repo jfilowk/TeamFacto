@@ -7,7 +7,6 @@ import com.jfilowk.teamfactory.R;
 import com.jfilowk.teamfactory.datasource.entities.EventCollection;
 import com.jfilowk.teamfactory.internal.di.component.ActivityComponent;
 import com.jfilowk.teamfactory.internal.di.component.DaggerActivityComponent;
-import com.jfilowk.teamfactory.internal.di.module.ActivityModule;
 import com.jfilowk.teamfactory.ui.fragments.DialogSelectTeam;
 import com.jfilowk.teamfactory.ui.fragments.FragmentError;
 import com.jfilowk.teamfactory.ui.fragments.FragmentInitProgress;
@@ -34,7 +33,7 @@ public class HomeActivity extends BaseActivity implements HomeActivityPresenter.
     if (component == null) {
       component = DaggerActivityComponent.builder()
           .applicationComponent(getApplicationComponent())
-          .activityModule(new ActivityModule(this))
+          .activityModule(getActivityModule())
           .build();
     }
     component.inject(this);

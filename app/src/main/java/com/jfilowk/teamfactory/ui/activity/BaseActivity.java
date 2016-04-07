@@ -6,7 +6,7 @@ import com.jfilowk.teamfactory.internal.di.component.ApplicationComponent;
 import com.jfilowk.teamfactory.internal.di.module.ActivityModule;
 import com.jfilowk.teamfactory.ui.TeamFactoApp;
 
-public class BaseActivity extends ActionBarActivity {
+public abstract class BaseActivity extends ActionBarActivity {
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);

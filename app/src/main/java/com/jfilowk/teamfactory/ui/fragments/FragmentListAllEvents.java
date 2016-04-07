@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +18,9 @@ import com.jfilowk.teamfactory.datasource.cache.callback.AnEventCacheCallback;
 import com.jfilowk.teamfactory.datasource.cache.callback.EventCallbackBase;
 import com.jfilowk.teamfactory.datasource.entities.Event;
 import com.jfilowk.teamfactory.datasource.entities.EventCollection;
+import com.jfilowk.teamfactory.internal.di.component.ActivityComponent;
+import com.jfilowk.teamfactory.internal.di.component.DaggerActivityComponent;
+import com.jfilowk.teamfactory.internal.di.module.ActivityModule;
 import com.jfilowk.teamfactory.ui.activity.GenerateTeamActivity;
 import com.jfilowk.teamfactory.ui.adapters.ListEventsAdapter;
 import com.nhaarman.listviewanimations.appearance.simple.AlphaInAnimationAdapter;
@@ -30,7 +32,7 @@ import javax.inject.Inject;
 /**
  * Created by Javi on 01/10/14.
  */
-public class FragmentListAllEvents extends Fragment {
+public class FragmentListAllEvents extends BaseFragment {
 
   private static String KEY_EVENT = "event";
   private static String KEY_ERROR = "Error";
@@ -39,6 +41,7 @@ public class FragmentListAllEvents extends Fragment {
 
   private Activity activity;
   @Inject EventDataSource eventDataSource;
+  private ActivityComponent activityComponent;
 
   // TODO: CREATE PRESENTER
   public static FragmentListAllEvents newInstance(EventCollection collection) {
@@ -62,6 +65,7 @@ public class FragmentListAllEvents extends Fragment {
   @Override public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
 
+    initializeInjector();
     View viewRoot = inflater.inflate(R.layout.fragment_all_events, null);
     ButterKnife.inject(this, viewRoot);
     final EventCollection eventCollection =
@@ -114,5 +118,15 @@ public class FragmentListAllEvents extends Fragment {
     });
 
     return viewRoot;
+  }
+
+  private void initializeInjector() {
+    if (activity != null) {
+      activityComponent = DaggerActivityComponent.builder()
+          .applicationComponent(getApplicationComponent(getActivity()))
+          .activityModule(new ActivityModule(getActivity()))
+          .build();
+      activityComponent.inject(this);
+    }
   }
 }

@@ -3,7 +3,7 @@ package com.jfilowk.teamfactory.ui.fragments;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,6 +18,8 @@ import com.jfilowk.teamfactory.datasource.entities.Event;
 import com.jfilowk.teamfactory.datasource.entities.RandomUser;
 import com.jfilowk.teamfactory.datasource.entities.Team;
 import com.jfilowk.teamfactory.internal.di.component.ActivityComponent;
+import com.jfilowk.teamfactory.internal.di.component.DaggerActivityComponent;
+import com.jfilowk.teamfactory.internal.di.module.ActivityModule;
 import com.jfilowk.teamfactory.ui.adapters.ListTeamsAdapter;
 import com.jfilowk.teamfactory.ui.presenter.FragmentGenerateTeamPresenter;
 import com.nhaarman.listviewanimations.appearance.simple.AlphaInAnimationAdapter;
@@ -29,7 +31,7 @@ import javax.inject.Inject;
 /**
  * Created by Javi on 25/09/14.
  */
-public class FragmentGenerateTeam extends Fragment
+public class FragmentGenerateTeam extends BaseFragment
     implements FragmentGenerateTeamPresenter.FragmentGenerateTeamView {
 
   private static final String KEY_EVENT = "key_event";
@@ -54,19 +56,24 @@ public class FragmentGenerateTeam extends Fragment
 
   @Override public void onAttach(Activity activity) {
     super.onAttach(activity);
-    presenter.attachView(this);
     this.activity = activity;
   }
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     this.event = new Event();
-    initializeInjector();
     setHasOptionsMenu(true);
   }
 
   private void initializeInjector() {
-    // TODO: Fix, get application component
+    FragmentActivity activity = getActivity();
+    if (getActivity() != null) {
+      component = DaggerActivityComponent.builder()
+          .applicationComponent(getApplicationComponent(activity))
+          .activityModule(new ActivityModule(getActivity()))
+          .build();
+      component.inject(this);
+    }
   }
 
   @Override public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -95,6 +102,8 @@ public class FragmentGenerateTeam extends Fragment
 
   @Override public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
+    initializeInjector();
+    presenter.attachView(this);
     View root = inflater.inflate(R.layout.fragment_generate_team, null);
     ButterKnife.inject(this, root);
     this.event = (Event) getArguments().getSerializable(KEY_EVENT);

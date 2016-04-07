@@ -7,7 +7,6 @@ import com.jfilowk.teamfactory.R;
 import com.jfilowk.teamfactory.datasource.entities.Event;
 import com.jfilowk.teamfactory.internal.di.component.ActivityComponent;
 import com.jfilowk.teamfactory.internal.di.component.DaggerActivityComponent;
-import com.jfilowk.teamfactory.internal.di.module.ActivityModule;
 import com.jfilowk.teamfactory.ui.fragments.FragmentError;
 import com.jfilowk.teamfactory.ui.fragments.FragmentGenerateTeam;
 import com.jfilowk.teamfactory.ui.fragments.FragmentInitProgress;
@@ -37,7 +36,7 @@ public class GenerateTeamActivity extends BaseActivity
   private void initializeInjector() {
     component = DaggerActivityComponent.builder()
         .applicationComponent(getApplicationComponent())
-        .activityModule(new ActivityModule(this))
+        .activityModule(getActivityModule())
         .build();
     component.inject(this);
   }
