@@ -17,6 +17,7 @@ import com.jfilowk.teamfactory.R;
 import com.jfilowk.teamfactory.datasource.entities.Event;
 import com.jfilowk.teamfactory.datasource.entities.RandomUser;
 import com.jfilowk.teamfactory.datasource.entities.Team;
+import com.jfilowk.teamfactory.internal.di.component.ActivityComponent;
 import com.jfilowk.teamfactory.ui.adapters.ListTeamsAdapter;
 import com.jfilowk.teamfactory.ui.presenter.FragmentGenerateTeamPresenter;
 import com.nhaarman.listviewanimations.appearance.simple.AlphaInAnimationAdapter;
@@ -37,6 +38,7 @@ public class FragmentGenerateTeam extends Fragment
   private Activity activity;
   @Inject FragmentGenerateTeamPresenter presenter;
   private Event event;
+  private ActivityComponent component;
 
   public FragmentGenerateTeam() {
   }
@@ -52,14 +54,19 @@ public class FragmentGenerateTeam extends Fragment
 
   @Override public void onAttach(Activity activity) {
     super.onAttach(activity);
+    presenter.attachView(this);
     this.activity = activity;
   }
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     this.event = new Event();
-    presenter.attachView(this);
+    initializeInjector();
     setHasOptionsMenu(true);
+  }
+
+  private void initializeInjector() {
+    // TODO: Fix, get application component
   }
 
   @Override public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

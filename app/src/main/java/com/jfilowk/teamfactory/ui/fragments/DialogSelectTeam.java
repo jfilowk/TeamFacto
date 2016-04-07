@@ -35,7 +35,6 @@ public class DialogSelectTeam extends DialogFragment {
 
   private Activity mActivity;
   String typeEvent;
-  String[] nameType;
   int numTeams = 2;
 
   public DialogSelectTeam() {
@@ -54,6 +53,11 @@ public class DialogSelectTeam extends DialogFragment {
   }
 
   @NonNull @Override public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+    LayoutInflater inflater = mActivity.getLayoutInflater();
+    View root = inflater.inflate(R.layout.dialog_create_event, null);
+    ButterKnife.inject(this, root);
+    
     AlertDialog.Builder b = new AlertDialog.Builder(getActivity()).setPositiveButton(KEY_OK_CAPS,
         new DialogInterface.OnClickListener() {
           public void onClick(DialogInterface dialog, int whichButton) {
@@ -71,10 +75,6 @@ public class DialogSelectTeam extends DialogFragment {
         dialog.dismiss();
       }
     });
-
-    LayoutInflater inflater = mActivity.getLayoutInflater();
-    View root = inflater.inflate(R.layout.dialog_create_event, null);
-    ButterKnife.inject(this, root);
     selected = (RadioButton) rgTypeEvent.findViewById(R.id.rbSport);
     rgTypeEvent.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
       @Override public void onCheckedChanged(RadioGroup group, int checkedId) {

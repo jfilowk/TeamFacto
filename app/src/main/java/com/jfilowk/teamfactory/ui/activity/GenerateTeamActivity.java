@@ -63,7 +63,6 @@ public class GenerateTeamActivity extends BaseActivity
         .commit();
     Toast.makeText(getApplicationContext(), "Error, check your Internet connection",
         Toast.LENGTH_SHORT).show();
-    finish();
   }
 
   public void init() {

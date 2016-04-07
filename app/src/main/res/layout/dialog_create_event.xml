@@ -58,13 +58,10 @@
       android:layout_height="wrap_content"
       android:layout_below="@+id/rgTypeEvent"
       android:layout_marginLeft="80dp"
-      android:layout_toEndOf="@+id/npUsers"
-      android:layout_toStartOf="@+id/npUsers"
+      android:layout_marginTop="-15dp"
+      android:baselineAligned="false"
       android:scaleX="0.7"
       android:scaleY="0.7"
-      android:baselineAligned="false"
-      android:layout_alignParentEnd="false"
-      android:layout_marginTop="-15dp"
       />
 
   <NumberPicker
@@ -82,29 +79,29 @@
       />
 
   <TextView
+      android:id="@+id/textView"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:text="@string/users"
-      android:id="@+id/textView"
+      android:layout_alignEnd="@+id/npUsers"
+      android:layout_alignRight="@+id/npUsers"
+      android:layout_alignTop="@+id/textView2"
+      android:layout_marginRight="90dp"
       android:layout_toStartOf="@+id/npTeams"
       android:gravity="center"
-      android:layout_alignTop="@+id/textView2"
-      android:layout_alignRight="@+id/npUsers"
-      android:layout_alignEnd="@+id/npUsers"
-      android:layout_marginRight="90dp"
+      android:text="@string/users"
       />
 
   <TextView
+      android:id="@+id/textView2"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:text="@string/teams"
-      android:id="@+id/textView2"
-      android:gravity="center"
+      android:layout_alignEnd="@+id/rgTypeEvent"
+      android:layout_alignRight="@+id/rgTypeEvent"
+      android:layout_below="@+id/rgTypeEvent"
       android:layout_marginRight="30dp"
       android:layout_marginTop="41dp"
-      android:layout_below="@+id/rgTypeEvent"
-      android:layout_alignRight="@+id/rgTypeEvent"
-      android:layout_alignEnd="@+id/rgTypeEvent"
+      android:gravity="center"
+      android:text="@string/teams"
       />
 
 </RelativeLayout>
