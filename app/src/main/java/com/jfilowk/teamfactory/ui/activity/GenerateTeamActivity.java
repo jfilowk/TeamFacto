@@ -5,6 +5,9 @@ import android.widget.Toast;
 import butterknife.ButterKnife;
 import com.jfilowk.teamfactory.R;
 import com.jfilowk.teamfactory.datasource.entities.Event;
+import com.jfilowk.teamfactory.internal.di.component.ActivityComponent;
+import com.jfilowk.teamfactory.internal.di.component.DaggerActivityComponent;
+import com.jfilowk.teamfactory.internal.di.module.ActivityModule;
 import com.jfilowk.teamfactory.ui.fragments.FragmentError;
 import com.jfilowk.teamfactory.ui.fragments.FragmentGenerateTeam;
 import com.jfilowk.teamfactory.ui.fragments.FragmentInitProgress;
@@ -20,13 +23,23 @@ public class GenerateTeamActivity extends BaseActivity
   @Inject GenerateTeamPresenter presenter;
   private Event event;
   private static String KEY_EVENT = "event";
+  private ActivityComponent component;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_generate_team);
     init();
+    initializeInjector();
     presenter.attachView(this);
     presenter.onResume(this.event);
+  }
+
+  private void initializeInjector() {
+    component = DaggerActivityComponent.builder()
+        .applicationComponent(getApplicationComponent())
+        .activityModule(new ActivityModule(this))
+        .build();
+    component.inject(this);
   }
 
   @Override public void initProgressFragment() {
