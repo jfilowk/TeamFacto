@@ -80,7 +80,6 @@ public class TeamFactoApp extends Application {
 
   private static class CrashReportingTree extends Timber.HollowTree {
     @Override public void i(String message, Object... args) {
-      // TODO e.g., Crashlytics.log(String.format(message, args));
     }
 
     @Override public void i(Throwable t, String message, Object... args) {
@@ -94,7 +93,6 @@ public class TeamFactoApp extends Application {
     @Override public void e(Throwable t, String message, Object... args) {
       e(message, args);
 
-      // TODO e.g., Crashlytics.logException(t);
     }
   }
 }

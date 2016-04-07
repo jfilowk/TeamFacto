@@ -36,7 +36,7 @@ public class EventMapper {
       event.setNumTeams(cursor.getInt(num_teams));
       String stringDate = cursor.getString(created_at);
       //            Date date = new Date(stringDate);
-      event.setCreated_at(stringDate); //TODO: Change this!!!
+      event.setCreated_at(stringDate);
       eventList.add(event);
     }
 
