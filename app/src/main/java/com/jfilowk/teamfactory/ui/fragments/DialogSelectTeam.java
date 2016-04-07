@@ -17,7 +17,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import com.jfilowk.teamfactory.R;
 import com.jfilowk.teamfactory.datasource.entities.Event;
-import com.jfilowk.teamfactory.ui.activity.GenerateTeam;
+import com.jfilowk.teamfactory.ui.activity.GenerateTeamActivity;
 
 /**
  * Created by Javi on 21/09/14.
@@ -61,7 +61,7 @@ public class DialogSelectTeam extends DialogFragment {
             event.setType(selected.getText().toString());
             event.setNumUser(npUsers.getValue());
             event.setNumTeams(npTeams.getValue());
-            Intent i = new Intent(mActivity.getApplicationContext(), GenerateTeam.class);
+            Intent i = new Intent(mActivity.getApplicationContext(), GenerateTeamActivity.class);
             i.putExtra(KEY_EVENT, event);
             startActivity(i);
             getDialog().dismiss();

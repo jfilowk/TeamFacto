@@ -15,17 +15,17 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import com.jfilowk.teamfactory.R;
 import com.jfilowk.teamfactory.datasource.EventDataSource;
-import com.jfilowk.teamfactory.datasource.EventDataSourceImpl;
 import com.jfilowk.teamfactory.datasource.cache.callback.AnEventCacheCallback;
 import com.jfilowk.teamfactory.datasource.cache.callback.EventCallbackBase;
 import com.jfilowk.teamfactory.datasource.entities.Event;
 import com.jfilowk.teamfactory.datasource.entities.EventCollection;
-import com.jfilowk.teamfactory.ui.activity.GenerateTeam;
+import com.jfilowk.teamfactory.ui.activity.GenerateTeamActivity;
 import com.jfilowk.teamfactory.ui.adapters.ListEventsAdapter;
 import com.nhaarman.listviewanimations.appearance.simple.AlphaInAnimationAdapter;
 import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
 import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.OnDismissCallback;
 import java.util.List;
+import javax.inject.Inject;
 
 /**
  * Created by Javi on 01/10/14.
@@ -38,7 +38,7 @@ public class FragmentListAllEvents extends Fragment {
   @InjectView(R.id.listAllEvents) DynamicListView listAllEvents;
 
   private Activity activity;
-  private EventDataSource eventDataSource;
+  @Inject EventDataSource eventDataSource;
 
   // TODO: CREATE PRESENTER
   public static FragmentListAllEvents newInstance(EventCollection collection) {
@@ -57,7 +57,6 @@ public class FragmentListAllEvents extends Fragment {
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    this.eventDataSource = new EventDataSourceImpl();
   }
 
   @Override public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -84,6 +83,8 @@ public class FragmentListAllEvents extends Fragment {
                 @Override public void run() {
                   Toast.makeText(activity.getApplicationContext(), "Removed", Toast.LENGTH_SHORT)
                       .show();
+                  eventList.remove(pos);
+                  adapter.notifyDataSetChanged();
                 }
               });
             }
@@ -92,8 +93,6 @@ public class FragmentListAllEvents extends Fragment {
 
             }
           });
-          eventList.remove(pos);
-          adapter.notifyDataSetChanged();
         }
       }
     });
@@ -102,7 +101,7 @@ public class FragmentListAllEvents extends Fragment {
       @Override public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         eventDataSource.getEvent(eventCollection.get(position), new AnEventCacheCallback() {
           @Override public void onSuccess(final Event event) {
-            Intent i = new Intent(activity.getApplicationContext(), GenerateTeam.class);
+            Intent i = new Intent(activity.getApplicationContext(), GenerateTeamActivity.class);
             i.putExtra(KEY_EVENT, event);
             startActivity(i);
           }

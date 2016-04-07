@@ -1,7 +1,6 @@
 package com.jfilowk.teamfactory.ui.activity;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.widget.Toast;
 import butterknife.ButterKnife;
 import com.jfilowk.teamfactory.R;
@@ -15,7 +14,7 @@ import javax.inject.Inject;
 /**
  * Created by Javi on 23/09/14.
  */
-public class GenerateTeam extends ActionBarActivity
+public class GenerateTeamActivity extends BaseActivity
     implements GenerateTeamPresenter.GenerateTeamView {
 
   @Inject GenerateTeamPresenter presenter;

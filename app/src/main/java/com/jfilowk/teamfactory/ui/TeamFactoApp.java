@@ -47,6 +47,10 @@ public class TeamFactoApp extends Application {
     applicationComponent.inject(this);
   }
 
+  public ApplicationComponent getApplicationComponent() {
+    return applicationComponent;
+  }
+
   private void configureJobManager() {
     Configuration configuration = new Configuration.Builder(this).customLogger(new CustomLogger() {
       private static final String TAG = "JOBS";
