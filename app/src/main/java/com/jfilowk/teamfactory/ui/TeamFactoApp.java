@@ -22,6 +22,7 @@ public class TeamFactoApp extends Application {
 
   @Override public void onCreate() {
     super.onCreate();
+    initializeDagger();
     instance = this;
     configureJobManager();
     configureTimber();
@@ -37,8 +38,6 @@ public class TeamFactoApp extends Application {
     } else {
       Timber.plant(new CrashReportingTree());
     }
-
-    initializeDagger();
   }
 
   private void initializeDagger() {

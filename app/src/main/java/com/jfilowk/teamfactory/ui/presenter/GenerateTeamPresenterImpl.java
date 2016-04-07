@@ -3,6 +3,7 @@ package com.jfilowk.teamfactory.ui.presenter;
 import com.jfilowk.teamfactory.datasource.EventDataSource;
 import com.jfilowk.teamfactory.datasource.cache.callback.AnEventCacheCallback;
 import com.jfilowk.teamfactory.datasource.entities.Event;
+import javax.inject.Inject;
 
 /**
  * Created by Javi on 23/09/14.
@@ -12,6 +13,7 @@ public class GenerateTeamPresenterImpl implements GenerateTeamPresenter {
   GenerateTeamView view;
   EventDataSource eventDataSource;
 
+  @Inject
   public GenerateTeamPresenterImpl(EventDataSource eventDataSource) {
     this.eventDataSource = eventDataSource;
   }

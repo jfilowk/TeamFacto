@@ -1,5 +1,6 @@
 package com.jfilowk.teamfactory.datasource;
 
+import android.content.Context;
 import com.jfilowk.teamfactory.datasource.api.RandomUserApi;
 import com.jfilowk.teamfactory.datasource.api.callback.RandomUserApiCallback;
 import com.jfilowk.teamfactory.datasource.binder.RandomUserMapper;
@@ -28,12 +29,14 @@ import timber.log.Timber;
  */
 public class EventDataSourceImpl implements EventDataSource {
 
+  private Context context;
   private EventCache eventCache;
   private RandomUserApi randomUserApi;
   private JobManager jobManager;
 
   @Inject
-  public EventDataSourceImpl(EventCache eventCache, RandomUserApi randomUserApi) {
+  public EventDataSourceImpl(Context context, EventCache eventCache, RandomUserApi randomUserApi) {
+    this.context = context;
     this.eventCache = eventCache;
     this.randomUserApi = randomUserApi;
     jobManager = TeamFactoApp.get().getJobManager();

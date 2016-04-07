@@ -31,10 +31,12 @@ public class HomeActivity extends BaseActivity implements HomeActivityPresenter.
   }
 
   private void initializeInjectors() {
-    component = DaggerActivityComponent.builder()
-        .applicationComponent(getApplicationComponent())
-        .activityModule(new ActivityModule(this))
-        .build();
+    if (component == null) {
+      component = DaggerActivityComponent.builder()
+          .applicationComponent(getApplicationComponent())
+          .activityModule(new ActivityModule(this))
+          .build();
+    }
     component.inject(this);
   }
 
