@@ -1,6 +1,10 @@
 package com.jfilowk.teamfactory.internal.di.module;
 
 import android.content.Context;
+import com.jfilowk.teamfactory.datasource.EventDataSource;
+import com.jfilowk.teamfactory.datasource.EventDataSourceImpl;
+import com.jfilowk.teamfactory.datasource.api.RandomUserApi;
+import com.jfilowk.teamfactory.datasource.api.RandomUserApiImpl;
 import com.jfilowk.teamfactory.datasource.binder.EventMapper;
 import com.jfilowk.teamfactory.datasource.binder.RandomUserMapper;
 import com.jfilowk.teamfactory.datasource.binder.TeamMapper;
@@ -62,5 +66,13 @@ import javax.inject.Singleton;
 
   @Provides @Singleton UserServiceAsync provideUserServiceAsync() {
     return new RandomUser().setIsDebug(false).userServicesAsync();
+  }
+
+  @Provides @Singleton RandomUserApi provideRandomUserApi(RandomUserApiImpl randomUserApi) {
+    return randomUserApi;
+  }
+
+  @Provides @Singleton EventDataSource provideEventDataSource(EventDataSourceImpl eventDataSource) {
+    return eventDataSource;
   }
 }

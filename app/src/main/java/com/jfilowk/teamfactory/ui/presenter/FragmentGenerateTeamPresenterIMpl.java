@@ -13,7 +13,8 @@ public class FragmentGenerateTeamPresenterImpl implements FragmentGenerateTeamPr
   private FragmentGenerateTeamView view;
   private EventDataSource eventDataSource;
 
-  @Inject public FragmentGenerateTeamPresenterImpl(EventDataSource eventDataSource) {
+  @Inject
+  public FragmentGenerateTeamPresenterImpl(EventDataSource eventDataSource) {
     this.eventDataSource = eventDataSource;
   }
 

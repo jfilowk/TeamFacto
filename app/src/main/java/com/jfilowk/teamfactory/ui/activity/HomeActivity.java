@@ -12,11 +12,12 @@ import com.jfilowk.teamfactory.ui.fragments.FragmentInitProgress;
 import com.jfilowk.teamfactory.ui.fragments.FragmentListAllEvents;
 import com.jfilowk.teamfactory.ui.presenter.HomeActivityPresenter;
 import com.jfilowk.teamfactory.ui.presenter.HomeActivityPresenterImpl;
+import javax.inject.Inject;
 
 public class HomeActivity extends ActionBarActivity
     implements HomeActivityPresenter.HomeActivityView {
 
-  private HomeActivityPresenter presenter;
+  @Inject HomeActivityPresenter presenter;
 
   private static String FRAGMENT_SELECT_TEAM = "fragment_select_team";
 

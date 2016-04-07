@@ -3,6 +3,9 @@ package com.jfilowk.teamfactory.ui;
 import android.app.Application;
 import android.util.Log;
 import com.jfilowk.teamfactory.BuildConfig;
+import com.jfilowk.teamfactory.internal.di.component.ApplicationComponent;
+import com.jfilowk.teamfactory.internal.di.component.DaggerApplicationComponent;
+import com.jfilowk.teamfactory.internal.di.module.ApplicationModule;
 import com.path.android.jobqueue.JobManager;
 import com.path.android.jobqueue.config.Configuration;
 import com.path.android.jobqueue.log.CustomLogger;
@@ -15,6 +18,7 @@ public class TeamFactoApp extends Application {
 
   private static TeamFactoApp instance;
   private JobManager jobManager;
+  private ApplicationComponent applicationComponent;
 
   @Override public void onCreate() {
     super.onCreate();
@@ -33,6 +37,14 @@ public class TeamFactoApp extends Application {
     } else {
       Timber.plant(new CrashReportingTree());
     }
+
+    initializeDagger();
+  }
+
+  private void initializeDagger() {
+    applicationComponent =
+        DaggerApplicationComponent.builder().applicationModule(new ApplicationModule(this)).build();
+    applicationComponent.inject(this);
   }
 
   private void configureJobManager() {

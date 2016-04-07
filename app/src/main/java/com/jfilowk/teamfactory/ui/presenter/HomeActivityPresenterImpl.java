@@ -3,6 +3,7 @@ package com.jfilowk.teamfactory.ui.presenter;
 import com.jfilowk.teamfactory.datasource.EventDataSource;
 import com.jfilowk.teamfactory.datasource.callbacks.EventCallback;
 import com.jfilowk.teamfactory.datasource.entities.EventCollection;
+import javax.inject.Inject;
 
 /**
  * Created by Javi on 19/09/14.
@@ -12,6 +13,7 @@ public class HomeActivityPresenterImpl implements HomeActivityPresenter {
   private EventDataSource eventDataSource;
   private HomeActivityView view;
 
+  @Inject
   public HomeActivityPresenterImpl(EventDataSource eventDataSource) {
     this.eventDataSource = eventDataSource;
   }

@@ -10,15 +10,15 @@ import com.jfilowk.teamfactory.ui.fragments.FragmentError;
 import com.jfilowk.teamfactory.ui.fragments.FragmentGenerateTeam;
 import com.jfilowk.teamfactory.ui.fragments.FragmentInitProgress;
 import com.jfilowk.teamfactory.ui.presenter.GenerateTeamPresenter;
-import com.jfilowk.teamfactory.ui.presenter.GenerateTeamPresenterImpl;
-import com.jfilowk.teamfactory.ui.views.GenerateTeamView;
+import javax.inject.Inject;
 
 /**
  * Created by Javi on 23/09/14.
  */
-public class GenerateTeam extends ActionBarActivity implements GenerateTeamPresenter.GenerateTeamView {
+public class GenerateTeam extends ActionBarActivity
+    implements GenerateTeamPresenter.GenerateTeamView {
 
-  private GenerateTeamPresenter presenter;
+  @Inject GenerateTeamPresenter presenter;
   private Event event;
   private static String KEY_EVENT = "event";
 
@@ -56,7 +56,6 @@ public class GenerateTeam extends ActionBarActivity implements GenerateTeamPrese
 
   public void init() {
     this.event = (Event) getIntent().getSerializableExtra(KEY_EVENT);
-    presenter = new GenerateTeamPresenterImpl(this);
     ButterKnife.inject(this);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
   }

@@ -40,6 +40,7 @@ public class FragmentListAllEvents extends Fragment {
   private Activity activity;
   private EventDataSource eventDataSource;
 
+  // TODO: CREATE PRESENTER
   public static FragmentListAllEvents newInstance(EventCollection collection) {
     FragmentListAllEvents fragmentListAllEvents = new FragmentListAllEvents();
     Bundle data = new Bundle();

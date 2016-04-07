@@ -32,7 +32,8 @@ public class EventDataSourceImpl implements EventDataSource {
   private RandomUserApi randomUserApi;
   private JobManager jobManager;
 
-  @Inject public EventDataSourceImpl(EventCache eventCache, RandomUserApi randomUserApi) {
+  @Inject
+  public EventDataSourceImpl(EventCache eventCache, RandomUserApi randomUserApi) {
     this.eventCache = eventCache;
     this.randomUserApi = randomUserApi;
     jobManager = TeamFactoApp.get().getJobManager();
