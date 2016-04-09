@@ -1,29 +1,29 @@
 {
-    "types": [
-        {
-            "name": "3X3",
-            "numTeams": 2,
-            "numPlayers": 6
-        },
-        {
-            "name": "4X4",
-            "numTeams": 2,
-            "numPlayers": 8
-        },
-        {
-            "name": "5X5",
-            "numTeams": 2,
-            "numPlayers": 10
-        },
-        {
-            "name": "7X7",
-            "numTeams": 2,
-            "numPlayers": 14
-        },
-        {
-            "name": "11X11",
-            "numTeams": 2,
-            "numPlayers": 22
-        }
-    ]
+  "types": [
+    {
+      "name": "3X3",
+      "numTeams": 2,
+      "numPlayers": 6
+    },
+    {
+      "name": "4X4",
+      "numTeams": 2,
+      "numPlayers": 8
+    },
+    {
+      "name": "5X5",
+      "numTeams": 2,
+      "numPlayers": 10
+    },
+    {
+      "name": "7X7",
+      "numTeams": 2,
+      "numPlayers": 14
+    },
+    {
+      "name": "11X11",
+      "numTeams": 2,
+      "numPlayers": 22
+    }
+  ]
 }

@@ -5,7 +5,6 @@ import com.jfilowk.teamfactory.datasource.cache.helper.RandomUserDB;
 import com.jfilowk.teamfactory.datasource.cache.helper.RandomUserDBImpl;
 import com.jfilowk.teamfactory.datasource.entities.RandomUser;
 import com.jfilowk.teamfactory.ui.TeamFactoApp;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,37 +13,33 @@ import java.util.List;
  */
 public class RandomUserCacheImp implements RandomUserCache {
 
-    RandomUserDB randomUserDB;
-    List<RandomUser> list;
+  RandomUserDB randomUserDB;
+  List<RandomUser> list;
 
-    public RandomUserCacheImp() {
-        init();
+  public RandomUserCacheImp() {
+    init();
+  }
+
+  @Override public boolean createUser(RandomUser user, long idTeam) {
+
+    long id = randomUserDB.createRandomUser(user, idTeam);
+    System.out.println("He sido insertado" + id);
+
+    if (id != -1) {
+      return true;
+    } else {
+      return false;
     }
+  }
 
-    @Override
-    public boolean createUser(RandomUser user, long idTeam) {
+  @Override public void getRandomUserCache(RandomUserCacheCallback callback) {
 
-        long id = randomUserDB.createRandomUser(user, idTeam);
-        System.out.println("He sido insertado"+id);
+    callback.onSuccess(list);
+  }
 
-        if (id != -1) {
-            return true;
-        } else {
-            return false;
-        }
+  public void init() {
 
-    }
-
-    @Override
-    public void getRandomUserCache(RandomUserCacheCallback callback) {
-
-        callback.onSuccess(list);
-
-    }
-
-    public void init() {
-
-        randomUserDB = new RandomUserDBImpl(TeamFactoApp.get());
-        list = new ArrayList<RandomUser>();
-    }
+    randomUserDB = new RandomUserDBImpl(TeamFactoApp.get());
+    list = new ArrayList<RandomUser>();
+  }
 }

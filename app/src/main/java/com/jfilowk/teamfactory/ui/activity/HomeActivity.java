@@ -1,92 +1,95 @@
 package com.jfilowk.teamfactory.ui.activity;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import com.jfilowk.teamfactory.R;
 import com.jfilowk.teamfactory.datasource.entities.EventCollection;
+import com.jfilowk.teamfactory.internal.di.component.ActivityComponent;
+import com.jfilowk.teamfactory.internal.di.component.DaggerActivityComponent;
 import com.jfilowk.teamfactory.ui.fragments.DialogSelectTeam;
 import com.jfilowk.teamfactory.ui.fragments.FragmentError;
 import com.jfilowk.teamfactory.ui.fragments.FragmentInitProgress;
 import com.jfilowk.teamfactory.ui.fragments.FragmentListAllEvents;
 import com.jfilowk.teamfactory.ui.presenter.HomeActivityPresenter;
-import com.jfilowk.teamfactory.ui.presenter.HomeActivityPresenterImpl;
-import com.jfilowk.teamfactory.ui.views.HomeActivityView;
+import javax.inject.Inject;
 
-public class HomeActivity extends ActionBarActivity implements HomeActivityView {
+public class HomeActivity extends BaseActivity implements HomeActivityPresenter.HomeActivityView {
 
-    private HomeActivityPresenter presenter;
+  @Inject HomeActivityPresenter presenter;
 
-    private static String FRAGMENT_SELECT_TEAM = "fragment_select_team";
+  private ActivityComponent component;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_menu);
+  private static String FRAGMENT_SELECT_TEAM = "fragment_select_team";
 
-        init();
+  @Override protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main_menu);
+    initializeInjectors();
+    presenter.attachView(this);
+  }
 
+  private void initializeInjectors() {
+    if (component == null) {
+      component = DaggerActivityComponent.builder()
+          .applicationComponent(getApplicationComponent())
+          .activityModule(getActivityModule())
+          .build();
     }
+    component.inject(this);
+  }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        presenter.onResume();
+  @Override protected void onResume() {
+    super.onResume();
+    presenter.onResume();
+  }
+
+  @Override public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.main_menu, menu);
+    return true;
+  }
+
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+
+    int id = item.getItemId();
+    if (id == R.id.create_team) {
+
+      presenter.selectTeam();
+      return true;
     }
+    return super.onOptionsItemSelected(item);
+  }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        return true;
-    }
+  @Override public void initProgressFragment() {
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    FragmentInitProgress progress = new FragmentInitProgress();
+    getSupportFragmentManager().beginTransaction()
+        .replace(R.id.fragment_container, progress)
+        .commit();
+  }
 
-        int id = item.getItemId();
-        if (id == R.id.create_team) {
+  @Override public void initMainFragment(EventCollection eventCollection) {
+    FragmentListAllEvents fragmentListAllEvents =
+        FragmentListAllEvents.newInstance(eventCollection);
+    getSupportFragmentManager().beginTransaction()
+        .replace(R.id.fragment_container, fragmentListAllEvents)
+        .commit();
+  }
 
-            presenter.selectTeam();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+  @Override public void initSelectTeamFragment() {
+    showSelectTeamFragment();
+  }
 
-    @Override
-    public void initProgressFragment() {
+  private void showSelectTeamFragment() {
 
-        FragmentInitProgress progress = new FragmentInitProgress();
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, progress).commit();
+    DialogSelectTeam dialogSelectTeam = DialogSelectTeam.newInstance();
+    dialogSelectTeam.show(getSupportFragmentManager(), FRAGMENT_SELECT_TEAM);
+  }
 
-    }
-
-    @Override
-    public void initMainFragment(EventCollection eventCollection) {
-        FragmentListAllEvents fragmentListAllEvents  = FragmentListAllEvents.newInstance(eventCollection);
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragmentListAllEvents).commit();
-    }
-
-    private void init() {
-        this.presenter = new HomeActivityPresenterImpl(this);
-    }
-
-    @Override
-    public void initSelectTeamFragment() {
-        showSelectTeamFragment();
-    }
-
-    private void showSelectTeamFragment(){
-
-        DialogSelectTeam dialogSelectTeam = DialogSelectTeam.newInstance();
-        dialogSelectTeam.show(getSupportFragmentManager(), FRAGMENT_SELECT_TEAM);
-
-    }
-
-    @Override
-    public void initErrorFragment() {
-        FragmentError fragmentError = FragmentError.newInstance();
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragmentError).commit();
-    }
+  @Override public void initErrorFragment() {
+    FragmentError fragmentError = FragmentError.newInstance();
+    getSupportFragmentManager().beginTransaction()
+        .replace(R.id.fragment_container, fragmentError)
+        .commit();
+  }
 }

@@ -7,7 +7,7 @@ import com.jfilowk.teamfactory.datasource.entities.EventCollection;
  */
 
 public interface EventCallback {
-    public void onSuccess (EventCollection collection);
-    public void onError ();
+  public void onSuccess(EventCollection collection);
 
+  public void onError();
 }

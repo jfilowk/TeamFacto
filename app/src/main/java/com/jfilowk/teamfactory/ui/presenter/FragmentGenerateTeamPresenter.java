@@ -6,8 +6,19 @@ import com.jfilowk.teamfactory.datasource.entities.Event;
  * Created by Javi on 26/09/14.
  */
 public interface FragmentGenerateTeamPresenter {
-    public void onResume();
-    public void onError();
-    public void showTeams(Event event);
-    public void createEvent(Event event);
+  void onResume();
+
+  void onError();
+
+  void showTeams(Event event);
+
+  void createEvent(Event event);
+
+  void attachView(FragmentGenerateTeamView fragmentGenerateTeamView);
+
+  interface FragmentGenerateTeamView {
+    void initListView(Event event);
+
+    void initFragmentError();
+  }
 }
