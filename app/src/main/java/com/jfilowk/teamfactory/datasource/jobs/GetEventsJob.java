@@ -10,45 +10,38 @@ import com.path.android.jobqueue.Params;
 /**
  * Created by Javi on 02/10/14.
  */
-public class GetEventsJob extends Job{
+public class GetEventsJob extends Job {
 
-    private EventCache cache;
-    private EventCallback listener;
+  private EventCache cache;
+  private EventCallback listener;
 
-    public GetEventsJob(EventCache eventCache, EventCallback callback) {
-        super(new Params(Priority.MID));
-        this.cache = eventCache;
-        this.listener = callback;
-    }
+  public GetEventsJob(EventCache eventCache, EventCallback callback) {
+    super(new Params(Priority.MID));
+    this.cache = eventCache;
+    this.listener = callback;
+  }
 
-    @Override
-    public void onAdded() {
+  @Override public void onAdded() {
 
-    }
+  }
 
-    @Override
-    public void onRun() throws Throwable {
-        this.cache.getEvents(new EventCacheCallback() {
-            @Override
-            public void onSuccess(EventCollection eventCollection) {
-                listener.onSuccess(eventCollection);
-            }
+  @Override public void onRun() throws Throwable {
+    this.cache.getEvents(new EventCacheCallback() {
+      @Override public void onSuccess(EventCollection eventCollection) {
+        listener.onSuccess(eventCollection);
+      }
 
-            @Override
-            public void onError() {
-                listener.onError();
-            }
-        });
+      @Override public void onError() {
+        listener.onError();
+      }
+    });
+  }
 
-    }
+  @Override protected void onCancel() {
 
-    @Override
-    protected void onCancel() {
+  }
 
-    }
-
-    @Override
-    protected boolean shouldReRunOnThrowable(Throwable throwable) {
-        return false;
-    }
+  @Override protected boolean shouldReRunOnThrowable(Throwable throwable) {
+    return false;
+  }
 }

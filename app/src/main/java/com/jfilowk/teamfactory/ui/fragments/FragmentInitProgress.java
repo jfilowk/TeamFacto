@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.jfilowk.teamfactory.R;
 
 /**
@@ -14,14 +13,14 @@ import com.jfilowk.teamfactory.R;
  */
 public class FragmentInitProgress extends Fragment {
 
-    public FragmentInitProgress() {
-    }
+  public FragmentInitProgress() {
+  }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+  @Override public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+      @Nullable Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.fragment_progress, null);
+    View root = inflater.inflate(R.layout.fragment_progress, null);
 
-        return root;
-    }
+    return root;
+  }
 }

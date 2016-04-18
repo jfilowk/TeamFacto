@@ -8,19 +8,15 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import com.jfilowk.teamfactory.R;
 import com.jfilowk.teamfactory.datasource.entities.RandomUser;
 import com.jfilowk.teamfactory.datasource.entities.Team;
 import com.squareup.picasso.Picasso;
-
-import org.apache.commons.lang3.text.WordUtils;
-
 import java.util.HashMap;
 import java.util.List;
-
-import butterknife.ButterKnife;
-import butterknife.InjectView;
+import org.apache.commons.lang3.text.WordUtils;
 import timber.log.Timber;
 
 /**
@@ -28,146 +24,135 @@ import timber.log.Timber;
  */
 public class ListTeamsAdapter extends BaseAdapter {
 
-    private static final int ITEM_VIEW_TYPE_TEAM = 0;
-    private static final int ITEM_VIEW_TYPE_USER = 1;
-    private static final int ITEM_VIEW_TYPE_COUNT = 2;
+  private static final int ITEM_VIEW_TYPE_TEAM = 0;
+  private static final int ITEM_VIEW_TYPE_USER = 1;
+  private static final int ITEM_VIEW_TYPE_COUNT = 2;
 
-    private List<Object> teams;
-    private Context context;
-    private HashMap<String, String> colorsTeam;
-    private int color = 1;
-    private String[] colors = {"#FFFFFF" ,"#9ceb9c", "#ff6969", "#ffc85b", "#bb84d6", "#5b92ff"};
+  private List<Object> teams;
+  private Context context;
+  private HashMap<String, String> colorsTeam;
+  private int color = 1;
+  private String[] colors = { "#FFFFFF", "#9ceb9c", "#ff6969", "#ffc85b", "#bb84d6", "#5b92ff" };
 
-    public ListTeamsAdapter(Context context, List<Object> teams) {
-        this.context = context;
-        this.teams = teams;
-        this.colorsTeam = new HashMap<String, String>();
+  public ListTeamsAdapter(Context context, List<Object> teams) {
+    this.context = context;
+    this.teams = teams;
+    this.colorsTeam = new HashMap<String, String>();
+  }
+
+  @Override public int getItemViewType(int position) {
+
+    if (teams.get(position) instanceof Team) {
+      return ITEM_VIEW_TYPE_TEAM;
+    } else {
+      return ITEM_VIEW_TYPE_USER;
     }
+  }
 
-    @Override
-    public int getItemViewType(int position) {
+  @Override public int getViewTypeCount() {
+    return ITEM_VIEW_TYPE_COUNT;
+  }
 
-        if (teams.get(position) instanceof Team) {
-            return ITEM_VIEW_TYPE_TEAM;
+  @Override public int getCount() {
+    return teams.size();
+  }
 
+  @Override public Object getItem(int position) {
+    return null;
+  }
+
+  @Override public long getItemId(int position) {
+    return 0;
+  }
+
+  @Override public View getView(int position, View convertView, ViewGroup parent) {
+    ItemViewHolder itemHolder = null;
+    SectionViewHolder sectionHolder = null;
+    int type = getItemViewType(position);
+    LayoutInflater inflater =
+        (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    switch (type) {
+      case ITEM_VIEW_TYPE_TEAM:
+        if (convertView == null) {
+          convertView = inflater.inflate(R.layout.row_list_team_section, null);
+          sectionHolder = new SectionViewHolder(convertView);
+          convertView.setTag(sectionHolder);
         } else {
-            return ITEM_VIEW_TYPE_USER;
-
+          sectionHolder = (SectionViewHolder) convertView.getTag();
         }
-    }
-
-    @Override
-    public int getViewTypeCount() {
-        return ITEM_VIEW_TYPE_COUNT;
-    }
-
-    @Override
-    public int getCount() {
-        return teams.size();
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return null;
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return 0;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ItemViewHolder itemHolder = null;
-        SectionViewHolder sectionHolder = null;
-        int type = getItemViewType(position);
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        switch (type) {
-            case ITEM_VIEW_TYPE_TEAM:
-                if (convertView == null) {
-                    convertView = inflater.inflate(R.layout.row_list_team_section, null);
-                    sectionHolder = new SectionViewHolder(convertView);
-                    convertView.setTag(sectionHolder);
-                } else {
-                    sectionHolder = (SectionViewHolder) convertView.getTag();
-                }
-                Team team = (Team) teams.get(position);
-                if (colorsTeam.keySet().isEmpty()) {
-                    this.colorsTeam.put(String.valueOf(team.getId()), colors[color]);
-                    color++;
-                } else {
-                    if (!checkIdTeam(team)) {
-                        this.colorsTeam.put(String.valueOf(team.getId()), colors[color]);
-                        color++;
-                    }
-                }
-
-                convertView.setBackgroundColor(Color.parseColor(colorsTeam.get(String.valueOf(team.getId()))));
-                sectionHolder.teamName.setText(team.getName());
-                break;
-            case ITEM_VIEW_TYPE_USER:
-                if (convertView == null) {
-                    convertView = inflater.inflate(R.layout.row_list_team_item, null);
-                    itemHolder = new ItemViewHolder(convertView);
-                    convertView.setTag(itemHolder);
-                } else {
-                    itemHolder = (ItemViewHolder) convertView.getTag();
-                }
-                RandomUser user = (RandomUser) teams.get(position);
-                String colorString = "";
-                if(user.getTeam_id() == 0){
-                    colorString = "#FFFFFF";
-                    itemHolder.firstNameUser.setTextColor(Color.BLACK);
-                    itemHolder.lastNameUser.setTextColor(Color.BLACK);
-                }else{
-                    colorString =colorsTeam.get(String.valueOf(user.getTeam_id()));
-                    StringBuilder stringBuilder = new StringBuilder(colorString);
-                    stringBuilder.deleteCharAt(0);
-                    stringBuilder.insert(0, "#CC");
-                    colorString = stringBuilder.toString();
-                    Timber.e(colorString);
-                }
-                convertView.setBackgroundColor(Color.parseColor(colorString));
-                itemHolder.firstNameUser.setText(WordUtils.capitalizeFully(user.getFirstName()));
-                itemHolder.lastNameUser.setText(WordUtils.capitalizeFully(user.getLastName()));
-                Picasso.with(context).load(user.getPicture()).into(itemHolder.imageUser);
-                break;
+        Team team = (Team) teams.get(position);
+        if (colorsTeam.keySet().isEmpty()) {
+          this.colorsTeam.put(String.valueOf(team.getId()), colors[color]);
+          color++;
+        } else {
+          if (!checkIdTeam(team)) {
+            this.colorsTeam.put(String.valueOf(team.getId()), colors[color]);
+            color++;
+          }
         }
-        return convertView;
-    }
 
-    private boolean checkIdTeam(Team team) {
-        int i = 0;
-        for (String key : colorsTeam.keySet()) {
-            if (String.valueOf(team.getId()).equals(key)) {
-                i++;
-            }
+        convertView.setBackgroundColor(
+            Color.parseColor(colorsTeam.get(String.valueOf(team.getId()))));
+        sectionHolder.teamName.setText(team.getName());
+        break;
+      case ITEM_VIEW_TYPE_USER:
+        if (convertView == null) {
+          convertView = inflater.inflate(R.layout.row_list_team_item, null);
+          itemHolder = new ItemViewHolder(convertView);
+          convertView.setTag(itemHolder);
+        } else {
+          itemHolder = (ItemViewHolder) convertView.getTag();
         }
-        Timber.e("Valor de la I" + i);
-        return i >= 1;
-
-    }
-
-    static class ItemViewHolder {
-        @InjectView(R.id.textFirstNameUserItem)
-        TextView firstNameUser;
-        @InjectView(R.id.textLastNameUserItem)
-        TextView lastNameUser;
-        @InjectView(R.id.imageUserItem)
-        ImageView imageUser;
-
-        public ItemViewHolder(View view) {
-            ButterKnife.inject(this, view);
+        RandomUser user = (RandomUser) teams.get(position);
+        String colorString = "";
+        if (user.getTeam_id() == 0) {
+          colorString = "#FFFFFF";
+          itemHolder.firstNameUser.setTextColor(Color.BLACK);
+          itemHolder.lastNameUser.setTextColor(Color.BLACK);
+        } else {
+          colorString = colorsTeam.get(String.valueOf(user.getTeam_id()));
+          StringBuilder stringBuilder = new StringBuilder(colorString);
+          stringBuilder.deleteCharAt(0);
+          stringBuilder.insert(0, "#CC");
+          colorString = stringBuilder.toString();
+          Timber.e(colorString);
         }
+        convertView.setBackgroundColor(Color.parseColor(colorString));
+        itemHolder.firstNameUser.setText(WordUtils.capitalizeFully(user.getFirstName()));
+        itemHolder.lastNameUser.setText(WordUtils.capitalizeFully(user.getLastName()));
+        Picasso.with(context).load(user.getPicture()).into(itemHolder.imageUser);
+        break;
     }
+    return convertView;
+  }
 
-    static class SectionViewHolder {
-        @InjectView(R.id.textTeamName)
-        TextView teamName;
-
-        SectionViewHolder(View view) {
-
-            ButterKnife.inject(this, view);
-        }
+  private boolean checkIdTeam(Team team) {
+    int i = 0;
+    for (String key : colorsTeam.keySet()) {
+      if (String.valueOf(team.getId()).equals(key)) {
+        i++;
+      }
     }
+    Timber.e("Valor de la I" + i);
+    return i >= 1;
+  }
+
+  static class ItemViewHolder {
+    @InjectView(R.id.textFirstNameUserItem) TextView firstNameUser;
+    @InjectView(R.id.textLastNameUserItem) TextView lastNameUser;
+    @InjectView(R.id.imageUserItem) ImageView imageUser;
+
+    public ItemViewHolder(View view) {
+      ButterKnife.inject(this, view);
+    }
+  }
+
+  static class SectionViewHolder {
+    @InjectView(R.id.textTeamName) TextView teamName;
+
+    SectionViewHolder(View view) {
+
+      ButterKnife.inject(this, view);
+    }
+  }
 }
