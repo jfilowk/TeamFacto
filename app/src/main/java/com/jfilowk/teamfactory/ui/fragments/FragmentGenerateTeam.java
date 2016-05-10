@@ -37,8 +37,8 @@ public class FragmentGenerateTeam extends BaseFragment
   private static final String KEY_EVENT = "key_event";
 
   @InjectView(R.id.listViewTeams) DynamicListView listViewTeams;
-  private Activity activity;
   @Inject FragmentGenerateTeamPresenter presenter;
+  private Activity activity;
   private Event event;
   private ActivityComponent component;
 
@@ -127,6 +127,10 @@ public class FragmentGenerateTeam extends BaseFragment
     AlphaInAnimationAdapter animationAdapter = new AlphaInAnimationAdapter(adapter);
     animationAdapter.setAbsListView(listViewTeams);
     listViewTeams.setAdapter(animationAdapter);
+  }
+
+  @Override public void createdOk() {
+    Toast.makeText(getActivity(), "Created Ok", Toast.LENGTH_SHORT).show();
   }
 
   @Override public void initFragmentError() {

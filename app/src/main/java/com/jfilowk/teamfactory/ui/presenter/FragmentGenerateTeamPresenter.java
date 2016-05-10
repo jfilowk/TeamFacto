@@ -19,6 +19,8 @@ public interface FragmentGenerateTeamPresenter {
   interface FragmentGenerateTeamView {
     void initListView(Event event);
 
+    void createdOk();
+
     void initFragmentError();
   }
 }

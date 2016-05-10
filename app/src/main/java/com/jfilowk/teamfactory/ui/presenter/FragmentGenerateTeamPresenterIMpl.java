@@ -13,8 +13,7 @@ public class FragmentGenerateTeamPresenterImpl implements FragmentGenerateTeamPr
   private FragmentGenerateTeamView view;
   private EventDataSource eventDataSource;
 
-  @Inject
-  public FragmentGenerateTeamPresenterImpl(EventDataSource eventDataSource) {
+  @Inject public FragmentGenerateTeamPresenterImpl(EventDataSource eventDataSource) {
     this.eventDataSource = eventDataSource;
   }
 
@@ -33,7 +32,7 @@ public class FragmentGenerateTeamPresenterImpl implements FragmentGenerateTeamPr
   @Override public void createEvent(Event event) {
     eventDataSource.createEvent(event, new EventCallbackBase() {
       @Override public void onSuccess() {
-
+        view.createdOk();
       }
 
       @Override public void onError() {
