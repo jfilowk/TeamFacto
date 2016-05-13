@@ -1,6 +1,7 @@
 package com.jfilowk.teamfactory.internal.di.module;
 
 import android.content.Context;
+import android.util.Log;
 import com.jfilowk.teamfactory.datasource.EventDataSource;
 import com.jfilowk.teamfactory.datasource.EventDataSourceImpl;
 import com.jfilowk.teamfactory.datasource.api.RandomUserApi;
@@ -17,6 +18,9 @@ import com.jfilowk.teamfactory.datasource.cache.helper.RandomUserDBImpl;
 import com.jfilowk.teamfactory.datasource.cache.helper.TeamDB;
 import com.jfilowk.teamfactory.datasource.cache.helper.TeamDBImpl;
 import com.jfilowk.teamfactory.ui.TeamFactoApp;
+import com.path.android.jobqueue.JobManager;
+import com.path.android.jobqueue.config.Configuration;
+import com.path.android.jobqueue.log.CustomLogger;
 import com.terro.RandomUser;
 import com.terro.services.UserServiceAsync;
 import dagger.Module;
@@ -74,5 +78,30 @@ import javax.inject.Singleton;
 
   @Provides @Singleton EventDataSource provideEventDataSource(EventDataSourceImpl eventDataSource) {
     return eventDataSource;
+  }
+
+  @Provides @Singleton JobManager provideJobManager() {
+    Configuration configuration =
+        new Configuration.Builder(provideApplicationContext()).customLogger(new CustomLogger() {
+          private static final String TAG = "JOBS";
+
+          @Override public boolean isDebugEnabled() {
+
+            return true;
+          }
+
+          @Override public void d(String text, Object... args) {
+            Log.d(TAG, String.format(text, args));
+          }
+
+          @Override public void e(Throwable t, String text, Object... args) {
+            Log.e(TAG, String.format(text, args), t);
+          }
+
+          @Override public void e(String text, Object... args) {
+            Log.e(TAG, String.format(text, args));
+          }
+        }).minConsumerCount(1).maxConsumerCount(3).loadFactor(3).consumerKeepAlive(120).build();
+    return new JobManager(provideApplicationContext(), configuration);
   }
 }

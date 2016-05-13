@@ -18,7 +18,6 @@ import com.jfilowk.teamfactory.datasource.jobs.CreateEventJob;
 import com.jfilowk.teamfactory.datasource.jobs.DeleteEventJob;
 import com.jfilowk.teamfactory.datasource.jobs.GetEventJob;
 import com.jfilowk.teamfactory.datasource.jobs.GetEventsJob;
-import com.jfilowk.teamfactory.ui.TeamFactoApp;
 import com.path.android.jobqueue.JobManager;
 import com.terro.entities.UserRandomResponse;
 import javax.inject.Inject;
@@ -35,11 +34,11 @@ public class EventDataSourceImpl implements EventDataSource {
   private JobManager jobManager;
 
   @Inject
-  public EventDataSourceImpl(Context context, EventCache eventCache, RandomUserApi randomUserApi) {
+  public EventDataSourceImpl(Context context, EventCache eventCache, RandomUserApi randomUserApi, JobManager jobManager) {
     this.context = context;
     this.eventCache = eventCache;
     this.randomUserApi = randomUserApi;
-    jobManager = TeamFactoApp.get().getJobManager();
+    this.jobManager = jobManager;
   }
 
   @Override public void createEvent(Event event, final EventCallbackBase eventCallback) {
