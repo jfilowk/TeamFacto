@@ -1,6 +1,5 @@
 package com.jfilowk.teamfactory.datasource;
 
-import android.content.Context;
 import com.jfilowk.teamfactory.datasource.api.RandomUserApi;
 import com.jfilowk.teamfactory.datasource.api.callback.RandomUserApiCallback;
 import com.jfilowk.teamfactory.datasource.binder.RandomUserMapper;
@@ -28,21 +27,20 @@ import timber.log.Timber;
  */
 public class EventDataSourceImpl implements EventDataSource {
 
-  private Context context;
   private EventCache eventCache;
   private RandomUserApi randomUserApi;
   private JobManager jobManager;
 
-  @Inject
-  public EventDataSourceImpl(Context context, EventCache eventCache, RandomUserApi randomUserApi, JobManager jobManager) {
-    this.context = context;
+  @Inject public EventDataSourceImpl(EventCache eventCache, RandomUserApi randomUserApi,
+      JobManager jobManager) {
     this.eventCache = eventCache;
     this.randomUserApi = randomUserApi;
     this.jobManager = jobManager;
   }
 
   @Override public void createEvent(Event event, final EventCallbackBase eventCallback) {
-    jobManager.addJobInBackground(new CreateEventJob(event, eventCache, new EventCallbackBase() {
+
+    CreateEventJob job = new CreateEventJob(event, eventCache, new EventCallbackBase() {
       @Override public void onSuccess() {
         eventCallback.onSuccess();
       }
@@ -51,7 +49,9 @@ public class EventDataSourceImpl implements EventDataSource {
         eventCallback.onError();
         Timber.e("Entro en el CreateEventEventSource");
       }
-    }));
+    });
+
+    jobManager.addJobInBackground(job);
   }
 
   @Override public void getAllEvents(final EventCallback eventCallback) {
