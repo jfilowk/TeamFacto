@@ -5,6 +5,8 @@ import com.jfilowk.teamfactory.datasource.cache.EventCache;
 import com.jfilowk.teamfactory.datasource.cache.callback.AnEventCacheCallback;
 import com.jfilowk.teamfactory.datasource.cache.callback.EventCallbackBase;
 import com.jfilowk.teamfactory.datasource.callbacks.EventCallback;
+import com.jfilowk.teamfactory.datasource.entities.Event;
+import com.jfilowk.teamfactory.datasource.jobs.CreateEventJob;
 import com.path.android.jobqueue.JobManager;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,6 +14,9 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.verify;
 
 public class EventDataSourceImplTest {
 
@@ -33,6 +38,10 @@ public class EventDataSourceImplTest {
   }
 
   @Test public void testCreateEvent() throws Exception {
+    Event event = new Event();
+    eventDataSource.createEvent(event, eventCallbackBase);
+
+    verify(jobManager).addJobInBackground(any(CreateEventJob.class));
 
   }
 
