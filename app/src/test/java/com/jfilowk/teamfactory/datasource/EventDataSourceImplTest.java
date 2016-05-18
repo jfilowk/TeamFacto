@@ -42,7 +42,6 @@ public class EventDataSourceImplTest {
     eventDataSource.createEvent(event, eventCallbackBase);
 
     verify(jobManager).addJobInBackground(any(CreateEventJob.class));
-
   }
 
   @Test public void testGetAllEvents() throws Exception {

@@ -25,23 +25,15 @@ public class CreateEventJobTest {
     createEventJob = new CreateEventJob(event, eventCache, listener);
   }
 
-  @Test public void testOnRun() throws Exception {
-    try {
-      createEventJob.onRun();
-      when(eventCache.createEvent(event)).thenReturn(true);
-      verify(listener).onSuccess();
-    } catch (Throwable throwable) {
-      throwable.printStackTrace();
-    }
+  @Test public void testOnRun() throws Throwable {
+    when(eventCache.createEvent(event)).thenReturn(true);
+    createEventJob.onRun();
+    verify(listener).onSuccess();
   }
 
-  @Test public void testOnRun_onError() throws Exception {
-    try {
-      createEventJob.onRun();
-      when(eventCache.createEvent(event)).thenReturn(false);
-      verify(listener).onError();
-    } catch (Throwable throwable) {
-      throwable.printStackTrace();
-    }
+  @Test public void testOnRun_onError() throws Throwable {
+    when(eventCache.createEvent(event)).thenReturn(false);
+    createEventJob.onRun();
+    verify(listener).onError();
   }
 }
