@@ -108,7 +108,7 @@ public class DialogSelectTeam extends DialogFragment {
         picker.setMinValue(numTeams * 2);
       }
     });
-
+    // TODO: 18/05/2016 never odd
     npUsers.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
     npTeams.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
     npUsers.setMaxValue(40);

@@ -1,6 +1,7 @@
 package com.jfilowk.teamfactory.datasource;
 
 import com.jfilowk.teamfactory.datasource.api.RandomUserApi;
+import com.jfilowk.teamfactory.datasource.binder.RandomUserMapper;
 import com.jfilowk.teamfactory.datasource.cache.EventCache;
 import com.jfilowk.teamfactory.datasource.cache.callback.AnEventCacheCallback;
 import com.jfilowk.teamfactory.datasource.cache.callback.EventCallbackBase;
@@ -23,6 +24,7 @@ public class EventDataSourceImplTest {
   @Mock EventCache eventCache;
   @Mock RandomUserApi randomUserApi;
   @Mock JobManager jobManager;
+  @Mock RandomUserMapper randomUserMapper;
   @Mock EventCallbackBase eventCallbackBase;
 
   @Captor ArgumentCaptor<EventCallbackBase> eventCallbackBaseArgumentCaptor;
@@ -34,7 +36,7 @@ public class EventDataSourceImplTest {
   @Before public void setUp() throws Exception {
     MockitoAnnotations.initMocks(this);
 
-    eventDataSource = new EventDataSourceImpl(eventCache, randomUserApi, jobManager);
+    eventDataSource = new EventDataSourceImpl(eventCache, randomUserApi, jobManager, randomUserMapper);
   }
 
   @Test public void testCreateEvent() throws Exception {

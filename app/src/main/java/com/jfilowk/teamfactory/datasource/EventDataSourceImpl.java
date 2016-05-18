@@ -7,9 +7,9 @@ import com.jfilowk.teamfactory.datasource.cache.EventCache;
 import com.jfilowk.teamfactory.datasource.cache.callback.AnEventCacheCallback;
 import com.jfilowk.teamfactory.datasource.cache.callback.EventCallbackBase;
 import com.jfilowk.teamfactory.datasource.callbacks.EventCallback;
+import com.jfilowk.teamfactory.datasource.callbacks.RandomUserCallback;
 import com.jfilowk.teamfactory.datasource.entities.Event;
 import com.jfilowk.teamfactory.datasource.entities.EventCollection;
-import com.jfilowk.teamfactory.datasource.entities.RandomUser;
 import com.jfilowk.teamfactory.datasource.entities.RandomUserCollection;
 import com.jfilowk.teamfactory.datasource.entities.Team;
 import com.jfilowk.teamfactory.datasource.entities.TeamCollection;
@@ -30,12 +30,14 @@ public class EventDataSourceImpl implements EventDataSource {
   private EventCache eventCache;
   private RandomUserApi randomUserApi;
   private JobManager jobManager;
+  private RandomUserMapper randomUserMapper;
 
   @Inject public EventDataSourceImpl(EventCache eventCache, RandomUserApi randomUserApi,
-      JobManager jobManager) {
+      JobManager jobManager, RandomUserMapper randomUserMapper) {
     this.eventCache = eventCache;
     this.randomUserApi = randomUserApi;
     this.jobManager = jobManager;
+    this.randomUserMapper = randomUserMapper;
   }
 
   @Override public void createEvent(Event event, final EventCallbackBase eventCallback) {
@@ -78,35 +80,11 @@ public class EventDataSourceImpl implements EventDataSource {
     }));
   }
 
-  @Override public void showEvent(Event event, final AnEventCacheCallback eventCallback) {
+  @Override public void showEvent(final Event event, final AnEventCacheCallback eventCallback) {
     if (event.getListTeams() == null) {
-      final Event eventReturn = event;
-      this.randomUserApi.getRandomUserApi(event.getNumUser(), new RandomUserApiCallback() {
-        @Override public void onSuccess(UserRandomResponse response) {
-          RandomUserMapper mapper = new RandomUserMapper();
-          RandomUserCollection responseCollection =
-              mapper.transformResultToRandomUserCollection(response);
-
-          int x = 0;
-
-          TeamCollection teamCollection = new TeamCollection();
-          for (int i = 0; i < eventReturn.getNumTeams(); i++) {
-            Team team = new Team();
-            team.setId(i);
-            team.setName("Team " + (char) ('A' + i));
-            RandomUserCollection userCollection = new RandomUserCollection();
-            int numberOfPlayers = eventReturn.getNumUser() / eventReturn.getNumTeams();
-            for (int j = 0; j < numberOfPlayers; j++) {
-              System.out.println(x);
-              RandomUser userTemp = responseCollection.get(x);
-              userCollection.add(userTemp);
-              x++;
-            }
-            team.setUserCollection(userCollection);
-            teamCollection.add(team);
-          }
-          eventReturn.setListTeams(teamCollection);
-          eventCallback.onSuccess(eventReturn);
+      createCompleteEvent(event, new AnEventCacheCallback() {
+        @Override public void onSuccess(Event event) {
+          eventCallback.onSuccess(event);
         }
 
         @Override public void onError() {
@@ -116,6 +94,48 @@ public class EventDataSourceImpl implements EventDataSource {
     } else {
       eventCallback.onSuccess(event);
     }
+  }
+
+  private void createCompleteEvent(Event event, final AnEventCacheCallback callback) {
+    TeamCollection teamCollection = new TeamCollection();
+    int numberPlayers = event.getNumUser() / event.getNumTeams();
+    for (int i = 0; i < event.getNumTeams(); i++) {
+      final Team team = new Team();
+
+      team.setId(i);
+      team.setName("Team " + (char) ('A' + i));
+      // TODO: 18/05/2016 revisar 
+      populateTeam(numberPlayers, new RandomUserCallback() {
+        @Override public void onSuccess(RandomUserCollection collection) {
+          team.setUserCollection(collection);
+        }
+
+        @Override public void onError() {
+          callback.onError();
+        }
+      });
+
+      teamCollection.add(team);
+    }
+
+    event.setListTeams(teamCollection);
+    callback.onSuccess(event);
+  }
+
+  private void populateTeam(int numberPlayers, final RandomUserCallback randomUserCallback) {
+    this.randomUserApi.getRandomUserApi(numberPlayers, new RandomUserApiCallback() {
+      @Override public void onSuccess(UserRandomResponse userRandomResponse) {
+
+        RandomUserCollection randomUserCollection =
+            randomUserMapper.transformResultToRandomUserCollection(userRandomResponse);
+
+        randomUserCallback.onSuccess(randomUserCollection);
+      }
+
+      @Override public void onError() {
+        randomUserCallback.onError();
+      }
+    });
   }
 
   @Override public void deleteEvent(long id, final EventCallbackBase eventCallbackBase) {
