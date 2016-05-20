@@ -19,9 +19,9 @@ import javax.inject.Inject;
 public class GenerateTeamActivity extends BaseActivity
     implements GenerateTeamPresenter.GenerateTeamView {
 
+  private static String KEY_EVENT = "event";
   @Inject GenerateTeamPresenter presenter;
   private Event event;
-  private static String KEY_EVENT = "event";
   private ActivityComponent component;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +62,7 @@ public class GenerateTeamActivity extends BaseActivity
         .commit();
     Toast.makeText(getApplicationContext(), "Error, check your Internet connection",
         Toast.LENGTH_SHORT).show();
+    this.finish();
   }
 
   public void init() {

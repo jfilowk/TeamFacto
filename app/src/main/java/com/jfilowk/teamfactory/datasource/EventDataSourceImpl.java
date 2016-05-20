@@ -1,5 +1,6 @@
 package com.jfilowk.teamfactory.datasource;
 
+import android.support.annotation.NonNull;
 import com.jfilowk.teamfactory.datasource.api.RandomUserApi;
 import com.jfilowk.teamfactory.datasource.api.tasks.GetRandomUserList;
 import com.jfilowk.teamfactory.datasource.api.tasks.GetRandomUserListImpl;
@@ -114,32 +115,23 @@ public class EventDataSourceImpl implements EventDataSource {
 
   private void populateEventWithTeams(Event event, final AnEventCacheCallback callback) {
     RandomUserCollection randomUserCollection = null;
+
     try {
       randomUserCollection = getRandomUserCollection(event);
-    } catch (InterruptedException e) {
+    } catch (InterruptedException | ExecutionException e) {
       callback.onError();
       return;
-    } catch (ExecutionException e) {
-      e.printStackTrace();
     }
+
     if (randomUserCollection == null) {
       callback.onError();
       return;
     }
+
     TeamCollection teamCollection = new TeamCollection();
 
-    int numPlayerPerTeam = event.getNumUser() / event.getNumTeams();
     for (int i = 0; i < event.getNumTeams(); i++) {
-      int start = (i * numPlayerPerTeam);
-      int end = start + numPlayerPerTeam;
-      List<RandomUser> subList = randomUserCollection.getCollection().subList(start, end);
-      Team team = new Team();
-      team.setId(i);
-      team.setName("Team " + (char) ('A' + i));
-      RandomUserCollection subUserCollection = new RandomUserCollection();
-      subUserCollection.addAll(subList);
-      team.setUserCollection(subUserCollection);
-      // TODO: 18/05/2016 revisar
+      Team team = getTeam(randomUserCollection, event.getNumberPlayerPerTeam(), i);
       teamCollection.add(team);
     }
 
@@ -167,5 +159,19 @@ public class EventDataSourceImpl implements EventDataSource {
       return null;
     }
     return randomUserMapper.transformResultToRandomUserCollection(randomUser);
+  }
+
+  @NonNull
+  private Team getTeam(RandomUserCollection randomUserCollection, int numPlayerPerTeam, int i) {
+    int start = (i * numPlayerPerTeam);
+    int end = start + numPlayerPerTeam;
+    List<RandomUser> subList = randomUserCollection.getCollection().subList(start, end);
+    Team team = new Team();
+    team.setId(i);
+    team.setName("Team " + (char) ('A' + i));
+    RandomUserCollection subUserCollection = new RandomUserCollection();
+    subUserCollection.addAll(subList);
+    team.setUserCollection(subUserCollection);
+    return team;
   }
 }

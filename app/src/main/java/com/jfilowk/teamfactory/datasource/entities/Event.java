@@ -75,4 +75,8 @@ public class Event implements Serializable {
   public void setCreated_at(String created_at) {
     this.created_at = created_at;
   }
+
+  public int getNumberPlayerPerTeam() {
+    return this.getNumUser() / this.getNumTeams();
+  }
 }
