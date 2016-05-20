@@ -18,4 +18,6 @@ public interface EventDataSource {
   void showEvent(Event event, AnEventCacheCallback eventCallback);
 
   void deleteEvent(long id, EventCallbackBase eventCallbackBase);
+
+  void generateEvent(Event event, AnEventCacheCallback eventCacheCallback);
 }

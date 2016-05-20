@@ -1,15 +1,16 @@
 package com.jfilowk.teamfactory.datasource;
 
 import com.jfilowk.teamfactory.datasource.api.RandomUserApi;
-import com.jfilowk.teamfactory.datasource.api.callback.RandomUserApiCallback;
+import com.jfilowk.teamfactory.datasource.api.tasks.GetRandomUserList;
+import com.jfilowk.teamfactory.datasource.api.tasks.GetRandomUserListImpl;
 import com.jfilowk.teamfactory.datasource.binder.RandomUserMapper;
 import com.jfilowk.teamfactory.datasource.cache.EventCache;
 import com.jfilowk.teamfactory.datasource.cache.callback.AnEventCacheCallback;
 import com.jfilowk.teamfactory.datasource.cache.callback.EventCallbackBase;
 import com.jfilowk.teamfactory.datasource.callbacks.EventCallback;
-import com.jfilowk.teamfactory.datasource.callbacks.RandomUserCallback;
 import com.jfilowk.teamfactory.datasource.entities.Event;
 import com.jfilowk.teamfactory.datasource.entities.EventCollection;
+import com.jfilowk.teamfactory.datasource.entities.RandomUser;
 import com.jfilowk.teamfactory.datasource.entities.RandomUserCollection;
 import com.jfilowk.teamfactory.datasource.entities.Team;
 import com.jfilowk.teamfactory.datasource.entities.TeamCollection;
@@ -19,8 +20,12 @@ import com.jfilowk.teamfactory.datasource.jobs.GetEventJob;
 import com.jfilowk.teamfactory.datasource.jobs.GetEventsJob;
 import com.path.android.jobqueue.JobManager;
 import com.terro.entities.UserRandomResponse;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import javax.inject.Inject;
-import timber.log.Timber;
 
 /**
  * Created by Javi on 22/09/14.
@@ -49,7 +54,6 @@ public class EventDataSourceImpl implements EventDataSource {
 
       @Override public void onError() {
         eventCallback.onError();
-        Timber.e("Entro en el CreateEventEventSource");
       }
     });
 
@@ -81,61 +85,7 @@ public class EventDataSourceImpl implements EventDataSource {
   }
 
   @Override public void showEvent(final Event event, final AnEventCacheCallback eventCallback) {
-    if (event.getListTeams() == null) {
-      createCompleteEvent(event, new AnEventCacheCallback() {
-        @Override public void onSuccess(Event event) {
-          eventCallback.onSuccess(event);
-        }
-
-        @Override public void onError() {
-          eventCallback.onError();
-        }
-      });
-    } else {
-      eventCallback.onSuccess(event);
-    }
-  }
-
-  private void createCompleteEvent(Event event, final AnEventCacheCallback callback) {
-    TeamCollection teamCollection = new TeamCollection();
-    int numberPlayers = event.getNumUser() / event.getNumTeams();
-    for (int i = 0; i < event.getNumTeams(); i++) {
-      final Team team = new Team();
-
-      team.setId(i);
-      team.setName("Team " + (char) ('A' + i));
-      // TODO: 18/05/2016 revisar 
-      populateTeam(numberPlayers, new RandomUserCallback() {
-        @Override public void onSuccess(RandomUserCollection collection) {
-          team.setUserCollection(collection);
-        }
-
-        @Override public void onError() {
-          callback.onError();
-        }
-      });
-
-      teamCollection.add(team);
-    }
-
-    event.setListTeams(teamCollection);
-    callback.onSuccess(event);
-  }
-
-  private void populateTeam(int numberPlayers, final RandomUserCallback randomUserCallback) {
-    this.randomUserApi.getRandomUserApi(numberPlayers, new RandomUserApiCallback() {
-      @Override public void onSuccess(UserRandomResponse userRandomResponse) {
-
-        RandomUserCollection randomUserCollection =
-            randomUserMapper.transformResultToRandomUserCollection(userRandomResponse);
-
-        randomUserCallback.onSuccess(randomUserCollection);
-      }
-
-      @Override public void onError() {
-        randomUserCallback.onError();
-      }
-    });
+    eventCallback.onSuccess(event);
   }
 
   @Override public void deleteEvent(long id, final EventCallbackBase eventCallbackBase) {
@@ -148,5 +98,74 @@ public class EventDataSourceImpl implements EventDataSource {
         eventCallbackBase.onError();
       }
     }));
+  }
+
+  @Override public void generateEvent(Event event, final AnEventCacheCallback eventCacheCallback) {
+    populateEventWithTeams(event, new AnEventCacheCallback() {
+      @Override public void onSuccess(Event event) {
+        eventCacheCallback.onSuccess(event);
+      }
+
+      @Override public void onError() {
+        eventCacheCallback.onError();
+      }
+    });
+  }
+
+  private void populateEventWithTeams(Event event, final AnEventCacheCallback callback) {
+    RandomUserCollection randomUserCollection = null;
+    try {
+      randomUserCollection = getRandomUserCollection(event);
+    } catch (InterruptedException e) {
+      callback.onError();
+      return;
+    } catch (ExecutionException e) {
+      e.printStackTrace();
+    }
+    if (randomUserCollection == null) {
+      callback.onError();
+      return;
+    }
+    TeamCollection teamCollection = new TeamCollection();
+
+    int numPlayerPerTeam = event.getNumUser() / event.getNumTeams();
+    for (int i = 0; i < event.getNumTeams(); i++) {
+      int start = (i * numPlayerPerTeam);
+      int end = start + numPlayerPerTeam;
+      List<RandomUser> subList = randomUserCollection.getCollection().subList(start, end);
+      Team team = new Team();
+      team.setId(i);
+      team.setName("Team " + (char) ('A' + i));
+      RandomUserCollection subUserCollection = new RandomUserCollection();
+      subUserCollection.addAll(subList);
+      team.setUserCollection(subUserCollection);
+      // TODO: 18/05/2016 revisar
+      teamCollection.add(team);
+    }
+
+    event.setListTeams(teamCollection);
+    callback.onSuccess(event);
+  }
+
+  private RandomUserCollection getRandomUserCollection(Event event)
+      throws InterruptedException, ExecutionException {
+    final ExecutorService threadpool = Executors.newFixedThreadPool(3);
+
+    GetRandomUserList getRandomUserList =
+        new GetRandomUserListImpl(randomUserApi, event.getNumUser());
+
+    Future future = threadpool.submit(getRandomUserList);
+
+    while (!future.isDone()) {
+      System.out.println("Task is not completed yet....");
+      Thread.sleep(1); //sleep for 1 millisecond before checking again }
+    }
+
+    threadpool.shutdown();
+    UserRandomResponse randomUser = (UserRandomResponse) future.get();
+    if (randomUser == null) {
+      return null;
+    }
+    return randomUserMapper.transformResultToRandomUserCollection(randomUser);
   }
 }

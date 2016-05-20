@@ -23,6 +23,10 @@ public class RandomUserCollection implements Serializable {
     list.add(randomUser);
   }
 
+  public void addAll(List<RandomUser> randomUsers) {
+    list.addAll(randomUsers);
+  }
+
   public List<RandomUser> getCollection() {
     return this.list;
   }

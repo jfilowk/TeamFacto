@@ -6,7 +6,7 @@ import com.terro.entities.UserRandomResponse;
  * Created by Javi on 19/09/14.
  */
 public interface RandomUserApiCallback {
-  public void onSuccess(UserRandomResponse response);
+  void onSuccess(UserRandomResponse response);
 
-  public void onError();
+  void onError();
 }

@@ -22,7 +22,7 @@ import com.path.android.jobqueue.JobManager;
 import com.path.android.jobqueue.config.Configuration;
 import com.path.android.jobqueue.log.CustomLogger;
 import com.terro.RandomUser;
-import com.terro.services.UserServiceAsync;
+import com.terro.services.UserService;
 import dagger.Module;
 import dagger.Provides;
 import javax.inject.Singleton;
@@ -68,8 +68,8 @@ import javax.inject.Singleton;
     return eventCache;
   }
 
-  @Provides @Singleton UserServiceAsync provideUserServiceAsync() {
-    return new RandomUser().setIsDebug(false).userServicesAsync();
+  @Provides @Singleton UserService proviUserService() {
+    return new RandomUser().setIsDebug(false).userServices();
   }
 
   @Provides @Singleton RandomUserApi provideRandomUserApi(RandomUserApiImpl randomUserApi) {

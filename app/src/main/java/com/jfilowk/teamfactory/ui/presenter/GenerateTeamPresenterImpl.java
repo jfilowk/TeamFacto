@@ -13,22 +13,34 @@ public class GenerateTeamPresenterImpl implements GenerateTeamPresenter {
   GenerateTeamView view;
   EventDataSource eventDataSource;
 
-  @Inject
-  public GenerateTeamPresenterImpl(EventDataSource eventDataSource) {
+  @Inject public GenerateTeamPresenterImpl(EventDataSource eventDataSource) {
     this.eventDataSource = eventDataSource;
   }
 
   @Override public void onResume(Event event) {
     this.view.initProgressFragment();
-    this.eventDataSource.showEvent(event, new AnEventCacheCallback() {
-      @Override public void onSuccess(Event event) {
-        view.initMainFragment(event);
-      }
 
-      @Override public void onError() {
-        view.initErrorFragment();
-      }
-    });
+    if (event.getListTeams() == null) {
+      this.eventDataSource.generateEvent(event, new AnEventCacheCallback() {
+        @Override public void onSuccess(Event event) {
+          view.initMainFragment(event);
+        }
+
+        @Override public void onError() {
+          view.initErrorFragment();
+        }
+      });
+    } else {
+      this.eventDataSource.showEvent(event, new AnEventCacheCallback() {
+        @Override public void onSuccess(Event event) {
+          view.initMainFragment(event);
+        }
+
+        @Override public void onError() {
+          view.initErrorFragment();
+        }
+      });
+    }
   }
 
   @Override public void onError() {
